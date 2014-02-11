@@ -28,11 +28,13 @@ pixel_styles_controller::pixel_styles_controller()
 	mUdpSocket = NULL;
 
 	mIniFile = new ini_parser("/etc/pixel_styles/config.cfg");
-	int width = mIniFile->get<size_t>("PIXEL_STYLES","With",19);
+	int width = mIniFile->get<size_t>("PIXEL_STYLES","Width",19);
 	int height = mIniFile->get<size_t>("PIXEL_STYLES","Height",12);
 	string device = mIniFile->get<string>("PIXEL_STYLES","SpiDevice","/dev/spidev0.0");
 	mStrip = new led_strip(device.c_str(), width, height);
 	delete mIniFile;
+
+	LOG_INFO << "Initialized with size " << width << "x" << height << " and SPI device " << device;
 
 	mIniFile = new ini_parser("/etc/pixel_styles/settings_application.cfg");
 

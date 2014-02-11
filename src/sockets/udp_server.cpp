@@ -17,7 +17,6 @@ static void diep(const char *s);
  */
 udp_server::udp_server(uint16_t pPort)
 {
-	mTimer = new timer(10000, periodic_callback, this);
 	mCallback = NULL;
 	mOwner = NULL;
 	mPort = pPort;
@@ -33,6 +32,8 @@ udp_server::udp_server(uint16_t pPort)
 	mSocketAddrMe.sin_addr.s_addr = htonl(INADDR_ANY);
 	if (bind(mSocket, (const sockaddr*)&mSocketAddrMe, sizeof(mSocketAddrMe))==-1)
 		diep("bind");
+
+	mTimer = new timer(10000, periodic_callback, this);
 }
 
 /*
@@ -50,8 +51,8 @@ udp_server::~udp_server()
  */
 static void periodic_callback(void *owner)
 {
-	udp_server *server = (udp_server*)owner;
-	server->periodic_tasks();
+	//udp_server *server = (udp_server*)owner;
+	//server->periodic_tasks();
 }
 
 void diep(const char *s)

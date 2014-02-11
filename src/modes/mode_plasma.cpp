@@ -50,9 +50,9 @@ void mode_plasma::paint()
 	uint16_t uint16AverageHue;
 	bool soundReactive = mSettings["Sound Reactive"]->get_value<bool>();
 
-	for(int j = 0; j < mHeight; j++)
+	for(size_t j = 0; j < mHeight; j++)
 	{
-		for(int i = 0; i < mWidth; i++)
+		for(size_t i = 0; i < mWidth; i++)
 		{
 			left    = i-1;
 			right   = i+1;
@@ -60,13 +60,13 @@ void mode_plasma::paint()
 			below   = j+1;
 
 			if(left < 0) left = mWidth-1;
-			if(left > mWidth-1) left = 0;
+			if(left > (int)mWidth-1) left = 0;
 			if(right < 0) right = mWidth-1;
-			if(right > mWidth-1) right = 0;
+			if(right > (int)mWidth-1) right = 0;
 			if(above < 0) above = mHeight-1;
-			if(above >  mHeight-1) above = 0;
+			if(above >  (int)mHeight-1) above = 0;
 			if(below < 0) below = mHeight-1;
-			if(below >  mHeight-1) below = 0;
+			if(below >  (int)mHeight-1) below = 0;
 
 			hsvColor = mBitmap->get_hsv_pixel(i,j);
 
@@ -104,7 +104,7 @@ void mode_plasma::paint()
 
 void mode_plasma::beat_detected()
 {
-	for(uint i = 0; i < rand()%4; i++)
+	for(size_t i = 0; i < (size_t)(rand()%4); i++)
 	{
 		mHueMatrix[rand()%mWidth][rand()%mHeight] = 0;
 	}

@@ -74,9 +74,9 @@ void mode_balls::paint()
 	}
 	else
 	{
-		for(int y = 0; y < mHeight; y++)
+		for(size_t y = 0; y < mHeight; y++)
 		{
-			for(int x = 0; x < mWidth; x++)
+			for(size_t x = 0; x < mWidth; x++)
 			{
 				rgb_color color = mBitmap->get_pixel(x,y);
 				if(color.R >= blurLength) color.R -= blurLength; else color.R = 0;

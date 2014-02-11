@@ -37,7 +37,7 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	mScope.resize(mWidth);
 	mPows.resize(mWidth);
 
-	for (int x = 0; x < mWidth; x++)
+	for (size_t x = 0; x < mWidth; x++)
 		mPows[x] = pow(2.0f,(float)x*9.0f/((float)mWidth-1.0f));
 
 	mUdpServer = new udp_server(56617);
@@ -250,11 +250,12 @@ void modes_controller::initialize(vector <rgb_color> pStaticColors)
 
 void modes_controller::process_fft_buffer_1024(float *fftdata)
 {
-	int x,y, size;
+	size_t y;
+	int size;
 	float sc;
-	int b0=0;
+	int b0 = 0;
 
-	for (x = 0; x < mWidth; x++)
+	for (size_t x = 0; x < mWidth; x++)
 	{
 		float peak = 0;
 		int b1 = mPows[x];
@@ -269,9 +270,8 @@ void modes_controller::process_fft_buffer_1024(float *fftdata)
 			peak = peak + b2;
 		}
 		b0 = b1;
-		y=(int)((sqrt(peak / log10(sc)) * (float)mHeight - 1.0f));
+		y = (size_t)((sqrt(peak / log10(sc)) * (float)mHeight - 1.0f));
 		if(y > mHeight) y = mHeight;
-		if(y < 0) y = 0;
 		mSpectrum[x] = y;
 	}
 }

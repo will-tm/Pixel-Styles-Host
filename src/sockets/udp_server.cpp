@@ -6,6 +6,7 @@
  */
 
 #include "udp_server.h"
+ #include <stdlib.h>
 
 static void periodic_callback(void *owner);
 static void diep(const char *s);

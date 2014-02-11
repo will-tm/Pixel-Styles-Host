@@ -19,6 +19,7 @@ using namespace std;
 #include "strings-helper.h"
 #include "time-helper.h"
 
+#define random(x)	rand()%x
 /*
  * public types
  *
@@ -59,9 +60,9 @@ protected:
 
 	float randomf(float min, float max)
 	{
-		float random = ((float) rand()) / (float) RAND_MAX;
+		float random_ratio = ((float) rand()) / (float) RAND_MAX;
 		float range = max - min;
-		return (random*range) + min;
+		return (random_ratio*range) + min;
 	}
 public:
 	settings_list mSettings;

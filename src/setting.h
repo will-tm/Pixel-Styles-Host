@@ -31,7 +31,9 @@ typedef enum
     ihmSpinEditFloat,
     ihmCheckbox,
     ihmSegmentedControl,
-    ihmTrackbar
+    ihmTrackbar,
+    ihmLogTrackbar,
+    ihmButton
 }ihm_type;
 
 typedef void (setting_did_change_callback)(void* parent, setting *pSetting);

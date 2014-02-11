@@ -2,7 +2,7 @@
 LIBRARIES=./lib
 
 # ALL ADDITIONAL INCLUDES
-INCLUDES =-I./src -I./src/generic_classes -I./src/led_strip_controller -I./src/modes -I./src/sockets
+INCLUDES =-I./src -I./src/generic_classes -I./src/led_strip_controller -I./src/modes -I./src/sockets -I./src/settings
 
 # ALL SOURCES
 SOURCES=$(shell find . -name *.cpp)

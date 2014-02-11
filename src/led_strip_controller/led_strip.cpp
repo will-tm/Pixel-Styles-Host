@@ -104,9 +104,9 @@ void led_strip::paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion)
 					{
 						CurrentColor = pBitmap->get_pixel(x,y);
 
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
 						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.R];
+						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
+						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
 					}
 				}
 				else
@@ -115,9 +115,9 @@ void led_strip::paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion)
 					{
 						CurrentColor = pBitmap->get_pixel(mWidth-1-x,y);
 
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
 						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.R];
+						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
+						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
 					}
 				}
 			}
@@ -132,9 +132,9 @@ void led_strip::paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion)
 					{
 						CurrentColor = pBitmap->get_pixel(x,y);
 
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
 						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.R];
+						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
+						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
 					}
 				}
 				else
@@ -143,9 +143,9 @@ void led_strip::paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion)
 					{
 						CurrentColor = pBitmap->get_pixel(mWidth-1-x,y);
 
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
 						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.R];
+						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
+						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
 					}
 				}
 			}

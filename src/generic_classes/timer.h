@@ -8,14 +8,13 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
+#include <pthread.h>
 #include <time.h>
-#include <iostream>
-#include <signal.h>
-#include <cstring>
+#include <sys/time.h>
+#include <unistd.h>
+#include <cstdio>
 
 using namespace std;
-
-#define CLOCKS_PER_MSEC (CLOCKS_PER_SEC/1000)
 
 /*
  * public class
@@ -27,18 +26,16 @@ private:
 	bool mRunning;
 	pthread_t mThreadId;
 	long mRefreshPeriod;
-	void (*mTimerCallback)(void* pParent);
-	void *mCallbackParent;
-    timer_t mTimer;
+	void (*mTimerCallback)(void *pOwner);
+	void *mOwner;
+	int mID;
 public:
-	timer(long pPeriod, void (*Callback)(void* pParent), void* pParent);
+	timer(long Period, void (*Callback)(void *Owner), void *pOwner);
 	virtual ~timer();
 
-    static void handler_wrapper(sigval_t val);
-    void handler();
-
 	void run(void);
-	void update_period(long pPeriod);
+	void update_period(long Period);
+	void thread_run();
 };
 
 #endif

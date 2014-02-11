@@ -10,7 +10,7 @@ OBJECTS=$(SOURCES:%.cpp=%.o)
 
 # COMPILER SETTINGS
 CXX=arm-linux-gnueabihf-g++
-CXXFLAGS=-g -std=c++0x $(INCLUDES) -DMUDUO_STD_STRING -DNO_FREETYPE
+CXXFLAGS=-g -std=c++0x $(INCLUDES) -DMUDUO_STD_STRING -DNO_FREETYPE -pthread
 LDFLAGS=-lpthread -lbass -lbass_fx -ljson_spirit -lmuduo_base -lmuduo_net -lz -lrt
 BINARY=pixel-styles
 
@@ -23,7 +23,7 @@ all: dist-clean $(BINARY) clean
 $(BINARY): $(OBJECTS)
 	@echo " "
 	@echo "Linking $(BINARY)..."
-	$(CXX) $(CXXFLAGS) -o $(BINARY) $(OBJECTS) $(LDFLAGS) -L$(LIBRARIES) -pthread
+	$(CXX) $(CXXFLAGS) -o $(BINARY) $(OBJECTS) $(LDFLAGS) -L$(LIBRARIES)
 
 clean:
 	rm -rf $(OBJECTS)

@@ -1,33 +1,25 @@
-/********************************************************************************************/
-/* Copyright (c) 2012 RGB Styles															*/
-/********************************************************************************************/
+/*
+ * splitter.cpp
+ *
+ * Copyright (C) 2014 William Markezana <william.markezana@me.com>
+ *
+ */
 
-/********************************************************************************************/
-/* This file is the confidential trade secret information and/or proprietary information	*/
-/* of RGB Styles, Inc. Code or other information in this program also may be confidential	*/
-/* and/or proprietary to RGB Styles, Inc.													*/
-/* All rights reserved.																		*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* Name : splitter.cpp																		*/
-/* Date : Nov 04 2012																		*/
-/* Author : William Markezana																*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* INCLUDES																					*/
-/********************************************************************************************/
 #include "splitter.h"
 
-/********************************************************************************************/
-/* PUBLIC FUNCTIONS																			*/
-/********************************************************************************************/
+/*
+ * constructor
+ *
+ */
 splitter::splitter(const string &src, const string &delim)
 {
     reset(src, delim);
 }
 
+/*
+ * destructor
+ *
+ */
 void splitter::reset(const string &src, const string &delim)
 {
 	vector<string> tokens;
@@ -48,6 +40,10 @@ void splitter::reset(const string &src, const string &delim)
 	_tokens.swap(tokens);
 }
 
+/*
+ * public functions
+ *
+ */
 string &splitter::operator[] (size_type i)
 {
     return _tokens.at(i);
@@ -57,7 +53,3 @@ size_t splitter::size() const
 {
     return _tokens.size();
 }
-
-/********************************************************************************************/
-/* END OF FILE																				*/
-/********************************************************************************************/

@@ -1,23 +1,10 @@
-/********************************************************************************************/
-/* Copyright (c) 2012 RGB Styles															*/
-/********************************************************************************************/
+/*
+ * tcp_server.cpp
+ *
+ * Copyright (C) 2014 William Markezana <william.markezana@me.com>
+ *
+ */
 
-/********************************************************************************************/
-/* This file is the confidential trade secret information and/or proprietary information	*/
-/* of RGB Styles, Inc. Code or other information in this program also may be confidential	*/
-/* and/or proprietary to RGB Styles, Inc.													*/
-/* All rights reserved.																		*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* Name : tcp_server.cpp																	*/
-/* Date : Jan 25 2012																		*/
-/* Author : William Markezana																*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* INCLUDES																					*/
-/********************************************************************************************/
 #include "tcp_server.h"
 
 #include <muduo/base/Logging.h>
@@ -27,40 +14,25 @@
 using namespace muduo;
 using namespace muduo::net;
 
-/********************************************************************************************/
-/* PRIVATE VARIABLES																		*/
-/********************************************************************************************/
-//#define DEBUG
-
-/********************************************************************************************/
-/* PRIVATE FUNCTIONS																		*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* PRIVATE PROTOTYPES																		*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* CONSTRUCTOR																				*/
-/********************************************************************************************/
+/*
+ * constructor
+ *
+ */
 tcp_server::tcp_server(EventLoop* loop, const InetAddress& listenAddr, int maxConnections) : loop_(loop), server_(loop, listenAddr, "tcp_server"), numConnected_(0), kMaxConnections_(maxConnections)
 {
 	server_.setConnectionCallback(boost::bind(&tcp_server::onConnection, this, _1));
 	server_.setMessageCallback(boost::bind(&tcp_server::onMessage, this, _1, _2, _3));
 }
 
-/********************************************************************************************/
-/* PRIVATE FUNCTIONS																		*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* PUBLIC FUNCTIONS																			*/
-/********************************************************************************************/
 void tcp_server::run(void)
 {
 	server_.start();
 }
 
+/*
+ * private functions
+ *
+ */
 void tcp_server::onConnection(const TcpConnectionPtr& conn)
 {
 	LOG_DEBUG << "tcp_server - " << conn->peerAddress().toIpPort() << " -> "	<< conn->localAddress().toIpPort() << " is " << (conn->connected() ? "UP" : "DOWN");
@@ -126,6 +98,10 @@ void tcp_server::onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp 
 	}
 }
 
+/*
+ * public functions
+ *
+ */
 std::string tcp_server::mac_address()
 {
 	if(mMacAddress.size() == 12)
@@ -155,7 +131,3 @@ std::vector<std::string> *tcp_server::connectedAddresses()
 	}
 	return &mConnectedAddresses;
 }
-
-/********************************************************************************************/
-/* END OF FILE																				*/
-/********************************************************************************************/

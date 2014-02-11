@@ -1,17 +1,7 @@
 /*
- * hsv_helper.c - Colors manipulations helpers
+ * hsv_helper.h - Colors manipulations helpers
  *
  * Copyright (C) 2013 William Markezana <william.markezana@me.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
  *
  */
 
@@ -29,6 +19,10 @@
     #define max_of(A,B)	( A < B ? B : A )
 #endif
 
+/*
+ * public types
+ *
+ */
 typedef struct
 {
 	uint8_t R;
@@ -44,6 +38,10 @@ typedef struct
 	uint8_t  V;
 }hsv_color;
 
+/*
+ * public prototypes
+ *
+ */
 rgb_color hsv_to_rgb(hsv_color hsvColor);
 rgb_color hue_to_rgb(uint16_t Hue);
 rgb_color hue_float_to_rgb(float &Hue);

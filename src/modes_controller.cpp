@@ -1,23 +1,10 @@
-/********************************************************************************************/
-/* Copyright (c) 2013 RGB Styles															*/
-/********************************************************************************************/
+/*
+ * modes_controller.cpp
+ *
+ * Copyright (C) 2014 William Markezana <william.markezana@me.com>
+ *
+ */
 
-/********************************************************************************************/
-/* This file is the confidential trade secret information and/or proprietary information	*/
-/* of RGB Styles, Inc. Code or other information in this program also may be confidential	*/
-/* and/or proprietary to RGB Styles, Inc.													*/
-/* All rights reserved.																		*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* Name : modes_controller.cpp																*/
-/* Date : Jul 24 2012																		*/
-/* Author : William Markezana																*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* INCLUDES																					*/
-/********************************************************************************************/
 #include "modes_controller.h"
 
 #include <muduo/base/Logging.h>
@@ -26,15 +13,13 @@
 
 using namespace json_spirit;
 
-/********************************************************************************************/
-/* PRIVATE PROTOTYPES																		*/
-/********************************************************************************************/
 static BOOL CALLBACK DuffRecording(HRECORD handle, const void *buffer, DWORD length, void *user);
 static void CALLBACK GetBeatPos_Callback(DWORD chan, double beatpos, void *user);
 
-/********************************************************************************************/
-/* CONSTRUCTOR																				*/
-/********************************************************************************************/
+/*
+ * constructor
+ *
+ */
 modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 {
 	mIniFile = new ini_parser("/etc/pixel_styles/config.cfg");
@@ -67,17 +52,19 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	LOG_INFO << "modes_controller initialized";
 }
 
-/********************************************************************************************/
-/* DESTRUCTOR																				*/
-/********************************************************************************************/
+/*
+ * destructor
+ *
+ */
 modes_controller::~modes_controller()
 {
 
 }
 
-/********************************************************************************************/
-/* PRIVATE CALLBACKS																		*/
-/********************************************************************************************/
+/*
+ * private callbacks
+ *
+ */
 static BOOL CALLBACK DuffRecording(HRECORD handle, const void *buffer, DWORD length, void *user)
 {
 	return TRUE;
@@ -90,9 +77,10 @@ static void CALLBACK GetBeatPos_Callback(DWORD chan, double beatpos, void *user)
 	LOG_INFO << "Beat detected!";
 }
 
-/********************************************************************************************/
-/* PRIVATE FUNCTIONS																		*/
-/********************************************************************************************/
+/*
+ * private functions
+ *
+ */
 void modes_controller::audio_tasks()
 {
 	if(mAudioAvailable && mActiveMode->needs_audio_fft())
@@ -114,9 +102,10 @@ void modes_controller::audio_tasks()
 	}
 }
 
-/********************************************************************************************/
-/* PUBLIC FUNCTIONS																			*/
-/********************************************************************************************/
+/*
+ * public functions
+ *
+ */
 void modes_controller::beat_detected()
 {
 	mActiveMode->beat_detected();
@@ -222,7 +211,3 @@ void modes_controller::initialize(vector <rgb_color> pStaticColors)
 			mModesList[i]->paint();
 	}
 }
-
-/********************************************************************************************/
-/* END OF FILE																				*/
-/********************************************************************************************/

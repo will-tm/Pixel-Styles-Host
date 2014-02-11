@@ -1,43 +1,28 @@
-/********************************************************************************************/
-/* Copyright (c) 2012 RGB Styles															*/
-/********************************************************************************************/
+/*
+ * pixel_styles_controller.cpp
+ *
+ * Copyright (C) 2014 William Markezana <william.markezana@me.com>
+ *
+ */
 
-/********************************************************************************************/
-/* This file is the confidential trade secret information and/or proprietary information	*/
-/* of RGB Styles, Inc. Code or other information in this program also may be confidential	*/
-/* and/or proprietary to RGB Styles, Inc.													*/
-/* All rights reserved.																		*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* Name : pixel_styles_controller.cpp														*/
-/* Date : Jul 07 2013																		*/
-/* Author : William Markezana																*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* INCLUDES																					*/
-/********************************************************************************************/
 #include "pixel_styles_controller.h"
 
 #include <muduo/base/Logging.h>
 #include <muduo/net/EventLoop.h>
 
-/********************************************************************************************/
-/* PRIVATE PROTOTYPES																		*/
-/********************************************************************************************/
 static void DidReceiveStringCallback(string __request, string &__answer, int __clientId, void *pParent);
 static void AliveTimerCallback(void *pParent);
 static void PaintTimerCallback(void *pParent);
 static void PreviewTimerCallback(void *pParent);
 
-/********************************************************************************************/
-/* CONSTRUCTOR																				*/
-/********************************************************************************************/
+/*
+ * constructor
+ *
+ */
 pixel_styles_controller::pixel_styles_controller()
 {
 	srand((unsigned)time(0));
-	// ================================== INITIALIZATIONS ====================================
+	
 	mFrames = 0;
 	mTcpServer = NULL;
 	mUdpSocket = NULL;
@@ -73,9 +58,10 @@ pixel_styles_controller::pixel_styles_controller()
 	LOG_INFO << "pixel_styles_controller initialized";
 }
 
-/********************************************************************************************/
-/* DESTRUCTOR																				*/
-/********************************************************************************************/
+/*
+ * destructor
+ *
+ */
 pixel_styles_controller::~pixel_styles_controller()
 {
 	delete mAliveTimer;
@@ -83,9 +69,11 @@ pixel_styles_controller::~pixel_styles_controller()
 	delete mIniFile;
 	delete mModesController;
 }
-/********************************************************************************************/
-/* PRIVATE FUNCTIONS																		*/
-/********************************************************************************************/
+
+/*
+ * private callbacks
+ *
+ */
 static void DidReceiveStringCallback(string __request, string &__answer, int __clientId, void *pParent)
 {
 	((pixel_styles_controller*)pParent)->HandleTcpRequest(__request, __answer, __clientId);
@@ -106,6 +94,10 @@ static void PreviewTimerCallback(void *pParent)
 	((pixel_styles_controller*)pParent)->preview();
 }
 
+/*
+ * public functions
+ *
+ */
 void pixel_styles_controller::HandleTcpRequest(string __request, string &__answer, int __clientId)
 {
 	splitter split(__request, "_");
@@ -187,9 +179,6 @@ void pixel_styles_controller::HandleTcpRequest(string __request, string &__answe
 	}
 }
 
-/********************************************************************************************/
-/* PUBLIC FUNCTIONS																			*/
-/********************************************************************************************/
 void pixel_styles_controller::run()
 {
 	mUdpSocket = new udp_socket();
@@ -248,6 +237,3 @@ void pixel_styles_controller::preview()
 		}
 	}
 }
-/********************************************************************************************/
-/* END OF FILE																				*/
-/********************************************************************************************/

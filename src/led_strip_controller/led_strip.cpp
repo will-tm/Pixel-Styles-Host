@@ -1,22 +1,16 @@
 /*
- * led_strip.c - LEDs Strip class dedicated to WS2801
+ * led_strip.cpp - LEDs Strip class dedicated to WS2801
  *
  * Copyright (C) 2013 William Markezana <william.markezana@me.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
  *
  */
 
 #include "led_strip.h"
 
+/*
+ * constructor
+ *
+ */
 led_strip::led_strip(const char *pDevice, size_t pWidth, size_t pHeight)
 {
 	mWidth = pWidth;
@@ -28,6 +22,10 @@ led_strip::led_strip(const char *pDevice, size_t pWidth, size_t pHeight)
 	set_gamma(0.25);
 }
 
+/*
+ * constructor
+ *
+ */
 led_strip::led_strip(const char *pDevice, size_t pLength)
 {
 	mWidth = pLength;
@@ -39,11 +37,19 @@ led_strip::led_strip(const char *pDevice, size_t pLength)
 	set_gamma(0.25);
 }
 
+/*
+ * destructor
+ *
+ */
 led_strip::~led_strip()
 {
 	delete mSpi;
 }
 
+/*
+ * public functions
+ *
+ */
 void led_strip::set_gamma(float pGamma)
 {
 	float gamma;

@@ -1,44 +1,30 @@
-/********************************************************************************************/
-/* Copyright (c) 2012 RGB Styles															*/
-/********************************************************************************************/
+/*
+ * settings_list.cpp
+ *
+ * Copyright (C) 2014 William Markezana <william.markezana@me.com>
+ *
+ */
 
-/********************************************************************************************/
-/* This file is the confidential trade secret information and/or proprietary information	*/
-/* of RGB Styles, Inc. Code or other information in this program also may be confidential	*/
-/* and/or proprietary to RGB Styles, Inc.													*/
-/* All rights reserved.																		*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* Name : settings_list.cpp																	*/
-/* Date : Sep 05 2012																		*/
-/* Author : William Markezana																*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* INCLUDES																					*/
-/********************************************************************************************/
 #include "settings_list.h"
 
-/********************************************************************************************/
-/* CALLBACK																					*/
-/********************************************************************************************/
 void list_setting_did_change_callback(void* parent, setting *pSetting)
 {
 	((settings_list*)parent)->setting_did_change(pSetting);
 }
 
-/********************************************************************************************/
-/* CONSTRUCTOR																				*/
-/********************************************************************************************/
+/*
+ * constructor
+ *
+ */
 settings_list::settings_list()
 {
 	mIniParser = NULL;
 }
 
-/********************************************************************************************/
-/* DESTRUCTOR																				*/
-/********************************************************************************************/
+/*
+ * destructor
+ *
+ */
 settings_list::~settings_list()
 {
 	mSettingsMap.clear();
@@ -47,9 +33,10 @@ settings_list::~settings_list()
 		delete mIniParser;
 }
 
-/********************************************************************************************/
-/* PUBLIC FUNCTIONS																			*/
-/********************************************************************************************/
+/*
+ * public functions
+ *
+ */
 setting *settings_list::add(string _caption, string _section, string _value, float _minValue, float _maxValue, ihm_type _ihmType)
 {
 	setting *aSetting = new setting(_caption, _section, _value, _minValue, _maxValue, _ihmType);
@@ -101,7 +88,3 @@ void settings_list::setting_did_change(setting *pSetting)
 	replace_all(key, " ", "_");
 	mIniParser->set("SETTINGS", key, pSetting->get_value<string>());
 }
-
-/********************************************************************************************/
-/* END OF FILE																				*/
-/********************************************************************************************/

@@ -1,28 +1,15 @@
-/********************************************************************************************/
-/* Copyright (c) 2013 RGB Styles															*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* This file is the confidential trade secret information and/or proprietary information	*/
-/* of RGB Styles, Inc. Code or other information in this program also may be confidential	*/
-/* and/or proprietary to RGB Styles, Inc.													*/
-/* All rights reserved.																		*/
-/********************************************************************************************/
-
-/********************************************************************************************/
-/* Name : modes_controller.h																*/
-/* Date : Jul 24 2012																		*/
-/* Author : William Markezana																*/
-/********************************************************************************************/
+/*
+ * modes_controller.h
+ *
+ * Copyright (C) 2014 William Markezana <william.markezana@me.com>
+ *
+ */
 
 #ifndef __MODES_CONTROLLER_H__
 #define __MODES_CONTROLLER_H__
 
 using namespace std;
 
-/********************************************************************************************/
-/* INCLUDES																					*/
-/********************************************************************************************/
 #include <linux/types.h>
 #include <json_spirit.h>
 
@@ -37,9 +24,10 @@ using namespace std;
 #include "tcp_server.h"
 #include "udp_socket.h"
 
-/********************************************************************************************/
-/* CLASSES																					*/
-/********************************************************************************************/
+/*
+ * public class
+ *
+ */
 class modes_controller
 {
 private:
@@ -57,7 +45,6 @@ private:
 	tcp_server *mTcpServer;
 
 	void audio_tasks();
-	string string_compress(string const& s);
 public:
 
 	modes_controller(size_t pWidth, size_t pHeight);
@@ -83,7 +70,4 @@ public:
 	void initialize(vector <rgb_color> pStaticColors);
 };
 
-/********************************************************************************************/
-/* END OF FILE																				*/
-/********************************************************************************************/
 #endif

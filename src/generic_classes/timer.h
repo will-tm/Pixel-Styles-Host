@@ -8,11 +8,10 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
-#include <pthread.h>
 #include <time.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <cstdio>
+#include <iostream>
+#include <signal.h>
+#include <cstring>
 
 using namespace std;
 
@@ -26,16 +25,17 @@ private:
 	bool mRunning;
 	pthread_t mThreadId;
 	long mRefreshPeriod;
-	void (*mTimerCallback)(void *pOwner);
-	void *mOwner;
-	int mID;
+	void (*mTimerCallback)(void* pParent);
+	void *mCallbackParent;
+    timer_t mTimer;
 public:
-	timer(long Period, void (*Callback)(void *Owner), void *pOwner);
+	timer(long pPeriod, void (*Callback)(void* pParent), void* pParent);
 	virtual ~timer();
 
+    static void handler_wrapper(sigval_t val);
+    void handler();
+
 	void run(void);
-	void update_period(long Period);
-	void thread_run();
 };
 
 #endif

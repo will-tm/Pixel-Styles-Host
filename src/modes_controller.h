@@ -24,7 +24,7 @@ using namespace std;
 /* INCLUDES																					*/
 /********************************************************************************************/
 #include <linux/types.h>
-#include <json_spirit/json_spirit.h>
+#include <json_spirit.h>
 
 #include "modes_list.h"
 

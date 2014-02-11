@@ -181,7 +181,7 @@ void pixel_styles_controller::HandleTcpRequest(string __request, string &__answe
 
 void pixel_styles_controller::run()
 {
-	mUdpSocket = new udp_socket();
+	mUdpSocket = new udp_socket(56616);
 
 	muduo::Logger::setLogLevel(muduo::Logger::INFO);
 

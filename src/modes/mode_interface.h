@@ -12,6 +12,8 @@ using namespace std;
 
 #include <mutex>
 #include <algorithm>
+#include <sys/time.h>
+
 #include "hsv_helper.h"
 #include "bitmap.h"
 #include "settings_list.h"
@@ -64,6 +66,16 @@ protected:
 		float range = max - min;
 		return (random_ratio*range) + min;
 	}
+
+	uint32_t get_tick_us()
+	{
+		struct timeval Now;
+		uint32_t tick;
+
+		gettimeofday(&Now, NULL);
+		tick = (Now.tv_sec * 1000000 + Now.tv_usec);
+		return tick;
+	}
 public:
 	settings_list mSettings;
 
@@ -97,6 +109,8 @@ public:
 	string name() { return mName; }
 	ui_type ui() { return mUI; }
 	bitmap *get_bitmap() { return mBitmap; }
+	size_t get_width() { return mWidth; }
+	size_t get_height() { return mHeight; }
 };
 
 #endif

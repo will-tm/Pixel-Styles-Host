@@ -14,7 +14,7 @@
  * constructor
  *
  */
-udp_socket::udp_socket()
+udp_socket::udp_socket(uint16_t port)
 {
 	mSock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	mBroadcastSock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -34,7 +34,7 @@ udp_socket::udp_socket()
 
 	memset(&mBroadcastAddress, '\0', sizeof(struct sockaddr_in));
 	mBroadcastAddress.sin_family = AF_INET;
-	mBroadcastAddress.sin_port = (in_port_t)htons(UDP_PORT);
+	mBroadcastAddress.sin_port = (in_port_t)htons(port);
 	mBroadcastAddress.sin_addr.s_addr = htonl(INADDR_BROADCAST);
 }
 

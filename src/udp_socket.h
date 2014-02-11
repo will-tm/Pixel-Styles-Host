@@ -21,8 +21,6 @@ using namespace std;
 #include <string>
 #include "splitter.h"
 
-#define UDP_PORT 56616
-
 /*
  * public class
  *
@@ -34,7 +32,7 @@ private:
 	int	mBroadcastSock;
 	struct sockaddr_in mBroadcastAddress;
 public:
-	udp_socket();
+	udp_socket(uint16_t port);
 	~udp_socket();
 
 	void run(void);

@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef __MODE_OFF_H__
-#define __MODE_OFF_H__
+#ifndef __MODE_UDP_STREAMER_H__
+#define __MODE_UDP_STREAMER_H__
 
 using namespace std;
 

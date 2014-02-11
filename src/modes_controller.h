@@ -18,11 +18,13 @@ using namespace std;
 #include "mode_off.h"
 #include "mode_touch.h"
 #include "mode_plasma.h"
+#include "mode_balls.h"
+#include "mode_udp_streamer.h"
 
 #include "bass.h"
 #include "bass_fx.h"
 #include "tcp_server.h"
-#include "udp_socket.h"
+#include "udp_server.h"
 
 /*
  * public class
@@ -34,15 +36,23 @@ private:
 	size_t mWidth;
 	size_t mHeight;
 	bool mAudioAvailable;
+	bool mBypassBASS;
 	modes_list mModesList;
 	HRECORD mRecordChannel;
-	__u32 mFftData[1024];
+	uint32_t mIntFftData[1024];
+	float mFftData[1024];
 	float mAudioLevel;
 	float mAudioLevelRatio;
 	mode_interface *mActiveMode;
 	mutex mModeMutex;
 	ini_parser *mIniFile;
 	tcp_server *mTcpServer;
+	udp_server *mUdpServer;
+	uint32_t mLastUdpFrameTick;
+	vector<size_t> mSpectrum;
+	vector<size_t> mScope;
+	vector<size_t> mPows;
+	float mSensitivity;
 
 	void audio_tasks();
 public:
@@ -68,6 +78,9 @@ public:
 	string json_success();
 	string json_error();
 	void initialize(vector <rgb_color> pStaticColors);
+	void process_fft_buffer_1024(float *fftdata);
+	float *get_fft_buffer() { return mFftData; }
+	void got_udp_audio_packet() { mBypassBASS = true; mLastUdpFrameTick = get_tick_us(); }
 };
 
 #endif

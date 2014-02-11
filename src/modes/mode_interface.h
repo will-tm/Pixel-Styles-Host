@@ -66,16 +66,6 @@ protected:
 		float range = max - min;
 		return (random_ratio*range) + min;
 	}
-
-	uint32_t get_tick_us()
-	{
-		struct timeval Now;
-		uint32_t tick;
-
-		gettimeofday(&Now, NULL);
-		tick = (Now.tv_sec * 1000000 + Now.tv_usec);
-		return tick;
-	}
 public:
 	settings_list mSettings;
 
@@ -85,7 +75,7 @@ public:
 		mHeight = pHeight;
 		mAudioLevel = 0.0f;
 		mSpeed = 0.0f;
-		mLastTime = getCurrentTime();
+		mLastTime = get_tick_us();
 		mSoundReactive = false;
 		mAudioAvailable = pAudioAvailable;
 		mName = pName;

@@ -16,10 +16,12 @@ using namespace std;
  * public functions
  *
  */
-inline long getCurrentTime() // micro-seconds
+inline uint32_t get_tick_us()
 {
 	struct timeval Now;
+	uint32_t tick;
+
 	gettimeofday(&Now, NULL);
-	long useconds = Now.tv_sec * 1000000 + Now.tv_usec;
-	return useconds;
+	tick = (Now.tv_sec * 1000000 + Now.tv_usec);
+	return tick;
 }

@@ -21,7 +21,8 @@ BINARY=pixel-styles
 all: dist-clean $(BINARY) clean
 
 $(BINARY): $(OBJECTS)
-
+	@echo " "
+	@echo "Linking $(BINARY)..."
 	$(CXX) $(CXXFLAGS) -o $(BINARY) $(OBJECTS) $(LDFLAGS) -L$(LIBRARIES) -pthread
 
 clean:
@@ -29,3 +30,4 @@ clean:
 
 dist-clean:
 	rm -rf $(OBJECTS);rm -f $(BINARY)
+

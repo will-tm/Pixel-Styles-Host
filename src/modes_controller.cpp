@@ -13,8 +13,9 @@
 
 using namespace json_spirit;
 
-static BOOL CALLBACK DuffRecording(HRECORD handle, const void *buffer, DWORD length, void *user);
-static void CALLBACK GetBeatPos_Callback(DWORD chan, double beatpos, void *user);
+static BOOL CALLBACK duff_recording(HRECORD handle, const void *buffer, DWORD length, void *user);
+static void CALLBACK get_beat_pos(DWORD chan, double beatpos, void *user);
+static void udp_callback(uint8_t *data, int length, void *owner);
 
 /*
  * constructor
@@ -28,11 +29,25 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	mAudioLevel = 0.0f;
 	mAudioLevelRatio = log10f(1.0f/65536.0f);
 	mAudioAvailable = false;
+	mBypassBASS = false;
+	mLastUdpFrameTick = 0;
+	mSensitivity = 1.0;
+
+	mSpectrum.resize(mWidth);
+	mScope.resize(mWidth);
+	mPows.resize(mWidth);
+
+	for (int x = 0; x < mWidth; x++)
+		mPows[x] = pow(2.0f,(float)x*9.0f/((float)mWidth-1.0f));
+
+	mUdpServer = new udp_server(56617);
+    mUdpServer->register_callback(udp_callback, (void*)this);
+    mUdpServer->run();
 
 	if (BASS_RecordInit(-1))
 	{
-		mRecordChannel = BASS_RecordStart(48000,1,0,&DuffRecording, this);
-		BASS_FX_BPM_BeatCallbackSet(mRecordChannel, &GetBeatPos_Callback, this);
+		mRecordChannel = BASS_RecordStart(48000,1,0,&duff_recording, this);
+		BASS_FX_BPM_BeatCallbackSet(mRecordChannel, &get_beat_pos, this);
 		mAudioAvailable = true;
 	}
 	else
@@ -40,9 +55,11 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 		LOG_WARN << "Can't initialize audio device";
 	}
 
-	mModesList.add("OFF", 		new mode_off		(mWidth, mHeight, "OFF",		mAudioAvailable));
-	mModesList.add("Touch", 	new mode_touch		(mWidth, mHeight, "Touch",		mAudioAvailable));
-	mModesList.add("Plasma", 	new mode_plasma		(mWidth, mHeight, "Plasma",		mAudioAvailable));
+	mModesList.add("OFF", 			new mode_off			(mWidth, mHeight, "OFF",			mAudioAvailable));
+	mModesList.add("Touch", 		new mode_touch			(mWidth, mHeight, "Touch",			mAudioAvailable));
+	mModesList.add("Plasma", 		new mode_plasma			(mWidth, mHeight, "Plasma",			mAudioAvailable));
+	mModesList.add("Balls", 		new mode_balls			(mWidth, mHeight, "Balls",			mAudioAvailable));
+	mModesList.add("UDP Streamer", 	new mode_udp_streamer	(mWidth, mHeight, "UDP Streamer",	mAudioAvailable));
 
 	mActiveMode = mModesList[0];
 	LOG_INFO << "active mode is now '" << mActiveMode->name() << "'";
@@ -65,27 +82,46 @@ modes_controller::~modes_controller()
  * private callbacks
  *
  */
-static BOOL CALLBACK DuffRecording(HRECORD handle, const void *buffer, DWORD length, void *user)
+static BOOL CALLBACK duff_recording(HRECORD handle, const void *buffer, DWORD length, void *user)
 {
 	return TRUE;
 }
 
-static void CALLBACK GetBeatPos_Callback(DWORD chan, double beatpos, void *user)
+static void CALLBACK get_beat_pos(DWORD chan, double beatpos, void *user)
 {
 	((modes_controller*)user)->beat_detected();
-
 	LOG_INFO << "Beat detected!";
 }
 
+static void udp_callback(uint8_t *data, int length, void *owner)
+{
+	if (length != 1024 * sizeof(float))
+		return;
+
+	modes_controller *modesController = (modes_controller*)owner;
+
+	float *fftdata = modesController->get_fft_buffer();
+	memcpy(fftdata, data, length);
+
+	modesController->process_fft_buffer_1024(fftdata);
+	modesController->got_udp_audio_packet();
+}
 /*
  * private functions
  *
  */
 void modes_controller::audio_tasks()
 {
-	if(mAudioAvailable && mActiveMode->needs_audio_fft())
+	if (get_tick_us() - mLastUdpFrameTick > 2000000)
+		mBypassBASS = false;
+
+	if(!mBypassBASS && mAudioAvailable && mActiveMode->needs_audio_fft())
 	{
-		BASS_ChannelGetData(mRecordChannel, (void*)&mFftData[0], BASS_DATA_FFT2048);
+		BASS_ChannelGetData(mRecordChannel, (void*)&mIntFftData[0], BASS_DATA_FFT2048);
+		for (int i = 0; i < 1024; i++)
+			mFftData[i] = (float)mIntFftData[i] / 16777216.0f * 128.0f;
+
+		process_fft_buffer_1024(mFftData);
 	}
 
 	if(mAudioAvailable && mActiveMode->needs_audio_level())
@@ -209,5 +245,33 @@ void modes_controller::initialize(vector <rgb_color> pStaticColors)
 		mModesList[i]->initialize(pStaticColors);
 		for (int j = 0; j < 32; j++)
 			mModesList[i]->paint();
+	}
+}
+
+void modes_controller::process_fft_buffer_1024(float *fftdata)
+{
+	int x,y, size;
+	float sc;
+	int b0=0;
+
+	for (x = 0; x < mWidth; x++)
+	{
+		float peak = 0;
+		int b1 = mPows[x];
+		if(b1 > 1023) b1 = 1023;
+		if(b1 <= b0) b1 = b0 + 1;
+		sc = 10 + b1 - b0;
+		size = b1 - b0;
+		peak = 0;
+		for(int i=0;i<size;i++)
+		{
+			float b2 = (float)fftdata[1+b0+i]*mSensitivity;
+			peak = peak + b2;
+		}
+		b0 = b1;
+		y=(int)((sqrt(peak / log10(sc)) * (float)mHeight - 1.0f));
+		if(y > mHeight) y = mHeight;
+		if(y < 0) y = 0;
+		mSpectrum[x] = y;
 	}
 }

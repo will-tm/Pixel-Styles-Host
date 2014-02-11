@@ -18,6 +18,7 @@ using namespace std;
 #include "ini_parser.h"
 #include "modes_controller.h"
 #include "bonjour.h"
+#include "udp_socket.h"
 
 using namespace std;
 

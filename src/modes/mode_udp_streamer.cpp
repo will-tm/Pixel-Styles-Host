@@ -23,6 +23,7 @@ mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName
 
     mUdpServer = new udp_server(58618);
     mUdpServer->register_callback(udp_callback, (void*)this);
+    mUdpServer->run();
 }
 
 /*
@@ -75,6 +76,4 @@ void mode_udp_streamer::paint()
 	{
 		mBitmap->clear();
 	}
-
-	mUdpServer->periodic_tasks();
 }

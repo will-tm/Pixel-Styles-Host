@@ -205,6 +205,7 @@ void pixel_styles_controller::run()
 
 	LOG_INFO << "main loop start running...";
 	loop.loop();
+	LOG_INFO << "kikoo";
 }
 
 void pixel_styles_controller::alive()

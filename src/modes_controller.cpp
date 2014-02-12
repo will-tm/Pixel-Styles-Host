@@ -42,6 +42,7 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 
 	mUdpServer = new udp_server(56617);
     mUdpServer->register_callback(udp_callback, (void*)this);
+    mUdpServer->run();
 
 	if (BASS_RecordInit(-1))
 	{
@@ -135,8 +136,6 @@ void modes_controller::audio_tasks()
 		mAudioLevel = (float)both/65536.0f;
 		mActiveMode->set_audio_level(mAudioLevel);
 	}
-
-	mUdpServer->periodic_tasks();
 }
 
 /*

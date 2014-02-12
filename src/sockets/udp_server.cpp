@@ -62,7 +62,7 @@ void udp_server::handle_receive(int sockfd, muduo::Timestamp receiveTime)
 	{
 		if(mCallback)
 		{
-			mCallback(mBuffer, length);
+			mCallback(mBuffer, length, mOwner);
 		}
 	}
 }

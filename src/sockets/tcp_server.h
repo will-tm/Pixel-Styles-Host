@@ -47,7 +47,7 @@ public:
 	TcpReceptionCallback *tcpReceptionCallback;
 
 	tcp_server(muduo::net::EventLoop* loop, const muduo::net::InetAddress& listenAddr, int maxConnections);
-	void registerCallback(TcpReceptionCallback *callback, void* pParent) { tcpReceptionCallback = callback; mCallbackParent = pParent; }
+	void register_callback(TcpReceptionCallback *callback, void* pParent) { tcpReceptionCallback = callback; mCallbackParent = pParent; }
 	void run(void);
 	string mac_address();
 	vector<string> *connectedAddresses();

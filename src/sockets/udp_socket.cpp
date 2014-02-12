@@ -18,19 +18,12 @@ udp_socket::udp_socket(uint16_t port)
 {
 	mSock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	mBroadcastSock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-	/*
-	 * SO_BROADCAST doesn't sent to all NICs on Linux, it only
-	 * broadcasts on eth0, which is why there's an optional argument
-	 * to --broadcast to say which NIC to broadcast on. You can use
-	 * SO_BINDTODEVICE to get around that, but you need to have
-	 * uid == 0 for that
-	 */
+
 	int on = 1;
 	if(setsockopt(mBroadcastSock, SOL_SOCKET, SO_BROADCAST, (int *)&on, sizeof(on)) < 0)
 	{
 		perror("setsockopt");
 	}
-	//shutdown(mBroadcastSock, SHUT_RD);
 
 	memset(&mBroadcastAddress, '\0', sizeof(struct sockaddr_in));
 	mBroadcastAddress.sin_family = AF_INET;

@@ -7,10 +7,12 @@
 
 #include "pixel_styles_controller.h"
 
-static void DidReceiveStringCallback(string __request, string &__answer, int __clientId, void *pParent);
-static void AliveTimerCallback(void *pParent);
-static void PaintTimerCallback(void *pParent);
-static void PreviewTimerCallback(void *pParent);
+#include <boost/bind.hpp>
+
+static void did_receive_tcp_message(string __request, string &__answer, int __clientId, void *pParent);
+static void alive_timer_callback(void *pParent);
+static void paint_timer_callback(void *pParent);
+static void preview_timer_callback(void *pParent);
 
 /*
  * constructor
@@ -35,9 +37,9 @@ pixel_styles_controller::pixel_styles_controller()
 
 	mIniFile = new ini_parser("/etc/pixel_styles/settings_application.cfg");
 
-	mAliveTimer = new timer(1000000, AliveTimerCallback, this);
-	mPaintTimer = new timer(10000, PaintTimerCallback, this);
-	mPreviewTimer = new timer(50000, PreviewTimerCallback, this);
+	mAliveTimer = new timer(1000000, alive_timer_callback, this);
+	mPaintTimer = new timer(10000, paint_timer_callback, this);
+	mPreviewTimer = new timer(50000, preview_timer_callback, this);
 	mModesController = new modes_controller(width, height);
 
 	mStaticColors.resize(mIniFile->get<size_t>("COLORS", "Count", 1));
@@ -73,22 +75,22 @@ pixel_styles_controller::~pixel_styles_controller()
  * private callbacks
  *
  */
-static void DidReceiveStringCallback(string __request, string &__answer, int __clientId, void *pParent)
+static void did_receive_tcp_message(string __request, string &__answer, int __clientId, void *pParent)
 {
 	((pixel_styles_controller*)pParent)->HandleTcpRequest(__request, __answer, __clientId);
 }
 
-static void AliveTimerCallback(void *pParent)
+static void alive_timer_callback(void *pParent)
 {
 	((pixel_styles_controller*)pParent)->alive();
 }
 
-static void PaintTimerCallback(void *pParent)
+static void paint_timer_callback(void *pParent)
 {
 	((pixel_styles_controller*)pParent)->paint();
 }
 
-static void PreviewTimerCallback(void *pParent)
+static void preview_timer_callback(void *pParent)
 {
 	((pixel_styles_controller*)pParent)->preview();
 }
@@ -157,7 +159,6 @@ void pixel_styles_controller::HandleTcpRequest(string __request, string &__answe
 	{
 		mModesController->lock();
 		mModesController->set_active_mode_name(split[1]);
-		//mModesController->active_mode()->initialize(mStaticColors);
 		mIniFile->set<string>("MODE", "ActiveMode", split[1]);
 		__answer = mModesController->json_success();
 		mModesController->unlock();
@@ -197,7 +198,7 @@ void pixel_styles_controller::run()
 	LOG_DEBUG << "maxConnections = " << maxConnections;
 	mTcpServer = new tcp_server(get_global_event_loop(), listenAddr, maxConnections);
 	mModesController->set_tcp_server(mTcpServer);
-	mTcpServer->registerCallback(&DidReceiveStringCallback, this);
+	mTcpServer->register_callback(&did_receive_tcp_message, this);
 	mTcpServer->run();
 }
 

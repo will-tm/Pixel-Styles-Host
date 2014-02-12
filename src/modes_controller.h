@@ -55,6 +55,7 @@ private:
 	float mSensitivity;
 
 	void audio_tasks();
+	void udp_callback(uint8_t *data, size_t length);
 public:
 
 	modes_controller(size_t pWidth, size_t pHeight);
@@ -79,8 +80,6 @@ public:
 	string json_error();
 	void initialize(vector <rgb_color> pStaticColors);
 	void process_fft_buffer_1024(float *fftdata);
-	float *get_fft_buffer() { return mFftData; }
-	void got_udp_audio_packet() { mBypassBASS = true; mLastUdpFrameTick = get_tick_us(); }
 };
 
 #endif

@@ -7,8 +7,6 @@
 
 #include "mode_udp_streamer.h"
 
-static void udp_callback(uint8_t *data, size_t length, void *owner);
-
 #define UDP_TIMEOUT_DELAY					(2000000) // us
 
 /*
@@ -22,7 +20,7 @@ mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName
 	mUdpBuffer = new uint8_t [mWidth * mHeight * 3];
 
     mUdpServer = new udp_server(get_global_event_loop(), 58618);
-    mUdpServer->register_callback(udp_callback, (void*)this);
+    mUdpServer->register_callbackboost::bind(&mode_udp_streamer::udp_callback, this, _2));
 }
 
 /*
@@ -38,12 +36,11 @@ mode_udp_streamer::~mode_udp_streamer()
  * private callbacks
  *
  */
-static void udp_callback(uint8_t *data, size_t length, void *owner)
+void mode_udp_streamer::udp_callback(uint8_t *data, size_t length)
 {
-	mode_udp_streamer *modeUdpStreamer = (mode_udp_streamer*)owner;
-	if (length == modeUdpStreamer->get_width() * modeUdpStreamer->get_height() * 3)
+	if (length == mWidth * mHeight * 3)
 	{
-		memcpy(modeUdpStreamer->get_udp_buffer(), data, length);
+		memcpy(mUdpBuffer, data, length);
 	}
 }
 

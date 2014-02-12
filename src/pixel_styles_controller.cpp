@@ -7,9 +7,6 @@
 
 #include "pixel_styles_controller.h"
 
-#include <muduo/base/Logging.h>
-#include <muduo/net/EventLoop.h>
-
 static void DidReceiveStringCallback(string __request, string &__answer, int __clientId, void *pParent);
 static void AliveTimerCallback(void *pParent);
 static void PaintTimerCallback(void *pParent);
@@ -193,19 +190,15 @@ void pixel_styles_controller::run()
 	mPaintTimer->run();
 	mPreviewTimer->run();
 
-	muduo::net::EventLoop loop;
+
 	muduo::net::InetAddress listenAddr(56615);
 	int maxConnections = 5;
 
 	LOG_DEBUG << "maxConnections = " << maxConnections;
-	mTcpServer = new tcp_server(&loop, listenAddr, maxConnections);
+	mTcpServer = new tcp_server(get_global_event_loop(), listenAddr, maxConnections);
 	mModesController->set_tcp_server(mTcpServer);
 	mTcpServer->registerCallback(&DidReceiveStringCallback, this);
 	mTcpServer->run();
-
-	LOG_INFO << "main loop start running...";
-	loop.loop();
-	LOG_INFO << "kikoo";
 }
 
 void pixel_styles_controller::alive()

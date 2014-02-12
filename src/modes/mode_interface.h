@@ -20,6 +20,7 @@ using namespace std;
 #include "ini_parser.h"
 #include "strings-helper.h"
 #include "time-helper.h"
+#include "global_event_loop.h"
 
 #define random(x)	rand()%x
 /*

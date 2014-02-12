@@ -40,9 +40,8 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	for (size_t x = 0; x < mWidth; x++)
 		mPows[x] = pow(2.0f,(float)x*9.0f/((float)mWidth-1.0f));
 
-	mUdpServer = new udp_server(56617);
+	mUdpServer = new udp_server(get_global_event_loop(), 56617);
     mUdpServer->register_callback(udp_callback, (void*)this);
-    mUdpServer->run();
 
 	if (BASS_RecordInit(-1))
 	{

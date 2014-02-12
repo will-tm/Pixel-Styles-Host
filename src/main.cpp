@@ -88,6 +88,7 @@ int main(int argc, char* argv[])
 	pixelStyles = new pixel_styles_controller();
 	pixelStyles->run();
 
-	while(true) { sleep(1000); };
+	run_global_event_loop();
+
 	return 0;
 }

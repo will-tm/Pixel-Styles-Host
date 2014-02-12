@@ -10,8 +10,21 @@
 
 using namespace std;
 
+#include <muduo/base/Logging.h>
+#include <muduo/net/Channel.h>
+#include <muduo/net/EventLoop.h>
+#include <muduo/net/Socket.h>
+#include <muduo/net/SocketsOps.h>
+#include <muduo/net/TcpClient.h>
+#include <muduo/net/TcpServer.h>
 
-#include "udp_server_base.h"
+#include <boost/bind.hpp>
+
+/*
+ * public types
+ *
+ */
+typedef void (udp_socket_callback_t)(uint8_t *data, size_t length, void *owner);
 
 /*
  * public class
@@ -20,15 +33,16 @@ using namespace std;
 class udp_server
 {
 private:
-	boost::asio::io_service mIoService;
-	udp_server_base *mUdpServerBase;
+	uint8_t mBuffer[8192];
+	udp_socket_callback_t *mCallback;
+	void *mOwner;
+
+	void handle_receive(int sockfd, muduo::Timestamp receiveTime);
 public:
-	udp_server(uint16_t pPort);
+	udp_server(muduo::net::EventLoop* loop, uint16_t pPort);
 	~udp_server();
 
-	void run(void);
-
-	void register_callback(udp_socket_callback_t *callback, void *owner) { mUdpServerBase->register_callback(callback, owner); }
+	void register_callback(udp_socket_callback_t *callback, void *owner) { mCallback = callback; mOwner = owner; }
 };
 
 /********************************************************************************************/

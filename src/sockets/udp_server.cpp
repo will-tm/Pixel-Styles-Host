@@ -78,7 +78,7 @@ void udp_server::periodic_tasks()
 		//printf("Received packet of length %d from %s:%d\nData: %s\n\n",length,inet_ntoa(mSocketAddrClient.sin_addr), ntohs(mSocketAddrClient.sin_port), mBuffer);
 		if(mCallback != NULL)
 		{
-			mCallback(mBuffer, length, mOwner);
+			mCallback(mBuffer, (size_t)length, mOwner);
 		}
 	}
 }

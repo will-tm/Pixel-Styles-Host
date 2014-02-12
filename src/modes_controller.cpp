@@ -15,7 +15,7 @@ using namespace json_spirit;
 
 static BOOL CALLBACK duff_recording(HRECORD handle, const void *buffer, DWORD length, void *user);
 static void CALLBACK get_beat_pos(DWORD chan, double beatpos, void *user);
-static void udp_callback(uint8_t *data, int length, void *owner);
+static void udp_callback(uint8_t *data, size_t length, void *owner);
 
 /*
  * constructor
@@ -42,7 +42,6 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 
 	mUdpServer = new udp_server(56617);
     mUdpServer->register_callback(udp_callback, (void*)this);
-    mUdpServer->run();
 
 	if (BASS_RecordInit(-1))
 	{
@@ -93,7 +92,7 @@ static void CALLBACK get_beat_pos(DWORD chan, double beatpos, void *user)
 	LOG_INFO << "Beat detected!";
 }
 
-static void udp_callback(uint8_t *data, int length, void *owner)
+static void udp_callback(uint8_t *data, size_t length, void *owner)
 {
 	if (length != 1024 * sizeof(float))
 		return;
@@ -136,6 +135,8 @@ void modes_controller::audio_tasks()
 		mAudioLevel = (float)both/65536.0f;
 		mActiveMode->set_audio_level(mAudioLevel);
 	}
+
+	mUdpServer->periodic_tasks();
 }
 
 /*

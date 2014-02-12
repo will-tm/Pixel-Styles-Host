@@ -27,7 +27,7 @@ using namespace std;
  * public types
  *
  */
-typedef void (udp_socket_callback_t)(uint8_t *data, int length, void *owner);
+typedef void (udp_socket_callback_t)(uint8_t *data, size_t length, void *owner);
 
 /*
  * public class

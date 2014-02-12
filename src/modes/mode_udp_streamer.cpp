@@ -7,9 +7,10 @@
 
 #include "mode_udp_streamer.h"
 
-static void udp_callback(uint8_t *data, int length, void *owner);
+static void udp_callback(uint8_t *data, size_t length, void *owner);
 
 #define UDP_TIMEOUT_DELAY					(2000000) // us
+
 /*
  * constructor
  *
@@ -22,7 +23,6 @@ mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName
 
     mUdpServer = new udp_server(58618);
     mUdpServer->register_callback(udp_callback, (void*)this);
-    mUdpServer->run();
 }
 
 /*
@@ -38,7 +38,7 @@ mode_udp_streamer::~mode_udp_streamer()
  * private callbacks
  *
  */
-static void udp_callback(uint8_t *data, int length, void *owner)
+static void udp_callback(uint8_t *data, size_t length, void *owner)
 {
 	mode_udp_streamer *modeUdpStreamer = (mode_udp_streamer*)owner;
 	if (length == modeUdpStreamer->get_width() * modeUdpStreamer->get_height() * 3)
@@ -60,9 +60,9 @@ void mode_udp_streamer::paint()
 	{
 		mLastTickCount = get_tick_us();
 
-		for(int y = 0; y < mHeight; y++)
+		for(size_t y = 0; y < mHeight; y++)
 		{
-			for(int x = 0; x < mWidth; x++)
+			for(size_t x = 0; x < mWidth; x++)
 			{
 				color.R = mUdpBuffer[bufferPtr++];
 				color.G = mUdpBuffer[bufferPtr++];
@@ -75,4 +75,6 @@ void mode_udp_streamer::paint()
 	{
 		mBitmap->clear();
 	}
+
+	mUdpServer->periodic_tasks();
 }

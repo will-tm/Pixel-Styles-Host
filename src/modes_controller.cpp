@@ -98,7 +98,7 @@ void modes_controller::udp_callback(uint8_t *data, size_t length)
 
 	memcpy(mFftData, data, length);
 
-	process_fft_buffer_1024(fftdata);
+	process_fft_buffer_1024(mFftData);
 	mBypassBASS = true;
 	mLastUdpFrameTick = get_tick_us();
 }

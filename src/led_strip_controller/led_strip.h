@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __LED_STRIP_H__
-#define __LED_STRIP_H__
+#pragma once
 
 #include <cmath>
 #include "spi.h"
@@ -34,5 +33,3 @@ public:
 	void paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion);
 	size_t size() { return mWidth; }
 };
-
-#endif

@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __MODE_PLASMA_H__
-#define __MODE_PLASMA_H__
+#pragma once
 
 using namespace std;
 
@@ -27,5 +26,3 @@ public:
 	virtual void paint();
 	virtual void beat_detected();
 };
-
-#endif

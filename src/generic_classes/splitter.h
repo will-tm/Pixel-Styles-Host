@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __SPLITTER_H__
-#define __SPLITTER_H__
+#pragma once
 
 using namespace std;
 
@@ -35,4 +34,3 @@ public:
   	void reset ( const string &src, const string &delim);
 };
 
-#endif

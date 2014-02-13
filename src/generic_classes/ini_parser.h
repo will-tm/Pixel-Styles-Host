@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __INI_PARSER_H__
-#define __INI_PARSER_H__
+#pragma once
 
 using namespace std;
 
@@ -34,4 +33,3 @@ public:
 	template <typename T> void set(const std::string& section, const std::string& key, const T& value) { pt.put<T>(section+"."+key, value); save(); }
 };
 
-#endif

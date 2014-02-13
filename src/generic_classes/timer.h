@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef TIMER_H_
-#define TIMER_H_
+#pragma once
 
 #include <time.h>
 #include <iostream>
@@ -45,5 +44,3 @@ public:
 
 	void run(void);
 };
-
-#endif

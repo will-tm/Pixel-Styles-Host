@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __PIXEL_STYLES_CONTROLLER_H__
-#define __PIXEL_STYLES_CONTROLLER_H__
+#pragma once
 
 #include "config.h"
 #include "settings_list.h"
@@ -57,5 +56,3 @@ public:
 
 	void run();
 };
-
-#endif

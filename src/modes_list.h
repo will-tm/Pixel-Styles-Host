@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __MODES_LIST_H__
-#define __MODES_LIST_H__
+#pragma once
 
 using namespace std;
 
@@ -34,5 +33,3 @@ public:
 	int operator[] (const mode_interface *mode);
 	size_t size();
 };
-
-#endif

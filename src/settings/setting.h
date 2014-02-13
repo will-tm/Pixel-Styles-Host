@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __SETTING_H__
-#define __SETTING_H__
+#pragma once
 
 using namespace std;
 
@@ -84,5 +83,3 @@ public:
 		}
 	}
 };
-
-#endif

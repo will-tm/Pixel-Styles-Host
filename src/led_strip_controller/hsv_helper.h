@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __HSV_HELPER_H__
-#define __HSV_HELPER_H__
+#pragma once
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -59,5 +58,3 @@ extern rgb_color ColorAqua;
 extern rgb_color ColorBlack;
 extern rgb_color ColorWhite;
 
-
-#endif

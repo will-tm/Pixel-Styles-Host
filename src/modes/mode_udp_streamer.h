@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __MODE_UDP_STREAMER_H__
-#define __MODE_UDP_STREAMER_H__
+#pragma once
 
 using namespace std;
 
@@ -32,5 +31,3 @@ public:
 
 	virtual void paint();
 };
-
-#endif

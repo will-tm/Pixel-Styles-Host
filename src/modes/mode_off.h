@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __MODE_OFF_H__
-#define __MODE_OFF_H__
+#pragma once
 
 using namespace std;
 
@@ -25,5 +24,3 @@ public:
 
 	virtual void paint();
 };
-
-#endif

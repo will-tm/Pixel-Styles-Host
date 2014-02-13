@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __MODE_BALLS_H__
-#define __MODE_BALLS_H__
+#pragma once
 
 using namespace std;
 
@@ -41,5 +40,3 @@ public:
 
 	virtual void paint();
 };
-
-#endif

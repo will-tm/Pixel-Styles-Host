@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __MODE_INTERFACE_H__
-#define __MODE_INTERFACE_H__
+#pragma once
 
 using namespace std;
 
@@ -104,5 +103,3 @@ public:
 	size_t get_width() { return mWidth; }
 	size_t get_height() { return mHeight; }
 };
-
-#endif

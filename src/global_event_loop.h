@@ -5,12 +5,9 @@
  *
  */
 
-#ifndef __GLOBAL8EVENT_LOOP_H__
-#define __GLOBAL8EVENT_LOOP_H__
+#pragma once
 
 #include <muduo/net/EventLoop.h>
 
 muduo::net::EventLoop *get_global_event_loop();
 void run_global_event_loop();
-
-#endif

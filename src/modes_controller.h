@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __MODES_CONTROLLER_H__
-#define __MODES_CONTROLLER_H__
+#pragma once
 
 using namespace std;
 
@@ -82,5 +81,3 @@ public:
 	bool try_lock() {  return mModeMutex.try_lock(); }
 	void set_tcp_server(tcp_server *pTcpServer) { mTcpServer = pTcpServer; }
 };
-
-#endif

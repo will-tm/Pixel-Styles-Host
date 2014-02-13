@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __MODE_TOUCH_H__
-#define __MODE_TOUCH_H__
+#pragma once
 
 using namespace std;
 
@@ -29,5 +28,3 @@ public:
 	virtual void initialize(vector <rgb_color> pStaticColors);
 	virtual void touch(vector <rgb_color> pStaticColors, touch_type pTouchType);
 };
-
-#endif

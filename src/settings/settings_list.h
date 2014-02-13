@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef __SETTINGS_LIST_H__
-#define __SETTINGS_LIST_H__
+#pragma once
 
 using namespace std;
 
@@ -35,5 +34,3 @@ public:
 	void set_ini_path(string pPath);
 	void setting_did_change(setting *pSetting);
 };
-
-#endif

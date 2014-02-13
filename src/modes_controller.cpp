@@ -91,7 +91,7 @@ static void CALLBACK get_beat_pos(DWORD chan, double beatpos, void *user)
 	LOG_INFO << "Beat detected!";
 }
 
-void modes_controller::handle_receive(data_packet_t packet)
+void modes_controller::handle_receive(udp_data_packet_t packet)
 {
 	if (packet.length != 1024 * sizeof(float))
 		return;

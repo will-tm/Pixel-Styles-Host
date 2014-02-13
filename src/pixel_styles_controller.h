@@ -47,6 +47,8 @@ private:
 
 	int mFrames;
 	vector <size_t> mSegments;
+
+	void handle_tcp_request(tcp_data_packet_t &packet);
 public:
 	pixel_styles_controller();
 	~pixel_styles_controller();

@@ -38,7 +38,7 @@ mode_udp_streamer::~mode_udp_streamer()
  * private callbacks
  *
  */
-void mode_udp_streamer::handle_receive(data_packet_t packet)
+void mode_udp_streamer::handle_receive(udp_data_packet_t packet)
 {
 	if (packet.length == mWidth * mHeight * 3)
 	{

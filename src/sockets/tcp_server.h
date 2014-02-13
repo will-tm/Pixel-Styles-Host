@@ -21,11 +21,19 @@ using namespace std;
 #include <vector>
 #include "splitter.h"
 
+#include <boost/bind.hpp>
+
 /*
  * public types
  *
  */
-typedef void (TcpReceptionCallback)(string __request, string &__answer, int __clientId, void* pParent);
+typedef struct
+{
+	string request;
+	string answer;
+}tcp_data_packet_t;
+
+typedef boost::function<void(tcp_data_packet_t&)> tcp_socket_read_callback_t;
 
 /*
  * public class
@@ -43,14 +51,15 @@ private:
 	void* mCallbackParent;
 	vector<string> mConnectedAddresses;
 	string mMacAddress;
+	tcp_socket_read_callback_t mReadCallback;
 public:
-	TcpReceptionCallback *tcpReceptionCallback;
-
 	tcp_server(muduo::net::EventLoop* loop, const muduo::net::InetAddress& listenAddr, int maxConnections);
-	void register_callback(TcpReceptionCallback *callback, void* pParent) { tcpReceptionCallback = callback; mCallbackParent = pParent; }
+
 	void run(void);
 	string mac_address();
 	vector<string> *connectedAddresses();
+
+	void register_read_callback(const tcp_socket_read_callback_t& callback) { mReadCallback = callback; }
 };
 
 #endif

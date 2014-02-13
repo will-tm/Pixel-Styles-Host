@@ -55,7 +55,7 @@ private:
 	float mSensitivity;
 
 	void audio_tasks();
-	void handle_receive(data_packet_t packet);
+	void handle_receive(udp_data_packet_t packet);
 public:
 
 	modes_controller(size_t pWidth, size_t pHeight);

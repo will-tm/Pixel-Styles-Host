@@ -9,8 +9,6 @@
 
 #include <boost/bind.hpp>
 
-static void did_receive_tcp_message(string __request, string &__answer, int __clientId, void *pParent);
-
 /*
  * constructor
  *
@@ -69,21 +67,13 @@ pixel_styles_controller::~pixel_styles_controller()
 }
 
 /*
- * private callbacks
- *
- */
-static void did_receive_tcp_message(string __request, string &__answer, int __clientId, void *pParent)
-{
-	((pixel_styles_controller*)pParent)->HandleTcpRequest(__request, __answer, __clientId);
-}
-
-/*
  * public functions
  *
  */
-void pixel_styles_controller::HandleTcpRequest(string __request, string &__answer, int __clientId)
+
+void pixel_styles_controller::handle_tcp_request(tcp_data_packet_t &packet)
 {
-	splitter split(__request, "_");
+	splitter split(packet.request, "_");
 
 	if(split.size() >= 2 && !split[0].compare("Touch"))
 	{
@@ -123,16 +113,16 @@ void pixel_styles_controller::HandleTcpRequest(string __request, string &__answe
 			if(aSetting != NULL)
 			{
 				aSetting->set_value(split[3]);
-				__answer = mModesController->json_success();
+				packet.answer = mModesController->json_success();
 			}
 			else
 			{
-				__answer = mModesController->json_error();
+				packet.answer = mModesController->json_error();
 			}
 		}
 		else
 		{
-			__answer = mModesController->json_error();
+			packet.answer = mModesController->json_error();
 		}
 		mModesController->unlock();
 	}
@@ -142,21 +132,21 @@ void pixel_styles_controller::HandleTcpRequest(string __request, string &__answe
 		mModesController->lock();
 		mModesController->set_active_mode_name(split[1]);
 		mIniFile->set<string>("MODE", "ActiveMode", split[1]);
-		__answer = mModesController->json_success();
+		packet.answer = mModesController->json_success();
 		mModesController->unlock();
 	}
 
 	if(split.size() == 1 && !split[0].compare("GetJSON"))
 	{
 		mModesController->lock();
-		__answer = mModesController->to_json();
+		packet.answer = mModesController->to_json();
 		mModesController->unlock();
 	}
 
 	if(split.size() == 1 && !split[0].compare("GetCurrentModeBitmapJSON"))
 	{
 		mModesController->lock();
-		__answer = mModesController->active_mode_bitmap_to_json();
+		packet.answer = mModesController->active_mode_bitmap_to_json();
 		mModesController->unlock();
 	}
 }
@@ -180,7 +170,7 @@ void pixel_styles_controller::run()
 	LOG_DEBUG << "maxConnections = " << maxConnections;
 	mTcpServer = new tcp_server(get_global_event_loop(), listenAddr, maxConnections);
 	mModesController->set_tcp_server(mTcpServer);
-	mTcpServer->register_callback(&did_receive_tcp_message, this);
+	mTcpServer->register_read_callback(boost::bind(&pixel_styles_controller::handle_tcp_request, this, _1));
 	mTcpServer->run();
 }
 

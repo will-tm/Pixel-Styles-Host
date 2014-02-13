@@ -28,9 +28,9 @@ typedef struct
 {
 	uint8_t *data;
 	size_t length;
-}data_packet_t;
+}udp_data_packet_t;
 
-typedef boost::function<void(data_packet_t)> udp_socket_read_callback_t;
+typedef boost::function<void(udp_data_packet_t)> udp_socket_read_callback_t;
 
 /*
  * public class

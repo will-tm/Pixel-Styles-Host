@@ -22,7 +22,7 @@ static void CALLBACK get_beat_pos(DWORD chan, double beatpos, void *user);
  */
 modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 {
-	mIniFile = new ini_parser("/etc/pixel_styles/config.cfg");
+	mIniFile = new ini_parser((string)CONFIGURATION_DIRECTORY+"config.cfg");
 	mWidth = pWidth;
 	mHeight = pHeight;
 	mAudioLevel = 0.0f;

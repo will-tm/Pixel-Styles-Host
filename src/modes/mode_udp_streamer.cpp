@@ -21,7 +21,7 @@ mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName
 
 	mUdpBuffer = new uint8_t [mWidth * mHeight * 3];
 
-    mUdpServer = new udp_server(get_global_event_loop(), 58618);
+    mUdpServer = new udp_server(get_global_event_loop(), MODE_UDP_STREAMER_PORT);
     mUdpServer->register_read_callback(boost::bind(&mode_udp_streamer::handle_receive, this, _1));
 }
 

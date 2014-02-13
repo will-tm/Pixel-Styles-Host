@@ -18,7 +18,7 @@ void *avahi_service(void *arg);
  */
 bonjour::bonjour()
 {
-	mIniFile = new ini_parser("/etc/pixel_styles/config.cfg");
+	mIniFile = new ini_parser((string)CONFIGURATION_DIRECTORY+"config.cfg");
 	hostname = mIniFile->get<string>("PIXEL_STYLES","Hostname","Pixel Styles");
 	avahi_publish_service_pid = 0;
 	mAvahiThread = 0;
@@ -55,7 +55,7 @@ void *avahi_service(void *arg)
 	if (pid <  0) return (void*)(1);
 	else if (pid == 0)
 	{
-		if( execlp("avahi-publish-service", "avahi-publish-service", 	mBonjour->hostname.c_str(),"_PixelStyles._tcp",      "56615", "kHostType=Debian","kHostVersion=7.0 (Wheezy)","kProtocolVersion=2.0","kLivePreviewUdpPort=56616", NULL) == -1 )
+		if( execlp("avahi-publish-service", "avahi-publish-service", mBonjour->hostname.c_str(),"_PixelStyles._tcp", std::to_string(TCP_CONNECTION_PORT).c_str(), strcat((char*)"kLivePreviewUdpPort=", std::to_string(UDP_BROADCAST_PORT).c_str()), NULL) == -1 )
 		{
 			LOG_INFO << "Bad error... couldn't find or failed to run: avahi-publish-service OR dns-sd OR mDNSPublish";
 			return (void*)(1);

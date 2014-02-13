@@ -21,6 +21,7 @@ using namespace std;
 #include "strings-helper.h"
 #include "time-helper.h"
 #include "global_event_loop.h"
+#include "config.h"
 
 #define random(x)	rand()%x
 /*
@@ -83,7 +84,7 @@ public:
 		mNameFile = pName;
 		replace_all(mNameFile," ","_");
 		transform(mNameFile.begin(), mNameFile.end(), mNameFile.begin(), ::tolower);
-		mIniFilePath = "/etc/pixel_styles/settings_"+mNameFile+".cfg";
+		mIniFilePath = (string)CONFIGURATION_DIRECTORY+"settings_"+mNameFile+".cfg";
 		mIniFile = NULL;
 		mUI = uiSettings;
 		mBitmap = new bitmap(mWidth, mHeight);

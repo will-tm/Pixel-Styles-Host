@@ -21,7 +21,7 @@ pixel_styles_controller::pixel_styles_controller()
 	mTcpServer = NULL;
 	mUdpSocket = NULL;
 
-	mIniFile = new ini_parser("/etc/pixel_styles/config.cfg");
+	mIniFile = new ini_parser((string)CONFIGURATION_DIRECTORY+"config.cfg");
 	int width = mIniFile->get<size_t>("PIXEL_STYLES","Width",19);
 	int height = mIniFile->get<size_t>("PIXEL_STYLES","Height",12);
 	string device = mIniFile->get<string>("PIXEL_STYLES","SpiDevice","/dev/spidev0.0");
@@ -30,7 +30,7 @@ pixel_styles_controller::pixel_styles_controller()
 
 	LOG_INFO << "Initialized with size " << width << "x" << height << " and SPI device " << device;
 
-	mIniFile = new ini_parser("/etc/pixel_styles/settings_application.cfg");
+	mIniFile = new ini_parser((string)CONFIGURATION_DIRECTORY+"settings_application.cfg");
 
 	mAliveTimer =   new timer(1000000, boost::bind(&pixel_styles_controller::alive, this));
 	mPaintTimer =   new timer(10000,   boost::bind(&pixel_styles_controller::paint, this));
@@ -153,9 +153,7 @@ void pixel_styles_controller::handle_tcp_request(tcp_data_packet_t &packet)
 
 void pixel_styles_controller::run()
 {
-	mUdpSocket = new udp_socket(56616);
-
-	muduo::Logger::setLogLevel(muduo::Logger::DEBUG);
+	mUdpSocket = new udp_socket(UDP_BROADCAST_PORT);
 
 	mModesController->active_mode()->initialize(mStaticColors);
 
@@ -164,7 +162,7 @@ void pixel_styles_controller::run()
 	mPreviewTimer->run();
 
 
-	muduo::net::InetAddress listenAddr(56615);
+	muduo::net::InetAddress listenAddr(TCP_CONNECTION_PORT);
 	int maxConnections = 5;
 
 	LOG_DEBUG << "maxConnections = " << maxConnections;

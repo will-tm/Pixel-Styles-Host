@@ -13,6 +13,7 @@ using namespace std;
 #include <string>
 #include "ini_parser.h"
 #include "tcp_server.h"
+#include "config.h"
 
 /*
  * public class

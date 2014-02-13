@@ -8,8 +8,7 @@
 #ifndef __PIXEL_STYLES_CONTROLLER_H__
 #define __PIXEL_STYLES_CONTROLLER_H__
 
-using namespace std;
-
+#include "config.h"
 #include "settings_list.h"
 #include "tcp_server.h"
 #include "splitter.h"

@@ -6,7 +6,7 @@
  */
 
 #include "pixel_styles_controller.h"
-#include <muduo/base/Logging.h>
+#include "config.h"
 
 using namespace std;
 
@@ -30,7 +30,7 @@ static void show_usage(std::string name)
 static void write_pid_file()
 {
 	pid_t pid = getpid();
-	FILE *fp = fopen("/var/run/pixel_styles.pid", "w");
+	FILE *fp = fopen(PID_FILE, "w");
 	if (fp)
 	{
 		fprintf(fp, "%d\n", pid);
@@ -40,7 +40,7 @@ static void write_pid_file()
 
 static void log_output(const char* msg, int len)
 {
-	FILE *fp = fopen("/var/log/pixel_styles.log", "a");
+	FILE *fp = fopen(LOG_FILE, "a");
 	if (fp)
 	{
 		fprintf(fp, "%s", msg);
@@ -57,7 +57,9 @@ int main(int argc, char* argv[])
 {
 	write_pid_file();
 
-	FILE *fp = fopen("/var/log/pixel_styles.log", "w");
+	muduo::Logger::setLogLevel(DEFAULT_LOG_LEVEL);
+
+	FILE *fp = fopen(LOG_FILE, "w");
 	fclose(fp);
 	muduo::Logger::setOutput(log_output);
 

@@ -10,9 +10,6 @@
 #include <boost/bind.hpp>
 
 static void did_receive_tcp_message(string __request, string &__answer, int __clientId, void *pParent);
-static void alive_timer_callback(void *pParent);
-static void paint_timer_callback(void *pParent);
-static void preview_timer_callback(void *pParent);
 
 /*
  * constructor
@@ -37,9 +34,9 @@ pixel_styles_controller::pixel_styles_controller()
 
 	mIniFile = new ini_parser("/etc/pixel_styles/settings_application.cfg");
 
-	mAliveTimer = new timer(1000000, alive_timer_callback, this);
-	mPaintTimer = new timer(10000, paint_timer_callback, this);
-	mPreviewTimer = new timer(50000, preview_timer_callback, this);
+	mAliveTimer =   new timer(1000000, boost::bind(&pixel_styles_controller::alive, this));
+	mPaintTimer =   new timer(10000,   boost::bind(&pixel_styles_controller::paint, this));
+	mPreviewTimer = new timer(50000,   boost::bind(&pixel_styles_controller::preview, this));
 	mModesController = new modes_controller(width, height);
 
 	mStaticColors.resize(mIniFile->get<size_t>("COLORS", "Count", 1));
@@ -78,21 +75,6 @@ pixel_styles_controller::~pixel_styles_controller()
 static void did_receive_tcp_message(string __request, string &__answer, int __clientId, void *pParent)
 {
 	((pixel_styles_controller*)pParent)->HandleTcpRequest(__request, __answer, __clientId);
-}
-
-static void alive_timer_callback(void *pParent)
-{
-	((pixel_styles_controller*)pParent)->alive();
-}
-
-static void paint_timer_callback(void *pParent)
-{
-	((pixel_styles_controller*)pParent)->paint();
-}
-
-static void preview_timer_callback(void *pParent)
-{
-	((pixel_styles_controller*)pParent)->preview();
 }
 
 /*
@@ -183,7 +165,7 @@ void pixel_styles_controller::run()
 {
 	mUdpSocket = new udp_socket(56616);
 
-	muduo::Logger::setLogLevel(muduo::Logger::INFO);
+	muduo::Logger::setLogLevel(muduo::Logger::DEBUG);
 
 	mModesController->active_mode()->initialize(mStaticColors);
 

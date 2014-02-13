@@ -13,7 +13,15 @@
 #include <signal.h>
 #include <cstring>
 
+#include <boost/function.hpp>
+
 using namespace std;
+
+/*
+ * public types
+ *
+ */
+typedef boost::function<void()> timer_callback_t;
 
 /*
  * public class
@@ -26,11 +34,10 @@ private:
 	bool mRunning;
 	pthread_t mThreadId;
 	long mRefreshPeriod;
-	void (*mTimerCallback)(void* pParent);
-	void *mCallbackParent;
     timer_t mTimer;
+    timer_callback_t mCallback;
 public:
-	timer(long pPeriod, void (*Callback)(void* pParent), void* pParent);
+	timer(long pPeriod, const timer_callback_t& callback);
 	virtual ~timer();
 
     static void handler_wrapper(sigval_t val);

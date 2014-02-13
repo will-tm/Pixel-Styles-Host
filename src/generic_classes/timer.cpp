@@ -13,13 +13,12 @@
  * constructor
  *
  */
-timer::timer(long pPeriod, void (*pCallback)(void* pParent), void *pParent)
+timer::timer(long pPeriod, const timer_callback_t& callback)
 {
 	mThreadId = 0;
 	mRunning = false;
-	mTimerCallback = pCallback;
 	mRefreshPeriod = pPeriod;
-	mCallbackParent = pParent;
+	mCallback = callback;
 	mTimer = 0;
 }
 
@@ -79,5 +78,5 @@ void timer::handler_wrapper(sigval_t val)
 
 void timer::handler()
 {
-	mTimerCallback(mCallbackParent);
+	if(mCallback) mCallback();
 }

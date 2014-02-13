@@ -65,21 +65,22 @@ public:
 	void paint();
 	bitmap *active_mode_bitmap();
 	string active_mode_bitmap_to_json();
-	mode_interface *active_mode() { return mActiveMode; }
 	void set_active_mode_name(const string pName);
+	string to_json();
+	string json_success();
+	string json_error();
+	void initialize(vector <rgb_color> pStaticColors);
+	void process_fft_buffer_1024(float *fftdata);
+	string bitmap_to_json(bitmap *pBitmap);
+
+	mode_interface *active_mode() { return mActiveMode; }
 	size_t size() { return mModesList.size(); }
 	bool audio_available() { return mAudioAvailable; }
-	string to_json();
-	string bitmap_to_json(bitmap *pBitmap);
 	mode_interface *operator[] (const string name) { return mModesList[name]; }
 	void lock() { mModeMutex.lock(); }
 	void unlock() { mModeMutex.unlock(); }
 	bool try_lock() {  return mModeMutex.try_lock(); }
 	void set_tcp_server(tcp_server *pTcpServer) { mTcpServer = pTcpServer; }
-	string json_success();
-	string json_error();
-	void initialize(vector <rgb_color> pStaticColors);
-	void process_fft_buffer_1024(float *fftdata);
 };
 
 #endif

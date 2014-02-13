@@ -49,15 +49,14 @@ private:
 	vector <size_t> mSegments;
 
 	void handle_tcp_request(tcp_data_packet_t &packet);
+	void alive();
+	void paint();
+	void preview();
 public:
 	pixel_styles_controller();
 	~pixel_styles_controller();
 
-	void HandleTcpRequest(string __request, string &__answer, int __clientId);
 	void run();
-	void alive();
-	void paint();
-	void preview();
 };
 
 #endif

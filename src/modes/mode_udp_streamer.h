@@ -25,13 +25,12 @@ private:
 	uint32_t mLastTickCount;
 
 	//void udp_callback(uint8_t *data, size_t length);
+	void handle_receive(data_packet_t packet);
 public:
 	mode_udp_streamer(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
 	~mode_udp_streamer();
 
-	virtual void paint();	
-	uint8_t *get_udp_buffer() { return mUdpBuffer; }
-	void set_last_tick_count(uint32_t value) { mLastTickCount = value; }
+	virtual void paint();
 };
 
 #endif

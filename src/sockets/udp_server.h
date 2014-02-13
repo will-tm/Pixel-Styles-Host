@@ -24,7 +24,13 @@ using namespace std;
  * public types
  *
  */
-typedef void (udp_socket_callback_t)(uint8_t *data, size_t length, void *owner);
+typedef struct
+{
+	uint8_t *data;
+	size_t length;
+}data_packet_t;
+
+typedef boost::function<void(data_packet_t)> udp_socket_read_callback_t;
 
 /*
  * public class
@@ -38,15 +44,14 @@ private:
 	muduo::net::Channel *mChannel;
 	uint16_t mPort;
 	uint8_t mBuffer[8192];
-	udp_socket_callback_t *mCallback;
-	void *mOwner;
+	udp_socket_read_callback_t mReadCallback;
 
 	void handle_receive(int sockfd, muduo::Timestamp receiveTime);
 public:
 	udp_server(muduo::net::EventLoop* loop, uint16_t pPort);
 	~udp_server();
 
-	void register_callback(udp_socket_callback_t *callback, void *owner) { mCallback = callback; mOwner = owner; }
+	void register_read_callback(const udp_socket_read_callback_t& callback) { mReadCallback = callback; }
 };
 
 /********************************************************************************************/

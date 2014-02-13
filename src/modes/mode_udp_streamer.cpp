@@ -11,7 +11,6 @@
 
 #define UDP_TIMEOUT_DELAY					(2000000) // us
 
-static void udp_callback(uint8_t *data, size_t length, void *owner);
 /*
  * constructor
  *
@@ -23,8 +22,7 @@ mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName
 	mUdpBuffer = new uint8_t [mWidth * mHeight * 3];
 
     mUdpServer = new udp_server(get_global_event_loop(), 58618);
-    mUdpServer->register_callback(udp_callback, (void*)this);
-    //mUdpServer->register_callback(boost::bind(&mode_udp_streamer::udp_callback, this, _2));
+    mUdpServer->register_read_callback(boost::bind(&mode_udp_streamer::handle_receive, this, _1));
 }
 
 /*
@@ -40,28 +38,18 @@ mode_udp_streamer::~mode_udp_streamer()
  * private callbacks
  *
  */
-static void udp_callback(uint8_t *data, size_t length, void *owner)
+void mode_udp_streamer::handle_receive(data_packet_t packet)
 {
-	mode_udp_streamer *modeUdpStreamer = (mode_udp_streamer*)owner;
-	if (length == modeUdpStreamer->get_width() * modeUdpStreamer->get_height() * 3)
+	if (packet.length == mWidth * mHeight * 3)
 	{
-		modeUdpStreamer->set_last_tick_count(get_tick_us());
-		memcpy(modeUdpStreamer->get_udp_buffer(), data, length);
+		mLastTickCount = get_tick_us();
+		memcpy(mUdpBuffer, packet.data, packet.length);
 	}
 	else
 	{
-		LOG_ERROR << "Erroneous length on mode_udp_streamer (" << length << " <> " << (modeUdpStreamer->get_width() * modeUdpStreamer->get_height() * 3) << ")";
+		LOG_ERROR << "Erroneous length on mode_udp_streamer (" << packet.length << " <> " << (mWidth * mHeight * 3) << ")";
 	}
 }
-/*
-void mode_udp_streamer::udp_callback(uint8_t *data, size_t length)
-{
-	if (length == mWidth * mHeight * 3)
-	{
-		memcpy(mUdpBuffer, data, length);
-	}
-}
-*/
 
 /*
  * public functions

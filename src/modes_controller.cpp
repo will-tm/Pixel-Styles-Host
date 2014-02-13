@@ -15,7 +15,6 @@ using namespace json_spirit;
 
 static BOOL CALLBACK duff_recording(HRECORD handle, const void *buffer, DWORD length, void *user);
 static void CALLBACK get_beat_pos(DWORD chan, double beatpos, void *user);
-static void udp_callback(uint8_t *data, size_t length, void *owner);
 
 /*
  * constructor
@@ -41,8 +40,7 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 		mPows[x] = pow(2.0f,(float)x*9.0f/((float)mWidth-1.0f));
 
 	mUdpServer = new udp_server(get_global_event_loop(), 56617);
-	mUdpServer->register_callback(udp_callback, (void*)this);
-    //mUdpServer->register_callback(boost::bind(&modes_controller::udp_callback, this, _2));
+    mUdpServer->register_read_callback(boost::bind(&modes_controller::handle_receive, this, _1));
 
 	if (BASS_RecordInit(-1))
 	{
@@ -93,32 +91,17 @@ static void CALLBACK get_beat_pos(DWORD chan, double beatpos, void *user)
 	LOG_INFO << "Beat detected!";
 }
 
-static void udp_callback(uint8_t *data, size_t length, void *owner)
+void modes_controller::handle_receive(data_packet_t packet)
 {
-	if (length != 1024 * sizeof(float))
+	if (packet.length != 1024 * sizeof(float))
 		return;
 
-	modes_controller *modesController = (modes_controller*)owner;
-
-	float *fftdata = modesController->get_fft_buffer();
-	memcpy(fftdata, data, length);
-
-	modesController->process_fft_buffer_1024(fftdata);
-	modesController->got_udp_audio_packet();
-}
-/*
-void modes_controller::udp_callback(uint8_t *data, size_t length)
-{
-	if (length != 1024 * sizeof(float))
-		return;
-
-	memcpy(mFftData, data, length);
+	memcpy(mFftData, packet.data, packet.length);
 
 	process_fft_buffer_1024(mFftData);
 	mBypassBASS = true;
 	mLastUdpFrameTick = get_tick_us();
 }
-*/
 
 /*
  * private functions

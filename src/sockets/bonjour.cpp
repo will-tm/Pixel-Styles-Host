@@ -7,6 +7,7 @@
 
 #include "bonjour.h"
 
+#include <boost/lexical_cast.hpp>
 #include <muduo/base/Logging.h>
 #include <signal.h>
 
@@ -55,7 +56,7 @@ void *avahi_service(void *arg)
 	if (pid <  0) return (void*)(1);
 	else if (pid == 0)
 	{
-		if( execlp("avahi-publish-service", "avahi-publish-service", mBonjour->hostname.c_str(),"_PixelStyles._tcp", std::to_string(TCP_CONNECTION_PORT).c_str(), strcat((char*)"kLivePreviewUdpPort=", std::to_string(UDP_BROADCAST_PORT).c_str()), NULL) == -1 )
+		if( execlp("avahi-publish-service", "avahi-publish-service", mBonjour->hostname.c_str(),"_PixelStyles._tcp", boost::lexical_cast<string>(TCP_CONNECTION_PORT).c_str(), strcat((char*)"kLivePreviewUdpPort=", boost::lexical_cast<string>(UDP_BROADCAST_PORT).c_str()), NULL) == -1 )
 		{
 			LOG_INFO << "Bad error... couldn't find or failed to run: avahi-publish-service OR dns-sd OR mDNSPublish";
 			return (void*)(1);

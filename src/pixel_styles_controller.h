@@ -28,7 +28,7 @@ class pixel_styles_controller
 {
 private:
 	bonjour mBonjour;
-	vector <rgb_color> mStaticColors;
+	vector<rgb_color> mStaticColors;
 	mutex mColorsMutex;
 	mutex mSettingsMutex;
 	settings_list mSettings;
@@ -44,7 +44,7 @@ private:
 	timer *mPreviewTimer;
 
 	int mFrames;
-	vector <size_t> mSegments;
+	vector<size_t> mSegments;
 
 	void handle_tcp_request(string request, string &answer);
 	void alive();

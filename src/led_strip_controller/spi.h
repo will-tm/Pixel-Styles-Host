@@ -34,9 +34,9 @@ private:
 	std::mutex mMutex;
 public:
 	spi(const char *pDevice);
-   	~spi();
+	~spi();
 
-   	void write_buffer(uint8_t *pBuffer, int pLength);
+	void write_buffer(uint8_t *pBuffer, int pLength);
 	void run();
 	void thread_run();
 	bool activeTransfert();

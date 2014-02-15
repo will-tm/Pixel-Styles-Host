@@ -11,9 +11,11 @@
  * constructor
  *
  */
-mode_off::mode_off(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable) : mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_off::mode_off(size_t pWidth, size_t pHeight, string pName,
+		bool pAudioAvailable)
+		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
 {
-
+	
 }
 
 /*
@@ -22,7 +24,7 @@ mode_off::mode_off(size_t pWidth, size_t pHeight, string pName, bool pAudioAvail
  */
 mode_off::~mode_off()
 {
-
+	
 }
 
 /*

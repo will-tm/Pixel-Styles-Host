@@ -29,16 +29,13 @@ using namespace std;
  */
 typedef enum
 {
-    uiSpectrum,
-    uiSettings
-}ui_type;
+	uiSpectrum, uiSettings
+} ui_type;
 
 typedef enum
 {
-	touchUp = 0,
-	touchDown,
-	touchMove
-}touch_type;
+	touchUp = 0, touchDown, touchMove
+} touch_type;
 
 /*
  * public class
@@ -65,12 +62,13 @@ protected:
 	{
 		float random_ratio = ((float) rand()) / (float) RAND_MAX;
 		float range = max - min;
-		return (random_ratio*range) + min;
+		return (random_ratio * range) + min;
 	}
 public:
 	settings_list mSettings;
 
-	mode_interface(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
+	mode_interface(size_t pWidth, size_t pHeight, string pName,
+			bool pAudioAvailable)
 	{
 		mWidth = pWidth;
 		mHeight = pHeight;
@@ -81,25 +79,61 @@ public:
 		mAudioAvailable = pAudioAvailable;
 		mName = pName;
 		mNameFile = pName;
-		replace_all(mNameFile," ","_");
-		transform(mNameFile.begin(), mNameFile.end(), mNameFile.begin(), ::tolower);
-		mIniFilePath = (string)CONFIGURATION_DIRECTORY+"settings_"+mNameFile+".cfg";
+		replace_all(mNameFile, " ", "_");
+		transform(mNameFile.begin(), mNameFile.end(), mNameFile.begin(),
+				::tolower);
+		mIniFilePath = (string) CONFIGURATION_DIRECTORY + "settings_"
+				+ mNameFile + ".cfg";
 		mIniFile = NULL;
 		mUI = uiSettings;
 		mBitmap = new bitmap(mWidth, mHeight);
 	}
-
-	virtual ~mode_interface() { delete mIniFile; delete mBitmap; }
+	
+	virtual ~mode_interface()
+	{
+		delete mIniFile;
+		delete mBitmap;
+	}
 	virtual void paint() = 0;
-	virtual void beat_detected() {}
-	virtual void initialize(vector <rgb_color> pStaticColors) {}
-	virtual void touch(vector <rgb_color> pStaticColors, touch_type pTouchType) {}
-	virtual bool needs_audio_level() { return false; }
-	virtual bool needs_audio_fft() { return false; }
-	void set_audio_level(float pAudioLevel) { mAudioLevel = pAudioLevel; }
-	string name() { return mName; }
-	ui_type ui() { return mUI; }
-	bitmap *get_bitmap() { return mBitmap; }
-	size_t get_width() { return mWidth; }
-	size_t get_height() { return mHeight; }
+	virtual void beat_detected()
+	{
+	}
+	virtual void initialize(vector<rgb_color> pStaticColors)
+	{
+	}
+	virtual void touch(vector<rgb_color> pStaticColors, touch_type pTouchType)
+	{
+	}
+	virtual bool needs_audio_level()
+	{
+		return false;
+	}
+	virtual bool needs_audio_fft()
+	{
+		return false;
+	}
+	void set_audio_level(float pAudioLevel)
+	{
+		mAudioLevel = pAudioLevel;
+	}
+	string name()
+	{
+		return mName;
+	}
+	ui_type ui()
+	{
+		return mUI;
+	}
+	bitmap *get_bitmap()
+	{
+		return mBitmap;
+	}
+	size_t get_width()
+	{
+		return mWidth;
+	}
+	size_t get_height()
+	{
+		return mHeight;
+	}
 };

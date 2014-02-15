@@ -17,25 +17,25 @@ using namespace std;
  */
 typedef struct
 {
- 	float x;
+	float x;
 	float y;
 	float xWay;
 	float yWay;
 	rgb_color color;
-}
-ball_t;
+} ball_t;
 /*
  * public class
  *
  */
-class mode_balls : public mode_interface
+class mode_balls: public mode_interface
 {
 private:
 	vector<ball_t> mBalls;
 	int mLastBallsCount;
 	void set_balls_count(int count);
 public:
-	mode_balls(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_balls(size_t pWidth, size_t pHeight, string pName,
+			bool pAudioAvailable);
 	~mode_balls();
 
 	virtual void paint();

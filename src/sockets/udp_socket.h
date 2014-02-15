@@ -28,8 +28,8 @@ using namespace std;
 class udp_socket
 {
 private:
-	int	mSock;
-	int	mBroadcastSock;
+	int mSock;
+	int mBroadcastSock;
 	struct sockaddr_in mBroadcastAddress;
 public:
 	udp_socket(uint16_t port);

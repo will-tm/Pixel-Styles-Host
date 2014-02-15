@@ -31,5 +31,8 @@ public:
 
 	void set_gamma(float pGamma);
 	void paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion);
-	size_t size() { return mWidth; }
+	size_t size()
+	{
+		return mWidth;
+	}
 };

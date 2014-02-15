@@ -16,7 +16,7 @@ using namespace std;
  * public class
  *
  */
-class mode_udp_streamer : public mode_interface
+class mode_udp_streamer: public mode_interface
 {
 private:
 	udp_server *mUdpServer;
@@ -25,7 +25,8 @@ private:
 
 	void handle_receive(uint8_t *data, size_t length);
 public:
-	mode_udp_streamer(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_udp_streamer(size_t pWidth, size_t pHeight, string pName,
+			bool pAudioAvailable);
 	~mode_udp_streamer();
 
 	virtual void paint();

@@ -14,14 +14,14 @@
 udp_server::udp_server(muduo::net::EventLoop* loop, uint16_t pPort)
 {
 	mPort = pPort;
-
+	
 	mUdpSocket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, IPPROTO_UDP);
 	if (mUdpSocket < 0)
 	{
-		LOG_SYSFATAL << "::socket";
+		LOG_SYSFATAL<< "::socket";
 	}
 	else
-	{
+	{	
 		mSocket = new muduo::net::Socket(mUdpSocket);
 		mSocket->bindAddress(muduo::net::InetAddress(mPort));
 
@@ -52,11 +52,12 @@ void udp_server::handle_receive(int sockfd, muduo::Timestamp receiveTime)
 	bzero(&peerAddr, sizeof peerAddr);
 	socklen_t addrLen = sizeof peerAddr;
 	size_t length = ::recvfrom(sockfd, mBuffer, 8192, 0, &peerAddr, &addrLen);
-
+	
 	char addrStr[32];
-	muduo::net::sockets::toIpPort(addrStr, sizeof addrStr, *reinterpret_cast<struct sockaddr_in*>(&peerAddr));
+	muduo::net::sockets::toIpPort(addrStr, sizeof addrStr,
+			*reinterpret_cast<struct sockaddr_in*>(&peerAddr));
 	LOG_DEBUG << "received " << length << " bytes from " << addrStr;
-
+	
 	if (length >= 0 && mReadCallback)
 		mReadCallback(mBuffer, length);
 }

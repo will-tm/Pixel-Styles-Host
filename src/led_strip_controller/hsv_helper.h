@@ -11,11 +11,11 @@
 #include <stdint.h>
 
 #if !defined(min_of)
-    #define min_of(A,B)	( A < B ? A : B )
+#define min_of(A,B)	( A < B ? A : B )
 #endif
 
 #if !defined(max_of)
-    #define max_of(A,B)	( A < B ? B : A )
+#define max_of(A,B)	( A < B ? B : A )
 #endif
 
 /*
@@ -28,14 +28,14 @@ typedef struct
 	uint8_t G;
 	uint8_t B;
 	uint8_t reserved;
-}rgb_color;
+} rgb_color;
 
 typedef struct
 {
 	uint16_t H;
-	uint8_t  S;
-	uint8_t  V;
-}hsv_color;
+	uint8_t S;
+	uint8_t V;
+} hsv_color;
 
 /*
  * public prototypes

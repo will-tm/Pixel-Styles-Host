@@ -11,7 +11,8 @@
  * constructor
  *
  */
-setting::setting(string pCaption, string pSection, string pValue, float pMinValue, float pMaxValue, ihm_type pIhmType)
+setting::setting(string pCaption, string pSection, string pValue,
+		float pMinValue, float pMaxValue, ihm_type pIhmType)
 {
 	mValue = pValue;
 	caption = pCaption;
@@ -28,5 +29,5 @@ setting::setting(string pCaption, string pSection, string pValue, float pMinValu
  */
 setting::~setting()
 {
-
+	
 }

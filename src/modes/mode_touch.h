@@ -15,16 +15,17 @@ using namespace std;
  * public class
  *
  */
-class mode_touch : public mode_interface
+class mode_touch: public mode_interface
 {
 private:
 	mutex mColorsMutex;
-	vector <rgb_color> mStaticColors;
+	vector<rgb_color> mStaticColors;
 public:
-	mode_touch(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_touch(size_t pWidth, size_t pHeight, string pName,
+			bool pAudioAvailable);
 	~mode_touch();
 
 	virtual void paint();
-	virtual void initialize(vector <rgb_color> pStaticColors);
-	virtual void touch(vector <rgb_color> pStaticColors, touch_type pTouchType);
+	virtual void initialize(vector<rgb_color> pStaticColors);
+	virtual void touch(vector<rgb_color> pStaticColors, touch_type pTouchType);
 };

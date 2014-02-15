@@ -56,7 +56,7 @@ private:
 	void audio_tasks();
 	void handle_receive(uint8_t *data, size_t length);
 public:
-
+	
 	modes_controller(size_t pWidth, size_t pHeight);
 	~modes_controller();
 
@@ -68,16 +68,40 @@ public:
 	string to_json();
 	string json_success();
 	string json_error();
-	void initialize(vector <rgb_color> pStaticColors);
+	void initialize(vector<rgb_color> pStaticColors);
 	void process_fft_buffer_1024(float *fftdata);
 	string bitmap_to_json(bitmap *pBitmap);
 
-	mode_interface *active_mode() { return mActiveMode; }
-	size_t size() { return mModesList.size(); }
-	bool audio_available() { return mAudioAvailable; }
-	mode_interface *operator[] (const string name) { return mModesList[name]; }
-	void lock() { mModeMutex.lock(); }
-	void unlock() { mModeMutex.unlock(); }
-	bool try_lock() {  return mModeMutex.try_lock(); }
-	void set_tcp_server(tcp_server *pTcpServer) { mTcpServer = pTcpServer; }
+	mode_interface *active_mode()
+	{
+		return mActiveMode;
+	}
+	size_t size()
+	{
+		return mModesList.size();
+	}
+	bool audio_available()
+	{
+		return mAudioAvailable;
+	}
+	mode_interface *operator[](const string name)
+	{
+		return mModesList[name];
+	}
+	void lock()
+	{
+		mModeMutex.lock();
+	}
+	void unlock()
+	{
+		mModeMutex.unlock();
+	}
+	bool try_lock()
+	{
+		return mModeMutex.try_lock();
+	}
+	void set_tcp_server(tcp_server *pTcpServer)
+	{
+		mTcpServer = pTcpServer;
+	}
 };

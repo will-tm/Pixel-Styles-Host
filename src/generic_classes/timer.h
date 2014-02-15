@@ -32,14 +32,14 @@ private:
 	bool mRunning;
 	pthread_t mThreadId;
 	long mRefreshPeriod;
-    timer_t mTimer;
-    timer_callback_t mCallback;
+	timer_t mTimer;
+	timer_callback_t mCallback;
 public:
 	timer(long pPeriod, const timer_callback_t& callback);
 	virtual ~timer();
 
-    static void handler_wrapper(sigval_t val);
-    void handler();
+	static void handler_wrapper(sigval_t val);
+	void handler();
 
 	void run(void);
 };

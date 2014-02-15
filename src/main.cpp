@@ -10,7 +10,6 @@
 
 using namespace std;
 
-
 static pixel_styles_controller *pixelStyles;
 
 /*
@@ -19,12 +18,10 @@ static pixel_styles_controller *pixelStyles;
  */
 static void show_usage(std::string name)
 {
-    std::cerr << "Usage: " << name << " <option(s)> SOURCES"
-              << "Options:\n"
-              << "\t-h,--help\t\tShow this help message\n"
-              << "\t-k,--killall\tKill all instances of Pixel styles"
-              << "\t-q,--quiet\tSilent output"
-              << std::endl;
+	std::cerr << "Usage: " << name << " <option(s)> SOURCES" << "Options:\n"
+			<< "\t-h,--help\t\tShow this help message\n"
+			<< "\t-k,--killall\tKill all instances of Pixel styles"
+			<< "\t-q,--quiet\tSilent output" << std::endl;
 }
 
 static void write_pid_file()
@@ -46,7 +43,7 @@ static void log_output(const char* msg, int len)
 		fprintf(fp, "%s", msg);
 		fclose(fp);
 	}
-	printf("%s",msg);
+	printf("%s", msg);
 }
 
 /*
@@ -56,13 +53,13 @@ static void log_output(const char* msg, int len)
 int main(int argc, char* argv[])
 {
 	write_pid_file();
-
+	
 	muduo::Logger::setLogLevel(DEFAULT_LOG_LEVEL);
 
 	FILE *fp = fopen(LOG_FILE, "w");
 	fclose(fp);
 	muduo::Logger::setOutput(log_output);
-
+	
 	for (int i = 1; i < argc; ++i)
 	{
 		std::string arg = argv[i];
@@ -86,11 +83,11 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 	}
-
+	
 	pixelStyles = new pixel_styles_controller();
 	pixelStyles->run();
-
+	
 	run_global_event_loop();
-
+	
 	return 0;
 }

@@ -15,7 +15,7 @@
  */
 modes_list::modes_list()
 {
-
+	
 }
 
 /*
@@ -36,16 +36,16 @@ void modes_list::add(string pCaption, mode_interface *pMode)
 {
 	mModesMap[pCaption] = pMode;
 	mModesList.push_back(pCaption);
-
+	
 	LOG_INFO << pCaption << " mode initialized";
 }
 
-mode_interface *modes_list::operator[] (const string &pName)
+mode_interface *modes_list::operator[](const string &pName)
 {
 	return mModesMap[pName];
 }
 
-mode_interface *modes_list::operator[] (const int &pIndex)
+mode_interface *modes_list::operator[](const int &pIndex)
 {
 	return mModesMap[mModesList[pIndex]];
 }
@@ -55,12 +55,14 @@ size_t modes_list::size()
 	return mModesMap.size();
 }
 
-int modes_list::operator[] (const mode_interface *mode)
+int modes_list::operator[](const mode_interface *mode)
 {
 	int result = 0;
-	for(map<string,mode_interface*>::iterator iter = mModesMap.begin(); iter != mModesMap.end(); iter++ )
+	for (map<string, mode_interface*>::iterator iter = mModesMap.begin();
+			iter != mModesMap.end(); iter++)
 	{
-		if((*iter).second == mode) return result;
+		if ((*iter).second == mode)
+			return result;
 		result++;
 	}
 	return -1;

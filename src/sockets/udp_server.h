@@ -46,7 +46,10 @@ public:
 	udp_server(muduo::net::EventLoop* loop, uint16_t pPort);
 	~udp_server();
 
-	void register_read_callback(const udp_socket_read_callback_t& callback) { mReadCallback = callback; }
+	void register_read_callback(const udp_socket_read_callback_t& callback)
+	{
+		mReadCallback = callback;
+	}
 };
 
 /********************************************************************************************/

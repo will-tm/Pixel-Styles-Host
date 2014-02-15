@@ -22,12 +22,12 @@ using namespace std;
 class bitmap
 {
 private:
-  	vector<vector<rgb_color> > mMemory;
+	vector<vector<rgb_color> > mMemory;
 
 	int mLocationX;
 	int mLocationY;
 public:
-	int	width;
+	int width;
 	int height;
 
 	bitmap(int pWidth, int pHeight);

@@ -21,15 +21,15 @@ using namespace std;
 class modes_list
 {
 private:
-	map<string,mode_interface*> mModesMap;
+	map<string, mode_interface*> mModesMap;
 	vector<string> mModesList;
 public:
 	modes_list();
 	~modes_list();
 
 	void add(string _caption, mode_interface *mode);
-	mode_interface *operator[] (const string &name);
-	mode_interface *operator[] (const int &index);
-	int operator[] (const mode_interface *mode);
+	mode_interface *operator[](const string &name);
+	mode_interface *operator[](const int &index);
+	int operator[](const mode_interface *mode);
 	size_t size();
 };

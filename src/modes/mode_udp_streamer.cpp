@@ -9,20 +9,23 @@
 
 #include <muduo/base/Logging.h>
 
-#define UDP_TIMEOUT_DELAY					(2000000) // us
-
+#define UDP_TIMEOUT_DELAY					(2000000) // us
 /*
  * constructor
  *
  */
-mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable) : mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight,
+		string pName, bool pAudioAvailable)
+		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
 {
 	mLastTickCount = 0;
-
-	mUdpBuffer = new uint8_t [mWidth * mHeight * 3];
-
-    mUdpServer = new udp_server(get_global_event_loop(), MODE_UDP_STREAMER_PORT);
-    mUdpServer->register_read_callback(bind(&mode_udp_streamer::handle_receive, this, _1, _2));
+	
+	mUdpBuffer = new uint8_t[mWidth * mHeight * 3];
+	
+	mUdpServer = new udp_server(get_global_event_loop(),
+			MODE_UDP_STREAMER_PORT);
+	mUdpServer->register_read_callback(
+			bind(&mode_udp_streamer::handle_receive, this, _1, _2));
 }
 
 /*
@@ -31,7 +34,7 @@ mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName
  */
 mode_udp_streamer::~mode_udp_streamer()
 {
-
+	
 }
 
 /*
@@ -47,7 +50,7 @@ void mode_udp_streamer::handle_receive(uint8_t *data, size_t length)
 	}
 	else
 	{
-		LOG_ERROR << "Erroneous length on mode_udp_streamer (" << length << " <> " << (mWidth * mHeight * 3) << ")";
+		LOG_ERROR<< "Erroneous length on mode_udp_streamer (" << length << " <> " << (mWidth * mHeight * 3) << ")";
 	}
 }
 
@@ -59,19 +62,19 @@ void mode_udp_streamer::paint()
 {
 	rgb_color color;
 	int bufferPtr = 0;
-
+	
 	if (get_tick_us() - mLastTickCount < UDP_TIMEOUT_DELAY)
 	{
 		mLastTickCount = get_tick_us();
-
-		for(size_t y = 0; y < mHeight; y++)
+		
+		for (size_t y = 0; y < mHeight; y++)
 		{
-			for(size_t x = 0; x < mWidth; x++)
+			for (size_t x = 0; x < mWidth; x++)
 			{
 				color.R = mUdpBuffer[bufferPtr++];
 				color.G = mUdpBuffer[bufferPtr++];
 				color.B = mUdpBuffer[bufferPtr++];
-				mBitmap->set_pixel(x,y,color);
+				mBitmap->set_pixel(x, y, color);
 			}
 		}
 	}

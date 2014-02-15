@@ -28,9 +28,9 @@ class splitter
 private:
 	vector<string> _tokens;
 public:
-  	splitter(const string &src, const string &delim);
-  	string& operator[] ( size_type i );
-  	size_t size() const;
-  	void reset ( const string &src, const string &delim);
+	splitter(const string &src, const string &delim);
+	string& operator[](size_type i);
+	size_t size() const;
+	void reset(const string &src, const string &delim);
 };
 

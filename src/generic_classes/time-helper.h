@@ -20,7 +20,7 @@ inline uint32_t get_tick_us()
 {
 	struct timeval Now;
 	uint32_t tick;
-
+	
 	gettimeofday(&Now, NULL);
 	tick = (Now.tv_sec * 1000000 + Now.tv_usec);
 	return tick;

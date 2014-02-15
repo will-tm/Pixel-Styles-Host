@@ -35,9 +35,9 @@ void ini_parser::create_file_if_not_exists()
 {
 	FILE *file;
 	bool file_exists;
-
-	file = fopen(path.c_str(),"r");
-	if(file == NULL)
+	
+	file = fopen(path.c_str(), "r");
+	if (file == NULL)
 	{
 		file_exists = false;
 	}
@@ -46,16 +46,16 @@ void ini_parser::create_file_if_not_exists()
 		file_exists = true;
 		fclose(file);
 	}
-
-	if(file_exists)
+	
+	if (file_exists)
 	{
-	   file = fopen(path.c_str(),"r+b");
+		file = fopen(path.c_str(), "r+b");
 	}
 	else
 	{
-		file = fopen(path.c_str(),"w+b");
+		file = fopen(path.c_str(), "w+b");
 	}
-
+	
 	if (file != NULL)
 	{
 		fclose(file);

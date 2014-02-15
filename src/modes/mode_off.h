@@ -15,7 +15,7 @@ using namespace std;
  * public class
  *
  */
-class mode_off : public mode_interface
+class mode_off: public mode_interface
 {
 private:
 public:

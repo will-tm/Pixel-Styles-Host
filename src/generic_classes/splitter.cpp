@@ -13,7 +13,7 @@
  */
 splitter::splitter(const string &src, const string &delim)
 {
-    reset(src, delim);
+	reset(src, delim);
 }
 
 /*
@@ -27,14 +27,14 @@ void splitter::reset(const string &src, const string &delim)
 	string::size_type end;
 	for (;;)
 	{
-		end = src.find (delim, start);
-
-		if(src.substr(start, end - start).size() > 0)
+		end = src.find(delim, start);
+		
+		if (src.substr(start, end - start).size() > 0)
 			tokens.push_back(src.substr(start, end - start));
-
+		
 		if (end == string::npos)
 			break;
-
+		
 		start = end + delim.size();
 	}
 	_tokens.swap(tokens);
@@ -44,12 +44,12 @@ void splitter::reset(const string &src, const string &delim)
  * public functions
  *
  */
-string &splitter::operator[] (size_type i)
+string &splitter::operator[](size_type i)
 {
-    return _tokens.at(i);
+	return _tokens.at(i);
 }
 
 size_t splitter::size() const
 {
-    return _tokens.size();
+	return _tokens.size();
 }

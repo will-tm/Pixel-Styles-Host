@@ -22,18 +22,13 @@ using namespace std;
 #include "splitter.h"
 
 #include <boost/bind.hpp>
+#include <functional>
 
 /*
  * public types
  *
  */
-typedef struct
-{
-	string request;
-	string answer;
-}tcp_data_packet_t;
-
-typedef boost::function<void(tcp_data_packet_t&)> tcp_socket_read_callback_t;
+typedef function<void(string request, string &answer)> tcp_socket_read_callback_t;
 
 /*
  * public class

@@ -57,8 +57,6 @@ void udp_server::handle_receive(int sockfd, muduo::Timestamp receiveTime)
 	muduo::net::sockets::toIpPort(addrStr, sizeof addrStr, *reinterpret_cast<struct sockaddr_in*>(&peerAddr));
 	LOG_DEBUG << "received " << length << " bytes from " << addrStr;
 
-	if (length >= 0)
-	{
-		if(mReadCallback) mReadCallback({mBuffer, length});
-	}
+	if (length >= 0 && mReadCallback)
+		mReadCallback(mBuffer, length);
 }

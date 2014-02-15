@@ -19,18 +19,13 @@ using namespace std;
 #include <muduo/net/TcpServer.h>
 
 #include <boost/bind.hpp>
+#include <functional>
 
 /*
  * public types
  *
  */
-typedef struct
-{
-	uint8_t *data;
-	size_t length;
-}udp_data_packet_t;
-
-typedef boost::function<void(udp_data_packet_t)> udp_socket_read_callback_t;
+typedef function<void(uint8_t *data, size_t length)> udp_socket_read_callback_t;
 
 /*
  * public class

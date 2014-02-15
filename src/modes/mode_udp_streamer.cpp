@@ -22,7 +22,7 @@ mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName
 	mUdpBuffer = new uint8_t [mWidth * mHeight * 3];
 
     mUdpServer = new udp_server(get_global_event_loop(), MODE_UDP_STREAMER_PORT);
-    mUdpServer->register_read_callback(boost::bind(&mode_udp_streamer::handle_receive, this, _1));
+    mUdpServer->register_read_callback(bind(&mode_udp_streamer::handle_receive, this, _1, _2));
 }
 
 /*
@@ -38,16 +38,16 @@ mode_udp_streamer::~mode_udp_streamer()
  * private callbacks
  *
  */
-void mode_udp_streamer::handle_receive(udp_data_packet_t packet)
+void mode_udp_streamer::handle_receive(uint8_t *data, size_t length)
 {
-	if (packet.length == mWidth * mHeight * 3)
+	if (length == mWidth * mHeight * 3)
 	{
 		mLastTickCount = get_tick_us();
-		memcpy(mUdpBuffer, packet.data, packet.length);
+		memcpy(mUdpBuffer, data, length);
 	}
 	else
 	{
-		LOG_ERROR << "Erroneous length on mode_udp_streamer (" << packet.length << " <> " << (mWidth * mHeight * 3) << ")";
+		LOG_ERROR << "Erroneous length on mode_udp_streamer (" << length << " <> " << (mWidth * mHeight * 3) << ")";
 	}
 }
 

@@ -46,7 +46,7 @@ private:
 	int mFrames;
 	vector <size_t> mSegments;
 
-	void handle_tcp_request(tcp_data_packet_t &packet);
+	void handle_tcp_request(string request, string &answer);
 	void alive();
 	void paint();
 	void preview();

@@ -78,5 +78,6 @@ void timer::handler_wrapper(sigval_t val)
 
 void timer::handler()
 {
-	if(mCallback) mCallback();
+	if (mCallback)
+		mCallback();
 }

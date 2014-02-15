@@ -77,25 +77,24 @@ void tcp_server::onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp 
 
 	LOG_DEBUG << "Received: " << subquery;
 
-	tcp_data_packet_t packet;
-	packet.request = subquery;
+	string answer;
+	if (mReadCallback)
+		mReadCallback(subquery, answer);
 
-	if (mReadCallback) mReadCallback(packet);
-
-	if(packet.answer.length())
+	if(answer.length())
 	{
-		unsigned int sourceSize = packet.answer.size();
-		const char * source = packet.answer.c_str();
+		unsigned int sourceSize = answer.size();
+		const char * source = answer.c_str();
 		unsigned long dsize = sourceSize + (sourceSize * 0.1f) + 16;
 		char * destination = new char[dsize];
 		int result = compress2((unsigned char *)destination, &dsize, (const unsigned char *)source, sourceSize, Z_DEFAULT_COMPRESSION);
 		if(result != Z_OK) LOG_ERROR << "Compress error occured! Error code: " << result;
 
-		packet.answer = string(destination, dsize);
-		packet.answer.append("\r\n");
-		conn->send(packet.answer);
+		answer = string(destination, dsize);
+		answer.append("\r\n");
+		conn->send(answer);
 
-		LOG_DEBUG << "Replied " << packet.answer.size() << " bytes : " << packet.answer;
+		LOG_DEBUG << "Replied " << answer.size() << " bytes : " << answer;
 	}
 }
 

@@ -40,7 +40,7 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 		mPows[x] = pow(2.0f,(float)x*9.0f/((float)mWidth-1.0f));
 
 	mUdpServer = new udp_server(get_global_event_loop(), 56617);
-    mUdpServer->register_read_callback(boost::bind(&modes_controller::handle_receive, this, _1));
+    mUdpServer->register_read_callback(bind(&modes_controller::handle_receive, this, _1, _2));
 
 	if (BASS_RecordInit(-1))
 	{
@@ -91,12 +91,12 @@ static void CALLBACK get_beat_pos(DWORD chan, double beatpos, void *user)
 	LOG_INFO << "Beat detected!";
 }
 
-void modes_controller::handle_receive(udp_data_packet_t packet)
+void modes_controller::handle_receive(uint8_t *data, size_t length)
 {
-	if (packet.length != 1024 * sizeof(float))
+	if (length != 1024 * sizeof(float))
 		return;
 
-	memcpy(mFftData, packet.data, packet.length);
+	memcpy(mFftData, data, length);
 
 	process_fft_buffer_1024(mFftData);
 	mBypassBASS = true;

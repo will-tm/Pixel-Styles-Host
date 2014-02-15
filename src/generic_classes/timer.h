@@ -11,8 +11,7 @@
 #include <iostream>
 #include <signal.h>
 #include <cstring>
-
-#include <boost/function.hpp>
+#include <functional>
 
 using namespace std;
 
@@ -20,7 +19,7 @@ using namespace std;
  * public types
  *
  */
-typedef boost::function<void()> timer_callback_t;
+typedef function<void()> timer_callback_t;
 
 /*
  * public class

@@ -8,15 +8,20 @@
 #include "global_event_loop.h"
 #include <muduo/base/Logging.h>
 
-muduo::net::EventLoop loop;
+static muduo::net::EventLoop *loop;
+
+void initialize_global_event_loop()
+{
+	loop = new muduo::net::EventLoop();
+}
 
 muduo::net::EventLoop *get_global_event_loop()
 {
-	return &loop;
+	return loop;
 }
 
 void run_global_event_loop()
 {
 	LOG_INFO << "main loop start running...";
-	loop.loop();
+	loop->loop();
 }

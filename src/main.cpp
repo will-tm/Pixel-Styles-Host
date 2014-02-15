@@ -18,8 +18,13 @@ static pixel_styles_controller *pixelStyles;
  */
 static void show_usage(std::string name)
 {
-	std::cerr << "Usage: " << name << " <option(s)> SOURCES" << "Options:\n" << "\t-h,--help\t\tShow this help message\n"
-			<< "\t-k,--killall\tKill all instances of Pixel styles" << "\t-q,--quiet\tSilent output" << std::endl;
+	std::cerr << "Usage: " << name << " <option(s)> SOURCES"
+			<< "Options:\n"
+			<< "\t-h,--help\t\tShow this help message\n"
+			<< "\t-k,--killall\tKill all instances of Pixel styles"
+			<< "\t-q,--quiet\tSilent output"
+			<< "\t-v,--version\tShow version"
+			<< std::endl;
 }
 
 static void write_pid_file()
@@ -75,6 +80,11 @@ int main(int argc, char* argv[])
 		{
 			muduo::Logger::setLogLevel(muduo::Logger::FATAL);
 		}
+		else if ((arg == "-v") || (arg == "--version"))
+		{
+			printf("Pixel Styles v%s\n",VERSION);
+			return 0;
+		}
 		else
 		{
 			show_usage(argv[0]);
@@ -82,6 +92,8 @@ int main(int argc, char* argv[])
 		}
 	}
 	
+	initialize_global_event_loop();
+
 	pixelStyles = new pixel_styles_controller();
 	pixelStyles->run();
 	

@@ -27,8 +27,7 @@ public:
 	settings_list();
 	~settings_list();
 
-	setting *add(string _caption, string _section, string _value,
-			float _minValue, float _maxValue, ihm_type _ihmType);
+	setting *add(string _caption, string _section, string _value, float _minValue, float _maxValue, ihm_type _ihmType);
 	setting *operator[](const string &__Name);
 	setting *operator[](const int &__Index);
 	size_t size();

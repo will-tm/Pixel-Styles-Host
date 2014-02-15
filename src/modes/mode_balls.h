@@ -34,8 +34,7 @@ private:
 	int mLastBallsCount;
 	void set_balls_count(int count);
 public:
-	mode_balls(size_t pWidth, size_t pHeight, string pName,
-			bool pAudioAvailable);
+	mode_balls(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
 	~mode_balls();
 
 	virtual void paint();

@@ -25,13 +25,7 @@ class setting;
 
 typedef enum
 {
-	ihmSpinEdit,
-	ihmSpinEditFloat,
-	ihmCheckbox,
-	ihmSegmentedControl,
-	ihmTrackbar,
-	ihmLogTrackbar,
-	ihmButton
+	ihmSpinEdit, ihmSpinEditFloat, ihmCheckbox, ihmSegmentedControl, ihmTrackbar, ihmLogTrackbar, ihmButton
 } ihm_type;
 
 typedef void (setting_did_change_callback)(void* parent, setting *pSetting);
@@ -54,12 +48,10 @@ public:
 	float max_value;
 	ihm_type kind;
 
-	setting(string pCaption, string pSection, string pValue, float pMinValue,
-			float pMaxValue, ihm_type pIhmType);
+	setting(string pCaption, string pSection, string pValue, float pMinValue, float pMaxValue, ihm_type pIhmType);
 	~setting();
 
-	void register_callback(void *pParent,
-			setting_did_change_callback *pSettingDidChangeCallback)
+	void register_callback(void *pParent, setting_did_change_callback *pSettingDidChangeCallback)
 	{
 		mParent = pParent;
 		mSettingDidChangeCallback = pSettingDidChangeCallback;

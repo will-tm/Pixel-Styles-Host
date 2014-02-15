@@ -67,8 +67,7 @@ protected:
 public:
 	settings_list mSettings;
 
-	mode_interface(size_t pWidth, size_t pHeight, string pName,
-			bool pAudioAvailable)
+	mode_interface(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
 	{
 		mWidth = pWidth;
 		mHeight = pHeight;
@@ -80,10 +79,8 @@ public:
 		mName = pName;
 		mNameFile = pName;
 		replace_all(mNameFile, " ", "_");
-		transform(mNameFile.begin(), mNameFile.end(), mNameFile.begin(),
-				::tolower);
-		mIniFilePath = (string) CONFIGURATION_DIRECTORY + "settings_"
-				+ mNameFile + ".cfg";
+		transform(mNameFile.begin(), mNameFile.end(), mNameFile.begin(), ::tolower);
+		mIniFilePath = (string) CONFIGURATION_DIRECTORY + "settings_" + mNameFile + ".cfg";
 		mIniFile = NULL;
 		mUI = uiSettings;
 		mBitmap = new bitmap(mWidth, mHeight);

@@ -20,8 +20,7 @@ udp_socket::udp_socket(uint16_t port)
 	mBroadcastSock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	
 	int on = 1;
-	if (setsockopt(mBroadcastSock, SOL_SOCKET, SO_BROADCAST, (int *) &on,
-			sizeof(on)) < 0)
+	if (setsockopt(mBroadcastSock, SOL_SOCKET, SO_BROADCAST, (int *) &on, sizeof(on)) < 0)
 	{
 		perror("setsockopt");
 	}
@@ -57,28 +56,23 @@ void udp_socket::broadcastMessage(string pMessage)
 	const char * source = pMessage.c_str();
 	unsigned long dsize = sourceSize + (sourceSize * 0.1f) + 16;
 	char * destination = new char[dsize];
-	int result = compress2((unsigned char *) destination, &dsize,
-			(const unsigned char *) source, sourceSize, Z_DEFAULT_COMPRESSION);
+	int result = compress2((unsigned char *) destination, &dsize, (const unsigned char *) source, sourceSize, Z_DEFAULT_COMPRESSION);
 	if (result != Z_OK)
 		LOG_ERROR<< "Compress error occured! Error code: " << result;
 
-	if (sendto(mBroadcastSock, destination, dsize, 0,
-			(struct sockaddr *) &mBroadcastAddress, sizeof(struct sockaddr_in))
-			< 0)
+	if (sendto(mBroadcastSock, destination, dsize, 0, (struct sockaddr *) &mBroadcastAddress, sizeof(struct sockaddr_in)) < 0)
 		LOG_ERROR<< "Unable to broadcast message '" << pMessage << "'";
 
 	delete[] destination;
 }
 
-void udp_socket::sendMessageToHost(string pMessage, string pHost,
-		uint16_t pPort)
+void udp_socket::sendMessageToHost(string pMessage, string pHost, uint16_t pPort)
 {
 	unsigned int sourceSize = pMessage.size();
 	const char * source = pMessage.c_str();
 	unsigned long dsize = sourceSize + (sourceSize * 0.1f) + 16;
 	char * destination = new char[dsize];
-	int result = compress2((unsigned char *) destination, &dsize,
-			(const unsigned char *) source, sourceSize, Z_DEFAULT_COMPRESSION);
+	int result = compress2((unsigned char *) destination, &dsize, (const unsigned char *) source, sourceSize, Z_DEFAULT_COMPRESSION);
 	if (result != Z_OK)
 		LOG_ERROR<< "Compress error occured! Error code: " << result;
 
@@ -91,8 +85,7 @@ void udp_socket::sendMessageToHost(string pMessage, string pHost,
 		LOG_ERROR<< "inet_aton() failed\n";
 		return;
 	}
-	if (sendto(mSock, destination, dsize, 0, (struct sockaddr *) &si_other,
-			sizeof(struct sockaddr_in)) < 0)
+	if (sendto(mSock, destination, dsize, 0, (struct sockaddr *) &si_other, sizeof(struct sockaddr_in)) < 0)
 		LOG_ERROR<< "Unable to send message '" << destination << "' to '" << pHost << "' on port" << pPort;
 
 	delete[] destination;

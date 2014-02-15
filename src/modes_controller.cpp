@@ -13,8 +13,7 @@
 
 using namespace json_spirit;
 
-static BOOL CALLBACK duff_recording(HRECORD handle, const void *buffer,
-		DWORD length, void *user);
+static BOOL CALLBACK duff_recording(HRECORD handle, const void *buffer, DWORD length, void *user);
 static void CALLBACK get_beat_pos(DWORD chan, double beatpos, void *user);
 
 /*
@@ -41,8 +40,7 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 		mPows[x] = pow(2.0f, (float) x * 9.0f / ((float) mWidth - 1.0f));
 	
 	mUdpServer = new udp_server(get_global_event_loop(), 56617);
-	mUdpServer->register_read_callback(
-			bind(&modes_controller::handle_receive, this, _1, _2));
+	mUdpServer->register_read_callback(bind(&modes_controller::handle_receive, this, _1, _2));
 	
 	if (BASS_RecordInit(-1))
 	{
@@ -55,17 +53,11 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 		LOG_WARN<< "Can't initialize audio device";
 	}
 
-	mModesList.add("OFF",
-			new mode_off(mWidth, mHeight, "OFF", mAudioAvailable));
-	mModesList.add("Touch",
-			new mode_touch(mWidth, mHeight, "Touch", mAudioAvailable));
-	mModesList.add("Plasma",
-			new mode_plasma(mWidth, mHeight, "Plasma", mAudioAvailable));
-	mModesList.add("Balls",
-			new mode_balls(mWidth, mHeight, "Balls", mAudioAvailable));
-	mModesList.add("UDP Streamer",
-			new mode_udp_streamer(mWidth, mHeight, "UDP Streamer",
-					mAudioAvailable));
+	mModesList.add("OFF", new mode_off(mWidth, mHeight, "OFF", mAudioAvailable));
+	mModesList.add("Touch", new mode_touch(mWidth, mHeight, "Touch", mAudioAvailable));
+	mModesList.add("Plasma", new mode_plasma(mWidth, mHeight, "Plasma", mAudioAvailable));
+	mModesList.add("Balls", new mode_balls(mWidth, mHeight, "Balls", mAudioAvailable));
+	mModesList.add("UDP Streamer", new mode_udp_streamer(mWidth, mHeight, "UDP Streamer", mAudioAvailable));
 	
 	mActiveMode = mModesList[0];
 	LOG_INFO << "active mode is now '" << mActiveMode->name() << "'";
@@ -88,8 +80,7 @@ modes_controller::~modes_controller()
  * private callbacks
  *
  */
-static BOOL CALLBACK duff_recording(HRECORD handle, const void *buffer,
-		DWORD length, void *user)
+static BOOL CALLBACK duff_recording(HRECORD handle, const void *buffer, DWORD length, void *user)
 {
 	return TRUE;
 }
@@ -124,7 +115,7 @@ void modes_controller::audio_tasks()
 	if (!mBypassBASS && mAudioAvailable && mActiveMode->needs_audio_fft())
 	{
 		BASS_ChannelGetData(mRecordChannel, (void*) &mIntFftData[0],
-				BASS_DATA_FFT2048);
+		BASS_DATA_FFT2048);
 		for (int i = 0; i < 1024; i++)
 			mFftData[i] = (float) mIntFftData[i] / 16777216.0f * 128.0f;
 		
@@ -204,8 +195,7 @@ string modes_controller::to_json()
 			setting_json.push_back(Pair("minValue", aSetting->min_value));
 			setting_json.push_back(Pair("maxValue", aSetting->max_value));
 			setting_json.push_back(Pair("section", aSetting->section));
-			setting_json.push_back(
-					Pair("value", aSetting->get_value<string>()));
+			setting_json.push_back(Pair("value", aSetting->get_value<string>()));
 			
 			mode_settings_array.push_back(setting_json);
 		}

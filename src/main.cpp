@@ -18,10 +18,8 @@ static pixel_styles_controller *pixelStyles;
  */
 static void show_usage(std::string name)
 {
-	std::cerr << "Usage: " << name << " <option(s)> SOURCES" << "Options:\n"
-			<< "\t-h,--help\t\tShow this help message\n"
-			<< "\t-k,--killall\tKill all instances of Pixel styles"
-			<< "\t-q,--quiet\tSilent output" << std::endl;
+	std::cerr << "Usage: " << name << " <option(s)> SOURCES" << "Options:\n" << "\t-h,--help\t\tShow this help message\n"
+			<< "\t-k,--killall\tKill all instances of Pixel styles" << "\t-q,--quiet\tSilent output" << std::endl;
 }
 
 static void write_pid_file()

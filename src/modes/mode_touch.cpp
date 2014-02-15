@@ -11,8 +11,7 @@
  * constructor
  *
  */
-mode_touch::mode_touch(size_t pWidth, size_t pHeight, string pName,
-		bool pAudioAvailable)
+mode_touch::mode_touch(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
 		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
 {
 	mIniFile = new ini_parser(mIniFilePath);

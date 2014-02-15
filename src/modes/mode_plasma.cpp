@@ -11,8 +11,7 @@
  * constructor
  *
  */
-mode_plasma::mode_plasma(size_t pWidth, size_t pHeight, string pName,
-		bool pAudioAvailable)
+mode_plasma::mode_plasma(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
 		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
 {
 	mHueMatrix.resize(mWidth);
@@ -83,16 +82,12 @@ void mode_plasma::paint()
 			
 			currentHue = mHueMatrix[i][j];
 			
-			averageHue = ((float) (mHueMatrix[left][j])
-					+ (float) (mHueMatrix[right][j])
-					+ (float) (mHueMatrix[i][above])
+			averageHue = ((float) (mHueMatrix[left][j]) + (float) (mHueMatrix[right][j]) + (float) (mHueMatrix[i][above])
 					+ (float) (mHueMatrix[i][below])) / 4.0f;
 			
 			if (averageHue != currentHue)
 			{
-				uint16AverageHue = (uint16_t) ceil(
-						(currentHue * (COEF_FILTER - 1) + averageHue + 6)
-								/ COEF_FILTER);
+				uint16AverageHue = (uint16_t) ceil((currentHue * (COEF_FILTER - 1) + averageHue + 6) / COEF_FILTER);
 				mHueMatrix[i][j] = uint16AverageHue;
 			}
 			

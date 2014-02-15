@@ -37,11 +37,9 @@ settings_list::~settings_list()
  * public functions
  *
  */
-setting *settings_list::add(string _caption, string _section, string _value,
-		float _minValue, float _maxValue, ihm_type _ihmType)
+setting *settings_list::add(string _caption, string _section, string _value, float _minValue, float _maxValue, ihm_type _ihmType)
 {
-	setting *aSetting = new setting(_caption, _section, _value, _minValue,
-			_maxValue, _ihmType);
+	setting *aSetting = new setting(_caption, _section, _value, _minValue, _maxValue, _ihmType);
 	aSetting->register_callback(this, list_setting_did_change_callback);
 	mSettingsMap[_caption] = aSetting;
 	mSettingsList.push_back(_caption);

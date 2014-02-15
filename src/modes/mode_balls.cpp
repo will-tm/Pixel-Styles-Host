@@ -11,8 +11,7 @@
  * constructor
  *
  */
-mode_balls::mode_balls(size_t pWidth, size_t pHeight, string pName,
-		bool pAudioAvailable)
+mode_balls::mode_balls(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
 		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
 {
 	mLastBallsCount = -1;
@@ -96,8 +95,7 @@ void mode_balls::paint()
 	
 	for (uint i = 0; i < mBalls.size(); i++)
 	{
-		mBitmap->set_pixel((int) mBalls[i].x, (int) mBalls[i].y,
-				mBalls[i].color);
+		mBitmap->set_pixel((int) mBalls[i].x, (int) mBalls[i].y, mBalls[i].color);
 		mBalls[i].x += mBalls[i].xWay;
 		mBalls[i].y += mBalls[i].yWay;
 		

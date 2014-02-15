@@ -22,37 +22,30 @@ pixel_styles_controller::pixel_styles_controller()
 	mIniFile = new ini_parser((string) CONFIGURATION_DIRECTORY + "config.cfg");
 	int width = mIniFile->get<size_t>("PIXEL_STYLES", "Width", 19);
 	int height = mIniFile->get<size_t>("PIXEL_STYLES", "Height", 12);
-	string device = mIniFile->get<string>("PIXEL_STYLES", "SpiDevice",
-			"/dev/spidev0.0");
+	string device = mIniFile->get<string>("PIXEL_STYLES", "SpiDevice", "/dev/spidev0.0");
 	mStrip = new led_strip(device.c_str(), width, height);
 	delete mIniFile;
 	
-	LOG_INFO << "Initialized with size " << width << "x" << height
-			<< " and SPI device " << device;
+	LOG_INFO << "Initialized with size " << width << "x" << height << " and SPI device " << device;
 	
-	mIniFile = new ini_parser(
-			(string) CONFIGURATION_DIRECTORY + "settings_application.cfg");
+	mIniFile = new ini_parser((string) CONFIGURATION_DIRECTORY + "settings_application.cfg");
 	
-	mAliveTimer = new timer(1000000,
-			bind(&pixel_styles_controller::alive, this));
+	mAliveTimer = new timer(1000000, bind(&pixel_styles_controller::alive, this));
 	mPaintTimer = new timer(10000, bind(&pixel_styles_controller::paint, this));
-	mPreviewTimer = new timer(50000,
-			bind(&pixel_styles_controller::preview, this));
+	mPreviewTimer = new timer(50000, bind(&pixel_styles_controller::preview, this));
 	mModesController = new modes_controller(width, height);
 	
 	mStaticColors.resize(mIniFile->get<size_t>("COLORS", "Count", 1));
 	for (size_t i = 0; i < mStaticColors.size(); i++)
 	{
-		int intColor = mIniFile->get<int>("COLORS", "Color" + to_string(i),
-				0x00FF0000);
+		int intColor = mIniFile->get<int>("COLORS", "Color" + to_string(i), 0x00FF0000);
 		rgb_color *colorPtr = (rgb_color*) &intColor;
 		rgb_color color = (rgb_color) *colorPtr;
 		mStaticColors[i] = color;
 	}
 	
 	mModesController->lock();
-	mModesController->set_active_mode_name(
-			mIniFile->get<string>("MODE", "ActiveMode", "Touch"));
+	mModesController->set_active_mode_name(mIniFile->get<string>("MODE", "ActiveMode", "Touch"));
 	mModesController->initialize(mStaticColors);
 	mModesController->unlock();
 	
@@ -103,8 +96,7 @@ void pixel_styles_controller::handle_tcp_request(string request, string &answer)
 		
 		mModesController->lock();
 		mModesController->set_active_mode_name("Touch");
-		mModesController->active_mode()->touch(mStaticColors,
-				(touch_type) from_string<int>(split[split.size() - 1]));
+		mModesController->active_mode()->touch(mStaticColors, (touch_type) from_string<int>(split[split.size() - 1]));
 		mModesController->unlock();
 	}
 	
@@ -171,11 +163,9 @@ void pixel_styles_controller::run()
 	int maxConnections = 5;
 	
 	LOG_DEBUG << "maxConnections = " << maxConnections;
-	mTcpServer = new tcp_server(get_global_event_loop(), listenAddr,
-			maxConnections);
+	mTcpServer = new tcp_server(get_global_event_loop(), listenAddr, maxConnections);
 	mModesController->set_tcp_server(mTcpServer);
-	mTcpServer->register_read_callback(
-			bind(&pixel_styles_controller::handle_tcp_request, this, _1, _2));
+	mTcpServer->register_read_callback(bind(&pixel_styles_controller::handle_tcp_request, this, _1, _2));
 	mTcpServer->run();
 }
 
@@ -198,8 +188,7 @@ void pixel_styles_controller::paint()
 
 void pixel_styles_controller::preview()
 {
-	std::vector<std::string> *connectedAddresses =
-			mTcpServer->connectedAddresses();
+	std::vector<std::string> *connectedAddresses = mTcpServer->connectedAddresses();
 	if (connectedAddresses->size())
 	{
 		mModesController->lock();
@@ -208,8 +197,7 @@ void pixel_styles_controller::preview()
 		
 		for (size_t i = 0; i < connectedAddresses->size(); i++)
 		{
-			mUdpSocket->sendMessageToHost(bitmap,
-					connectedAddresses->operator [](i), 56616);
+			mUdpSocket->sendMessageToHost(bitmap, connectedAddresses->operator [](i), 56616);
 		}
 	}
 }

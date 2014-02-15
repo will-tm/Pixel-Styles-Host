@@ -58,8 +58,7 @@ size_t modes_list::size()
 int modes_list::operator[](const mode_interface *mode)
 {
 	int result = 0;
-	for (map<string, mode_interface*>::iterator iter = mModesMap.begin();
-			iter != mModesMap.end(); iter++)
+	for (map<string, mode_interface*>::iterator iter = mModesMap.begin(); iter != mModesMap.end(); iter++)
 	{
 		if ((*iter).second == mode)
 			return result;

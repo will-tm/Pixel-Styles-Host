@@ -27,7 +27,7 @@ typedef struct
 	uint8_t R;
 	uint8_t G;
 	uint8_t B;
-	uint8_t reserved;
+	uint8_t A;
 } rgb_color;
 
 typedef struct
@@ -35,6 +35,7 @@ typedef struct
 	uint16_t H;
 	uint8_t S;
 	uint8_t V;
+	uint8_t A;
 } hsv_color;
 
 /*
@@ -49,6 +50,8 @@ hsv_color hue_to_hsv(uint16_t Hue);
 uint16_t rgb_to_hue(rgb_color rgbColor);
 hsv_color rgb_to_hsv(rgb_color rgbColor);
 
+rgb_color alpha_blend(rgb_color color1, rgb_color color2);
+
 extern rgb_color ColorRed;
 extern rgb_color ColorGreen;
 extern rgb_color ColorBlue;
@@ -57,4 +60,5 @@ extern rgb_color ColorMagenta;
 extern rgb_color ColorAqua;
 extern rgb_color ColorBlack;
 extern rgb_color ColorWhite;
+extern rgb_color ColorClear;
 

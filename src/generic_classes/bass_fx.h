@@ -27,8 +27,7 @@ extern "C"
 #endif
 
 // Tempo / Reverse / BPM / Beat flag
-#define BASS_FX_FREESOURCE			0x10000	// Free the source handle as well?
-// BASS_FX Version
+#define BASS_FX_FREESOURCE			0x10000	// Free the source handle as well?// BASS_FX Version
 DWORD BASS_FXDEF(BASS_FX_GetVersion) ();
 
 /*===========================================================================
@@ -45,8 +44,7 @@ DWORD BASS_FXDEF(BASS_FX_GetVersion) ();
  */
 
 // DSP channels flags
-#define BASS_BFX_CHANALL	-1				// all channels at once (as by default)#define BASS_BFX_CHANNONE	0				// disable an effect for all channels#define BASS_BFX_CHAN1		1				// left-front channel#define BASS_BFX_CHAN2		2				// right-front channel#define BASS_BFX_CHAN3		4				// see above info#define BASS_BFX_CHAN4		8				// see above info#define BASS_BFX_CHAN5		16				// see above info#define BASS_BFX_CHAN6		32				// see above info#define BASS_BFX_CHAN7		64				// see above info#define BASS_BFX_CHAN8		128				// see above info
-// if you have more than 8 channels (7.1), use this macro
+#define BASS_BFX_CHANALL	-1				// all channels at once (as by default)#define BASS_BFX_CHANNONE	0				// disable an effect for all channels#define BASS_BFX_CHAN1		1				// left-front channel#define BASS_BFX_CHAN2		2				// right-front channel#define BASS_BFX_CHAN3		4				// see above info#define BASS_BFX_CHAN4		8				// see above info#define BASS_BFX_CHAN5		16				// see above info#define BASS_BFX_CHAN6		32				// see above info#define BASS_BFX_CHAN7		64				// see above info#define BASS_BFX_CHAN8		128				// see above info// if you have more than 8 channels (7.1), use this macro
 #define BASS_BFX_CHANNEL_N(n) (1<<((n)-1))
 
 // DSP effects
@@ -365,8 +363,7 @@ DWORD BASS_FXDEF(BASS_FX_ReverseGetSource) (HSTREAM chan);
  ===========================================================================*/
 
 // bpm flags
-#define BASS_FX_BPM_BKGRND	1	// if in use, then you can do other processing while detection's in progress. Available only in Windows platforms (BPM/Beat)#define BASS_FX_BPM_MULT2	2	// if in use, then will auto multiply bpm by 2 (if BPM < minBPM*2)
-// translation options (deprecated)
+#define BASS_FX_BPM_BKGRND	1	// if in use, then you can do other processing while detection's in progress. Available only in Windows platforms (BPM/Beat)#define BASS_FX_BPM_MULT2	2	// if in use, then will auto multiply bpm by 2 (if BPM < minBPM*2)// translation options (deprecated)
 enum
 {
 	BASS_FX_BPM_TRAN_X2,		// multiply the original BPM value by 2 (may be called only once & will change the original BPM as well!)

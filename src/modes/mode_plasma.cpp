@@ -14,6 +14,8 @@
 mode_plasma::mode_plasma(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
 		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
 {
+	mGridLayer = mBitmap->add_layer();
+	
 	mHueMatrix.resize(mWidth);
 	for (auto &column : mHueMatrix)
 	{
@@ -21,6 +23,9 @@ mode_plasma::mode_plasma(size_t pWidth, size_t pHeight, string pName, bool pAudi
 		for (auto &item : column)
 			item = rand() % 720;
 	}
+	
+	// Grid overlay
+	setup_grid_layer_with_alpha(60);
 	
 	// ====================================== SETTINGS =======================================
 	if (mAudioAvailable)
@@ -35,6 +40,24 @@ mode_plasma::mode_plasma(size_t pWidth, size_t pHeight, string pName, bool pAudi
 mode_plasma::~mode_plasma()
 {
 	
+}
+
+/*
+ * private functions
+ *
+ */
+void mode_plasma::setup_grid_layer_with_alpha(uint8_t alpha)
+{
+	rgb_color girdColor = ColorBlack;
+	girdColor.A = alpha;
+	
+	for (size_t y = 0; y < mHeight; y++)
+	{
+		for (size_t x = 0; x < mWidth; x++)
+		{
+			mGridLayer->set_pixel(x, y, ((x % 2) == (y % 2)) ? girdColor : ColorClear);
+		}
+	}
 }
 
 /*
@@ -79,6 +102,7 @@ void mode_plasma::paint()
 				below = 0;
 			
 			hsvColor = mBitmap->get_hsv_pixel(i, j);
+			hsvColor.A = 255;
 			
 			currentHue = mHueMatrix[i][j];
 			

@@ -19,6 +19,9 @@ class mode_plasma: public mode_interface
 {
 private:
 	vector<vector<uint16_t> > mHueMatrix;
+	bitmap *mGridLayer;
+
+	void setup_grid_layer_with_alpha(uint8_t alpha);
 public:
 	mode_plasma(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
 	~mode_plasma();

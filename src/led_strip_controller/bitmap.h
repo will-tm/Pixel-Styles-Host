@@ -23,6 +23,7 @@ class bitmap
 {
 private:
 	vector<vector<rgb_color> > mMemory;
+	vector<bitmap*> mLayers;
 
 	int mLocationX;
 	int mLocationY;
@@ -47,5 +48,8 @@ public:
 
 	void assign(bitmap *__Bitmap);
 	string to_string();
+
+	bitmap *add_layer();
+	void render();
 };
 

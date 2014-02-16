@@ -141,8 +141,7 @@ typedef DWORD HPLUGIN;		// Plugin handle
 #define BASS_DEVICE_SPEAKERS	0x800	// force enabling of speaker assignment
 #define BASS_DEVICE_NOSPEAKER	0x1000	// ignore speaker arrangement
 #define BASS_DEVICE_DMIX		0x2000	// use ALSA "dmix" plugin
-#define BASS_DEVICE_FREQ		0x4000	// set device sample rate
-// DirectSound interfaces (for use with BASS_GetDSoundObject)
+#define BASS_DEVICE_FREQ		0x4000	// set device sample rate// DirectSound interfaces (for use with BASS_GetDSoundObject)
 #define BASS_OBJECT_DS		1	// IDirectSound
 #define BASS_OBJECT_DS3DL	2	// IDirectSound3DListener
 
@@ -203,8 +202,7 @@ typedef struct
 
 // BASS_RECORDINFO flags (from DSOUND.H)
 #define DSCCAPS_EMULDRIVER		DSCAPS_EMULDRIVER	// device does NOT have hardware DirectSound recording support
-#define DSCCAPS_CERTIFIED		DSCAPS_CERTIFIED	// device driver has been certified by Microsoft
-// defines for formats field of BASS_RECORDINFO (from MMSYSTEM.H)
+#define DSCCAPS_CERTIFIED		DSCAPS_CERTIFIED	// device driver has been certified by Microsoft// defines for formats field of BASS_RECORDINFO (from MMSYSTEM.H)
 #ifndef WAVE_FORMAT_1M08
 #define WAVE_FORMAT_1M08       0x00000001       /* 11.025 kHz, Mono,   8-bit  */
 #define WAVE_FORMAT_1S08       0x00000002       /* 11.025 kHz, Stereo, 8-bit  */
@@ -594,8 +592,7 @@ typedef BOOL (CALLBACK RECORDPROC)(HRECORD handle, const void *buffer, DWORD len
 #define BASS_DATA_FFT16384	0x80000006	// 16384 FFT#define BASS_DATA_FFT_INDIVIDUAL 0x10	// FFT flag: FFT for each channel, else all combined
 #define BASS_DATA_FFT_NOWINDOW	0x20	// FFT flag: no Hanning window
 #define BASS_DATA_FFT_REMOVEDC	0x40	// FFT flag: pre-remove DC bias
-#define BASS_DATA_FFT_COMPLEX	0x80	// FFT flag: return complex data
-// BASS_ChannelGetTags types : what's returned
+#define BASS_DATA_FFT_COMPLEX	0x80	// FFT flag: return complex data// BASS_ChannelGetTags types : what's returned
 #define BASS_TAG_ID3		0	// ID3v1 tags : TAG_ID3 structure
 #define BASS_TAG_ID3V2		1	// ID3v2 tags : variable length block
 #define BASS_TAG_OGG		2	// OGG comments : series of null-terminated UTF-8 strings
@@ -728,8 +725,7 @@ typedef const WAVEFORMATEX *LPCWAVEFORMATEX;
 #define BASS_POS_BYTE			0		// byte position
 #define BASS_POS_MUSIC_ORDER	1		// order.row position, MAKELONG(order,row)
 #define BASS_POS_OGG			3		// OGG bitstream number#define BASS_POS_DECODE			0x10000000 // flag: get the decoding (not playing) position
-#define BASS_POS_DECODETO		0x20000000 // flag: decode to the position instead of seeking
-// BASS_RecordSetInput flags
+#define BASS_POS_DECODETO		0x20000000 // flag: decode to the position instead of seeking// BASS_RecordSetInput flags
 #define BASS_INPUT_OFF		0x10000
 #define BASS_INPUT_ON		0x20000
 
@@ -857,8 +853,7 @@ typedef void (CALLBACK IOSNOTIFYPROC)(DWORD status);
 /* iOS notification callback function.
  status : The notification (BASS_IOSNOTIFY_xxx) */
 
-#define BASS_IOSNOTIFY_INTERRUPT		1	// interruption started#define BASS_IOSNOTIFY_INTERRUPT_END	2	// interruption ended
-BOOL BASSDEF(BASS_SetConfig)(DWORD option, DWORD value);
+#define BASS_IOSNOTIFY_INTERRUPT		1	// interruption started#define BASS_IOSNOTIFY_INTERRUPT_END	2	// interruption endedBOOL BASSDEF(BASS_SetConfig)(DWORD option, DWORD value);
 DWORD BASSDEF(BASS_GetConfig)(DWORD option);
 BOOL BASSDEF(BASS_SetConfigPtr)(DWORD option, const void *value);
 void *BASSDEF(BASS_GetConfigPtr)(DWORD option);

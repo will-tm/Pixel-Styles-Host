@@ -9,19 +9,18 @@
 
 #include <muduo/base/Logging.h>
 
-#define UDP_TIMEOUT_DELAY					(2000000) // us/*
- * constructor
- *
- */
+#define UDP_TIMEOUT_DELAY					(2000000) // us/** constructor
+*
+*/
 mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
-		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
-{
+: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+{	
 	mLastTickCount = 0;
-	
+
 	mUdpBuffer = new uint8_t[mWidth * mHeight * 3];
-	
+
 	mUdpServer = new udp_server(get_global_event_loop(),
-	MODE_UDP_STREAMER_PORT);
+			MODE_UDP_STREAMER_PORT);
 	mUdpServer->register_read_callback(bind(&mode_udp_streamer::handle_receive, this, _1, _2));
 }
 

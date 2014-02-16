@@ -149,6 +149,7 @@ void modes_controller::paint()
 {
 	audio_tasks();
 	mActiveMode->paint();
+	mActiveMode->get_bitmap()->render();
 }
 
 bitmap *modes_controller::active_mode_bitmap()

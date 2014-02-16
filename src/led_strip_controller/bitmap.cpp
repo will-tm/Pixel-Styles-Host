@@ -29,6 +29,7 @@ bitmap::bitmap(int pWidth, int pHeight)
 bitmap::~bitmap()
 {
 	mMemory.clear();
+	mLayers.clear();
 }
 
 /*
@@ -48,8 +49,7 @@ void bitmap::fill(rgb_color aColor)
 
 void bitmap::clear()
 {
-	rgb_color NullColor = { 0x00, 0x00, 0x00, 0x00 };
-	fill(NullColor);
+	fill(ColorBlack);
 }
 
 rgb_color bitmap::get_pixel(int x, int y)
@@ -165,3 +165,26 @@ string bitmap::to_string()
 	}
 	return result;
 }
+
+bitmap *bitmap::add_layer()
+{
+	bitmap *layer = new bitmap(width, height);
+	mLayers.push_back(layer);
+	return layer;
+}
+
+void bitmap::render()
+{
+	for (int y = 0; y < height; y++)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			for (auto &layer : mLayers)
+			{
+				mMemory[x][y] = alpha_blend(mMemory[x][y], layer->get_pixel(x, y));
+			}
+			mMemory[x][y].A = 255; // final alpha must be full
+		}
+	}
+}
+

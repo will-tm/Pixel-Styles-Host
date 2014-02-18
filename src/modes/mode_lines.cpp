@@ -43,6 +43,9 @@ mode_lines::~mode_lines()
  */
 void mode_lines::set_corners_count(int count)
 {
+	if (count < 1)
+		count = 1;
+
 	mCorners.resize(count);
 	for (size_t i = 0; i < mCorners.size(); i++)
 	{
@@ -59,13 +62,12 @@ void mode_lines::set_corners_count(int count)
  */
 void mode_lines::paint()
 {
-	bool resetCorners = mSettings["Reset"]->get_value<bool>();
 	int cornersCount = mSettings["Count"]->get_value<int>();
 	bool blurEffect = mSettings["Enabled"]->get_value<bool>();
 	int blurLength = mSettings["Length"]->get_value<bool>();
 	bool fadingColors = mSettings["Fading"]->get_value<bool>();
 	
-	if (resetCorners || (cornersCount != mLastCornersCount))
+	if (cornersCount != mLastCornersCount)
 	{
 		mLastCornersCount = cornersCount;
 		mSettings["Reset"]->set_value<bool>(false);
@@ -130,6 +132,7 @@ void mode_lines::paint()
 			mCorners[i].yWay *= -1.0f;
 		}
 	}
+	mBitmap->line_to((int) mCorners[0].x, (int) mCorners[0].y, mCurrentColor);
 
 	if (fadingColors)
 	{

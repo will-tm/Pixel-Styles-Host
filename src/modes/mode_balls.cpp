@@ -58,12 +58,12 @@ void mode_balls::set_balls_count(int count)
  */
 void mode_balls::paint()
 {
-	bool resetBalls = mSettings["Reset"]->get_value<bool>();
+
 	int ballsCount = mSettings["Count"]->get_value<int>();
 	bool blurEffect = mSettings["Enabled"]->get_value<bool>();
 	int blurLength = mSettings["Length"]->get_value<bool>();
 	
-	if (resetBalls || (ballsCount != mLastBallsCount))
+	if (ballsCount != mLastBallsCount)
 	{
 		mLastBallsCount = ballsCount;
 		mSettings["Reset"]->set_value<bool>(false);

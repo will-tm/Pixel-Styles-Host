@@ -9,6 +9,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <string>
 
 #if !defined(min_of)
 #define min_of(A,B)	( A < B ? A : B )
@@ -50,6 +51,10 @@ rgb_color hue_val_float_to_rgb(float &Hue, float &Sat);
 hsv_color hue_to_hsv(uint16_t Hue);
 uint16_t rgb_to_hue(rgb_color rgbColor);
 hsv_color rgb_to_hsv(rgb_color rgbColor);
+uint32_t rgb_to_int(rgb_color rgbColor);
+rgb_color int_to_rgb(uint32_t intColor);
+hsv_color int_to_hsv(uint32_t intColor);
+std::string rgb_to_string(rgb_color rgbColor);
 
 rgb_color alpha_blend(rgb_color color1, rgb_color color2);
 

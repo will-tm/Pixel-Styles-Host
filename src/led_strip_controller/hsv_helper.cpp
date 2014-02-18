@@ -6,7 +6,9 @@
  */
 
 #include "hsv_helper.h"
+
 #include <stdio.h>
+#include <boost/lexical_cast.hpp>
 
 rgb_color ColorRed = { 0xFF, 0x00, 0x00, 0xFF };
 rgb_color ColorGreen = { 0x00, 0xFF, 0x00, 0xFF };
@@ -215,4 +217,27 @@ rgb_color inc_hue_of_color(rgb_color rgbColor, uint16_t inc)
 	hsv_color hsv = rgb_to_hsv(rgbColor);
 	hsv.H = (hsv.H + inc) % 360;
 	return hsv_to_rgb(hsv);
+}
+
+uint32_t rgb_to_int(rgb_color rgbColor)
+{
+	uint32_t *ptr = (uint32_t*)&rgbColor;
+	return (uint32_t)*ptr;
+}
+
+rgb_color int_to_rgb(uint32_t intColor)
+{
+	rgb_color *ptr = (rgb_color*)&intColor;
+	return (rgb_color)*ptr;
+}
+
+hsv_color int_to_hsv(uint32_t intColor)
+{
+	return rgb_to_hsv(int_to_rgb(intColor));
+}
+
+std::string rgb_to_string(rgb_color rgbColor)
+{
+	uint32_t *ptr = (uint32_t*)&rgbColor;
+	return boost::lexical_cast<std::string>((uint32_t)*ptr);
 }

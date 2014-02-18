@@ -19,6 +19,7 @@ using namespace std;
 #include "mode_lines.h"
 #include "mode_off.h"
 #include "mode_plasma.h"
+#include "mode_spectrum.h"
 #include "mode_touch.h"
 #include "mode_udp_streamer.h"
 

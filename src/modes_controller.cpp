@@ -59,6 +59,7 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	mModesList.add("Plasma", new mode_plasma(mWidth, mHeight, "Plasma", mAudioAvailable));
 	mModesList.add("Balls", new mode_balls(mWidth, mHeight, "Balls", mAudioAvailable));
 	mModesList.add("Lines", new mode_lines(mWidth, mHeight, "Lines", mAudioAvailable));
+	mModesList.add("Spectrum", new mode_spectrum(mWidth, mHeight, "Spectrum", mAudioAvailable));
 	mModesList.add("UDP Streamer", new mode_udp_streamer(mWidth, mHeight, "UDP Streamer", mAudioAvailable));
 	
 	mActiveMode = mModesList[0];

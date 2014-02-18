@@ -38,7 +38,7 @@ mode_fading::~mode_fading()
  */
 void mode_fading::paint()
 {
-	bool fadingColors = mSettings["Enabled"]->get_value<bool>();
+	bool fadingColors = mSettings["Fading"]->get_value<bool>();
 	
 	mBitmap->fill(mCurrentColor);
 

@@ -25,7 +25,7 @@ class setting;
 
 typedef enum
 {
-	ihmSpinEdit, ihmSpinEditFloat, ihmCheckbox, ihmSegmentedControl, ihmTrackbar, ihmLogTrackbar, ihmButton
+	ihmSpinEdit, ihmSpinEditFloat, ihmCheckbox, ihmSegmentedControl, ihmTrackbar, ihmLogTrackbar, ihmButton, ihmColorSelector
 } ihm_type;
 
 typedef void (setting_did_change_callback)(void* parent, setting *pSetting);

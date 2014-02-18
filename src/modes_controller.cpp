@@ -122,6 +122,15 @@ void modes_controller::audio_tasks()
 			mFftData[i] = (float) mIntFftData[i] / 16777216.0f * 128.0f;
 		
 		process_fft_buffer_1024(mFftData);
+
+		mActiveMode->set_spectrum(mSpectrum);
+	}
+
+	if (!mBypassBASS && mAudioAvailable && mActiveMode->needs_audio_wave())
+	{
+
+
+		mActiveMode->set_scope(mScope);
 	}
 	
 	if (mAudioAvailable && mActiveMode->needs_audio_level())

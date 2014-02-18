@@ -19,7 +19,6 @@ mode_fading::mode_fading(size_t pWidth, size_t pHeight, string pName, bool pAudi
 	// Settings;
 	if (mAudioAvailable)
 		mSettings.add("Sound Reactive", "Audio", "True", 0.0, 1.0, ihmCheckbox);
-	mSettings.add("Fading", "Color", "True", 0.0f, 1.0f, ihmCheckbox);
 	mSettings.set_ini_path(mIniFilePath);
 }
 
@@ -38,14 +37,8 @@ mode_fading::~mode_fading()
  */
 void mode_fading::paint()
 {
-	bool fadingColors = mSettings["Fading"]->get_value<bool>();
-	
 	mBitmap->fill(mCurrentColor);
-
-	if (fadingColors)
-	{
-		mCurrentColor = inc_hue_of_color(mCurrentColor, 1);
-	}
+	mCurrentColor = inc_hue_of_color(mCurrentColor, 1);
 }
 
 void mode_fading::beat_detected()

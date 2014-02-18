@@ -9,9 +9,9 @@
 
 #include <muduo/base/Logging.h>
 
-#define UDP_TIMEOUT_DELAY					(2000000) // us/** constructor
-*
-*/
+#define UDP_TIMEOUT_DELAY					(2000000) // us/* * constructor
+ *
+ */
 mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
 : mode_interface(pWidth, pHeight, pName, pAudioAvailable)
 {	

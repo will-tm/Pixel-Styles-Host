@@ -27,7 +27,7 @@ mode_plasma::mode_plasma(size_t pWidth, size_t pHeight, string pName, bool pAudi
 	// Grid overlay
 	setup_grid_layer_with_alpha(60);
 	
-	// ====================================== SETTINGS =======================================
+	// Settings
 	if (mAudioAvailable)
 		mSettings.add("Sound Reactive", "Audio", "True", 0.0, 1.0, ihmCheckbox);
 	mSettings.set_ini_path(mIniFilePath);

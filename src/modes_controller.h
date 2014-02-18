@@ -14,12 +14,13 @@ using namespace std;
 
 #include "modes_list.h"
 
-#include "mode_off.h"
-#include "mode_touch.h"
-#include "mode_plasma.h"
 #include "mode_balls.h"
-#include "mode_udp_streamer.h"
+#include "mode_fading.h"
 #include "mode_lines.h"
+#include "mode_off.h"
+#include "mode_plasma.h"
+#include "mode_touch.h"
+#include "mode_udp_streamer.h"
 
 #include "bass.h"
 #include "bass_fx.h"

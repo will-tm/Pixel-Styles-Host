@@ -57,6 +57,8 @@ protected:
 	ini_parser *mIniFile;
 	ui_type mUI;
 	bitmap *mBitmap;
+	vector<size_t> mSpectrum;
+	vector<size_t> mScope;
 
 	float randomf(float min, float max)
 	{
@@ -84,6 +86,8 @@ public:
 		mIniFile = NULL;
 		mUI = uiSettings;
 		mBitmap = new bitmap(mWidth, mHeight);
+		mSpectrum.resize(mWidth);
+		mScope.resize(mWidth);
 	}
 	
 	virtual ~mode_interface()
@@ -91,46 +95,73 @@ public:
 		delete mIniFile;
 		delete mBitmap;
 	}
+
 	virtual void paint() = 0;
+
 	virtual void beat_detected()
 	{
 	}
+
 	virtual void initialize(vector<rgb_color> pStaticColors)
 	{
 	}
+
 	virtual void touch(vector<rgb_color> pStaticColors, touch_type pTouchType)
 	{
 	}
+
 	virtual bool needs_audio_level()
 	{
 		return false;
 	}
+
 	virtual bool needs_audio_fft()
 	{
 		return false;
 	}
+
+	virtual bool needs_audio_wave()
+	{
+		return false;
+	}
+
 	void set_audio_level(float pAudioLevel)
 	{
 		mAudioLevel = pAudioLevel;
 	}
+
 	string name()
 	{
 		return mName;
 	}
+
 	ui_type ui()
 	{
 		return mUI;
 	}
+
 	bitmap *get_bitmap()
 	{
 		return mBitmap;
 	}
+
 	size_t get_width()
 	{
 		return mWidth;
 	}
+
 	size_t get_height()
 	{
 		return mHeight;
+	}
+
+	void set_spectrum(vector<size_t> pSpectrum)
+	{
+		mSpectrum = pSpectrum;
+	}
+
+	void set_scope(vector<size_t> pScope)
+	{
+		mScope = pScope;
 	}
 };

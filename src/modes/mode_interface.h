@@ -88,6 +88,12 @@ public:
 		mBitmap = new bitmap(mWidth, mHeight);
 		mSpectrum.resize(mWidth);
 		mScope.resize(mWidth);
+
+		for(size_t &item : mSpectrum)
+			item = random(mHeight);
+
+		for(size_t &item : mScope)
+			item = random(mHeight);
 	}
 	
 	virtual ~mode_interface()

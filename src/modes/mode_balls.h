@@ -23,6 +23,7 @@ typedef struct
 	float yWay;
 	rgb_color color;
 } ball_t;
+
 /*
  * public class
  *

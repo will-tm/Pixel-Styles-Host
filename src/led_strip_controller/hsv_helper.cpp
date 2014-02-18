@@ -209,3 +209,10 @@ rgb_color alpha_blend(rgb_color color1, rgb_color color2)
 	//printf("alpha_blend - color1={%d %d %d %d} color2={%d %d %d %d} result={%d %d %d %d}\n", color1.R, color1.G, color1.B, color1.A, color2.R, color2.G, color2.B, color2.A, result.R, result.G, result.B, result.A);
 	return result;
 }
+
+rgb_color inc_hue_of_color(rgb_color rgbColor, uint16_t inc)
+{
+	hsv_color hsv = rgb_to_hsv(rgbColor);
+	hsv.H = (hsv.H + inc) % 360;
+	return hsv_to_rgb(hsv);
+}

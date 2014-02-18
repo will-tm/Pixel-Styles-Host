@@ -44,6 +44,7 @@ typedef struct
  */
 rgb_color hsv_to_rgb(hsv_color hsvColor);
 rgb_color hue_to_rgb(uint16_t Hue);
+rgb_color inc_hue_of_color(rgb_color rgbColor, uint16_t inc);
 rgb_color hue_float_to_rgb(float &Hue);
 rgb_color hue_val_float_to_rgb(float &Hue, float &Sat);
 hsv_color hue_to_hsv(uint16_t Hue);

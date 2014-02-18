@@ -38,10 +38,7 @@ pixel_styles_controller::pixel_styles_controller()
 	mStaticColors.resize(mIniFile->get<size_t>("COLORS", "Count", 1));
 	for (size_t i = 0; i < mStaticColors.size(); i++)
 	{
-		int intColor = mIniFile->get<int>("COLORS", "Color" + to_string(i), 0x00FF0000);
-		rgb_color *colorPtr = (rgb_color*) &intColor;
-		rgb_color color = (rgb_color) *colorPtr;
-		mStaticColors[i] = color;
+		mStaticColors[i] = int_to_rgb(mIniFile->get<uint32_t>("COLORS", "Color" + to_string(i), 0x00FF0000));
 	}
 	
 	mModesController->lock();

@@ -57,13 +57,6 @@ void *avahi_service(void *arg)
 		return (void*) (1);
 	else if (pid == 0)
 	{
-		/*
-		if (execlp("avahi-publish-service", "avahi-publish-service", mBonjour->hostname.c_str(), "_PixelStyles._tcp",
-				to_string(TCP_CONNECTION_PORT).c_str(),
-				strcat((char*) "kLivePreviewUdpPort=", to_string(UDP_BROADCAST_PORT).c_str()),
-				NULL) == -1)
-		{
-		*/
 		if( execlp("avahi-publish-service", "avahi-publish-service", mBonjour->hostname.c_str(), "_PixelStyles._tcp",
 				to_string(TCP_CONNECTION_PORT).c_str(),
 				((string)"kLivePreviewUdpPort="+to_string(UDP_BROADCAST_PORT)).c_str(),

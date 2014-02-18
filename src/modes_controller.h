@@ -19,6 +19,7 @@ using namespace std;
 #include "mode_plasma.h"
 #include "mode_balls.h"
 #include "mode_udp_streamer.h"
+#include "mode_lines.h"
 
 #include "bass.h"
 #include "bass_fx.h"

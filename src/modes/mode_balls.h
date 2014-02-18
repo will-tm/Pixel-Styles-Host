@@ -38,4 +38,5 @@ public:
 	~mode_balls();
 
 	virtual void paint();
+	virtual void beat_detected();
 };

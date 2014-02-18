@@ -15,7 +15,10 @@ mode_balls::mode_balls(size_t pWidth, size_t pHeight, string pName, bool pAudioA
 		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
 {
 	mLastBallsCount = -1;
-	
+
+	// Settings;
+	if (mAudioAvailable)
+		mSettings.add("Sound Reactive", "Audio", "True", 0.0, 1.0, ihmCheckbox);
 	mSettings.add("Reset", "Balls", "False", 0.0f, 1.0f, ihmButton);
 	mSettings.add("Count", "Balls", "5.0", 1.0f, 5.0f, ihmSpinEdit);
 	mSettings.add("Enabled", "Blur", "True", 0.0f, 1.0f, ihmCheckbox);
@@ -93,7 +96,7 @@ void mode_balls::paint()
 		}
 	}
 	
-	for (uint i = 0; i < mBalls.size(); i++)
+	for (size_t i = 0; i < mBalls.size(); i++)
 	{
 		mBitmap->set_pixel((int) mBalls[i].x, (int) mBalls[i].y, mBalls[i].color);
 		mBalls[i].x += mBalls[i].xWay;
@@ -120,4 +123,9 @@ void mode_balls::paint()
 			mBalls[i].yWay *= -1.0f;
 		}
 	}
+}
+
+void mode_balls::beat_detected()
+{
+	set_balls_count(mLastBallsCount);
 }

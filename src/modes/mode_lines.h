@@ -22,6 +22,7 @@ typedef struct
 	float xWay;
 	float yWay;
 } corner_t;
+
 /*
  * public class
  *

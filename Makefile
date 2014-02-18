@@ -10,8 +10,8 @@ OBJECTS=$(SOURCES:%.cpp=%.o)
 
 # COMPILER SETTINGS
 CXX=arm-linux-gnueabihf-g++
-CXXFLAGS=-g -std=c++0x $(INCLUDES) -DMUDUO_STD_STRING -DNO_FREETYPE -pthread
-LDFLAGS=-lpthread -lbass -lbass_fx -ljson_spirit -lmuduo_base -lmuduo_net -lz -lrt -lboost_system
+CXXFLAGS=-g -std=c++11 $(INCLUDES) -DMUDUO_STD_STRING -DNO_FREETYPE -pthread -O2
+LDFLAGS=-lpthread -lbass -lbass_fx -ljson_spirit -lmuduo_base -lmuduo_net -lz -lrt
 BINARY=pixel-styles
 
 # Makefile

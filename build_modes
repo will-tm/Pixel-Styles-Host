@@ -1,0 +1,16 @@
+#! /bin/bash
+
+MODES_PATH=./src/modes/lib/
+
+mkdir -p ./output/lib
+rm -f ./output/lib/*
+
+for f in $MODES_PATH*.cpp; do 
+    MODE=${f#${MODES_PATH}}
+    TMP=${MODE#*_}
+    MODE_NAME=${TMP%.cpp} 
+
+	./build_mode $MODE_NAME
+done
+
+exit 0

@@ -1,0 +1,46 @@
+#! /bin/bash
+
+if [ "$1" == '' ]; then
+   echo 'You have to specify mode name.'
+   exit 1
+fi
+
+# INPUT FILE
+MODE=./src/modes/lib/mode_$1.cpp
+# OUTPUT FILE
+OUT=./output/lib/$1.so
+
+if [ ! -f $MODE ]; then
+    echo "File not found!"
+    exit 1
+fi
+
+mkdir -p ./output/lib
+rm -f $OUT
+echo -n Building $1... 
+arm-linux-gnueabihf-g++ -std=c++11 -pthread -O2 -shared \
+\
+./src/led_strip_controller/bitmap.cpp \
+./src/led_strip_controller/hsv_helper.cpp \
+./src/settings/setting.cpp \
+./src/settings/settings_list.cpp \
+./src/generic_classes/ini_parser.cpp \
+\
+$MODE -o $OUT \
+-I./src \
+-I./src/generic_classes -s \
+-I./src/led_strip_controller \
+-I./src/modes \
+-I./src/modes/dyn \
+-I./src/sockets \
+-I./src/settings \
+-ljson_spirit \
+-L./lib
+
+if [ ! -f $OUT  ]; then
+    echo " Failed!"
+    exit 1
+fi
+
+echo " OK"
+exit 0

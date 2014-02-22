@@ -28,7 +28,7 @@ pixel_styles_controller::pixel_styles_controller()
 	
 	LOG_INFO << "Initialized with size " << width << "x" << height << " and SPI device " << device;
 	
-	mIniFile = new ini_parser((string) CONFIGURATION_DIRECTORY + "settings_application.cfg");
+	mIniFile = new ini_parser((string) SETTINGS_DIRECTORY + "application.cfg");
 	
 	mAliveTimer = new timer(1000000, bind(&pixel_styles_controller::alive, this));
 	mPaintTimer = new timer(10000, bind(&pixel_styles_controller::paint, this));

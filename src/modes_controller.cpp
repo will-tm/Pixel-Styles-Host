@@ -10,6 +10,7 @@
 #include <muduo/base/Logging.h>
 #include <zlib.h>
 #include <iostream>
+#include <dlfcn.h>
 
 using namespace json_spirit;
 
@@ -39,8 +40,8 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	for (size_t x = 0; x < mWidth; x++)
 		mPows[x] = pow(2.0f, (float) x * 9.0f / ((float) mWidth - 1.0f));
 	
-	mUdpServer = new udp_server(get_global_event_loop(), 56617);
-	mUdpServer->register_read_callback(bind(&modes_controller::handle_receive, this, _1, _2));
+	//mUdpServer = new udp_server(get_global_event_loop(), 56617);
+	//mUdpServer->register_read_callback(bind(&modes_controller::handle_receive, this, _1, _2));
 	
 	if (BASS_RecordInit(-1))
 	{
@@ -55,12 +56,7 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 
 	mModesList.add("OFF", new mode_off(mWidth, mHeight, "OFF", mAudioAvailable));
 	mModesList.add("Touch", new mode_touch(mWidth, mHeight, "Touch", mAudioAvailable));
-	mModesList.add("Fading", new mode_fading(mWidth, mHeight, "Fading", mAudioAvailable));
-	mModesList.add("Plasma", new mode_plasma(mWidth, mHeight, "Plasma", mAudioAvailable));
-	mModesList.add("Balls", new mode_balls(mWidth, mHeight, "Balls", mAudioAvailable));
-	mModesList.add("Lines", new mode_lines(mWidth, mHeight, "Lines", mAudioAvailable));
-	mModesList.add("Spectrum", new mode_spectrum(mWidth, mHeight, "Spectrum", mAudioAvailable));
-	mModesList.add("UDP Streamer", new mode_udp_streamer(mWidth, mHeight, "UDP Streamer", mAudioAvailable));
+	add_dynamic_modes(mWidth, mHeight, mAudioAvailable);
 	
 	mActiveMode = mModesList[0];
 	LOG_INFO << "active mode is now '" << mActiveMode->name() << "'";
@@ -110,6 +106,43 @@ void modes_controller::handle_receive(uint8_t *data, size_t length)
  * private functions
  *
  */
+void modes_controller::add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+{
+	vector<string> files;
+
+	get_directory_files_list(MODES_ENABLED_DIRECTORY,files);
+	for(string file : files)
+	{
+		if(file.compare(".") && file.compare(".."))
+		{
+			LOG_INFO << "Loading mode from file " << file;
+			string modeFile = MODES_ENABLED_DIRECTORY + file;
+
+			void* handle = dlopen(modeFile.c_str(), RTLD_LAZY);
+			if (handle != NULL)
+			{
+				mode_interface* (*create)(size_t , size_t , bool);
+				create = (mode_interface* (*)(size_t, size_t, bool))dlsym(handle, "create_mode");
+				if (create != NULL)
+				{
+					mode_interface* mode = (mode_interface*)create(pWidth, pHeight, pAudioAvailable);
+					mModesList.add(mode->name(), mode);
+				}
+				else
+				{
+					LOG_ERROR << "dlsym handle is NULL, " << dlerror();
+					exit(1);
+				}
+			}
+			else
+			{
+				LOG_ERROR << "dlopen handle is NULL, " << dlerror();
+				exit(1);
+			}
+		}
+	}
+}
+
 void modes_controller::audio_tasks()
 {
 	if (get_tick_us() - mLastUdpFrameTick > 2000000)
@@ -256,6 +289,12 @@ void modes_controller::initialize(vector<rgb_color> pStaticColors)
 		mModesList[i]->initialize(pStaticColors);
 		for (int j = 0; j < 32; j++)
 			mModesList[i]->paint();
+
+		if (mModesList[i]->needs_udp_socket())
+		{
+			udp_server *udpServer = new udp_server(get_global_event_loop(), mModesList[i]->udp_port());
+			udpServer->register_read_callback(bind(&mode_interface::handle_udp_receive, mModesList[i], _1, _2));
+		}
 	}
 }
 

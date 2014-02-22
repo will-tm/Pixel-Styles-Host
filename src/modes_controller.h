@@ -12,16 +12,12 @@ using namespace std;
 #include <linux/types.h>
 #include <json_spirit.h>
 
+#include "file-helper.h"
+
 #include "modes_list.h"
 
-#include "mode_balls.h"
-#include "mode_fading.h"
-#include "mode_lines.h"
 #include "mode_off.h"
-#include "mode_plasma.h"
-#include "mode_spectrum.h"
 #include "mode_touch.h"
-#include "mode_udp_streamer.h"
 
 #include "bass.h"
 #include "bass_fx.h"
@@ -56,6 +52,7 @@ private:
 	vector<size_t> mPows;
 	float mSensitivity;
 
+	void add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable);
 	void audio_tasks();
 	void handle_receive(uint8_t *data, size_t length);
 public:

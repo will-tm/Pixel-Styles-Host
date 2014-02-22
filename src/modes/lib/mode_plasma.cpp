@@ -8,6 +8,20 @@
 #include "mode_plasma.h"
 
 /*
+ * public library interface
+ *
+ */
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+{
+  return new mode_plasma(pWidth, pHeight, "Plasma", pAudioAvailable);
+}
+
+extern "C" void destroy_mode(mode_interface* object)
+{
+  delete object;
+}
+
+/*
  * constructor
  *
  */

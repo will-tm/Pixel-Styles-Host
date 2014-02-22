@@ -82,7 +82,7 @@ public:
 		mNameFile = pName;
 		replace_all(mNameFile, " ", "_");
 		transform(mNameFile.begin(), mNameFile.end(), mNameFile.begin(), ::tolower);
-		mIniFilePath = (string) CONFIGURATION_DIRECTORY + "settings_" + mNameFile + ".cfg";
+		mIniFilePath = (string) SETTINGS_DIRECTORY + mNameFile + ".cfg";
 		mIniFile = NULL;
 		mUI = uiSettings;
 		mBitmap = new bitmap(mWidth, mHeight);
@@ -169,5 +169,19 @@ public:
 	void set_scope(vector<size_t> pScope)
 	{
 		mScope = pScope;
+	}
+
+	virtual bool needs_udp_socket()
+	{
+		return false;
+	}
+
+	virtual uint16_t udp_port()
+	{
+		return 0;
+	}
+
+	virtual void handle_udp_receive(uint8_t *data, size_t length)
+	{
 	}
 };

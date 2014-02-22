@@ -9,6 +9,21 @@
 
 #define PEAK_TOP_DELAY					(200000) // us
 #define PEAK_FALL_DELAY					(60000) // us
+
+/*
+ * public library interface
+ *
+ */
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+{
+  return new mode_spectrum(pWidth, pHeight, "Spectrum", pAudioAvailable);
+}
+
+extern "C" void destroy_mode(mode_interface* object)
+{
+  delete object;
+}
+
 /*
  * constructor
  *

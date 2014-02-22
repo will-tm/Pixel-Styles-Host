@@ -7,9 +7,21 @@
 
 #include "mode_udp_streamer.h"
 
-#include <muduo/base/Logging.h>
+#define UDP_TIMEOUT_DELAY					(2000000) // us
+/*
+ * public library interface
+ *
+ */
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+{
+  return new mode_udp_streamer(pWidth, pHeight, "UDP Stream", pAudioAvailable);
+}
 
-#define UDP_TIMEOUT_DELAY					(2000000) // us/* * constructor
+extern "C" void destroy_mode(mode_interface* object)
+{
+  delete object;
+}
+/* * constructor
  *
  */
 mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
@@ -18,10 +30,6 @@ mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName
 	mLastTickCount = 0;
 
 	mUdpBuffer = new uint8_t[mWidth * mHeight * 3];
-
-	mUdpServer = new udp_server(get_global_event_loop(),
-			MODE_UDP_STREAMER_PORT);
-	mUdpServer->register_read_callback(bind(&mode_udp_streamer::handle_receive, this, _1, _2));
 }
 
 /*
@@ -34,26 +42,18 @@ mode_udp_streamer::~mode_udp_streamer()
 }
 
 /*
- * private callbacks
+ * public functions
  *
  */
-void mode_udp_streamer::handle_receive(uint8_t *data, size_t length)
+void mode_udp_streamer::handle_udp_receive(uint8_t *data, size_t length)
 {
 	if (length == mWidth * mHeight * 3)
 	{
 		mLastTickCount = get_tick_us();
 		memcpy(mUdpBuffer, data, length);
 	}
-	else
-	{
-		LOG_ERROR<< "Erroneous length on mode_udp_streamer (" << length << " <> " << (mWidth * mHeight * 3) << ")";
-	}
 }
 
-/*
- * public functions
- *
- */
 void mode_udp_streamer::paint()
 {
 	rgb_color color;

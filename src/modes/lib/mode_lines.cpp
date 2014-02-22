@@ -34,7 +34,6 @@ mode_lines::mode_lines(size_t pWidth, size_t pHeight, string pName, bool pAudioA
 	// Settings;
 	if (mAudioAvailable)
 		mSettings.add("Sound Reactive", "Audio", "True", 0.0, 1.0, ihmCheckbox);
-	mSettings.add("Reset", "Corners", "False", 0.0f, 1.0f, ihmButton);
 	mSettings.add("Count", "Corners", "5.0", 1.0f, 5.0f, ihmSpinEdit);
 	mSettings.add("Enabled", "Blur", "True", 0.0f, 1.0f, ihmCheckbox);
 	mSettings.add("Length", "Blur", "89.0", 0.0f, 100.0f, ihmLogTrackbar);

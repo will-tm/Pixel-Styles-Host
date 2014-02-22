@@ -10,7 +10,7 @@ for f in $MODES_PATH*.cpp; do
     TMP=${MODE#*_}
     MODE_NAME=${TMP%.cpp} 
 
-	./build_mode $MODE_NAME
+	./tools/build_mode $MODE_NAME
 done
 
 exit 0

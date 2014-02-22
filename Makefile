@@ -29,7 +29,7 @@ $(BINARY): $(OBJECTS)
 modes:
 	@echo " "
 	@echo "Building all modes..."
-	@./build_modes
+	@./tools/build_modes
 
 clean:
 	@echo " "
@@ -48,4 +48,7 @@ install:
 	@mkdir -p /etc/pixel_styles/modes-enabled
 	@mkdir -p /etc/pixel_styles/settings
 	install -m 0755 ./output/bin/$(BINARY) /usr/bin
+	install -m 0755 ./tools/psenmod /usr/bin
+	install -m 0755 ./tools/psdismod /usr/bin
     install -m 0644 ./output/lib/*.so /etc/pixel_styles/modes-available
+    install -m 0644 ./tools/config.cfg /etc/pixel_styles

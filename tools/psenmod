@@ -1,0 +1,29 @@
+#! /bin/bash
+
+MODES_AVAIALABLE_DIR="/etc/pixel_styles/modes-available/"
+MODES_ENABLED_DIR="/etc/pixel_styles/modes-enabled/"
+
+if [ "$1" == '' ]; then
+   echo 'You have to specify mode name.'
+   exit 1
+fi
+
+MODE=$MODES_AVAIALABLE_DIR$1.so
+
+if [ ! -f $MODE ]; then
+    echo "Mode does not exists!"
+    exit 1
+fi
+
+ENMODE=$MODES_ENABLED_DIR$1.so
+
+if [ -f $ENMODE ]; then
+    echo "Mode already enabled!"
+    exit 1
+fi
+
+echo "Enabling mode $1."
+ln -s $MODE $ENMODE
+
+echo "To activate the new configuration, you need to run:"
+echo "  service pixel-styles restart"

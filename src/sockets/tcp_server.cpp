@@ -42,7 +42,6 @@ void tcp_server::onConnection(const TcpConnectionPtr& conn)
 	if (conn->connected())
 	{
 		++numConnected_;
-		//mConnectedAddresses.push_back(conn->peerAddress().toIp());
 		if (numConnected_ > kMaxConnections_)
 		{
 			conn->shutdown();
@@ -55,7 +54,6 @@ void tcp_server::onConnection(const TcpConnectionPtr& conn)
 	else
 	{
 		--numConnected_;
-		//mConnectedAddresses.erase(std::remove(mConnectedAddresses.begin(), mConnectedAddresses.end(), conn->peerAddress().toIp()), mConnectedAddresses.end());
 	}
 	
 	LOG_DEBUG << "numConnected = " << numConnected_;

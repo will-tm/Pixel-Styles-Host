@@ -19,6 +19,7 @@ setting::setting(string pCaption, string pSection, string pValue, float pMinValu
 	kind = pIhmType;
 	min_value = pMinValue;
 	max_value = pMaxValue;
+	mParent = NULL;
 	mSettingDidChangeCallback = NULL;
 }
 

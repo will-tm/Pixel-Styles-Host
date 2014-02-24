@@ -72,18 +72,14 @@ void settings_list::set_ini_path(string pPath)
 			setting *aSetting = mSettingsMap[mSettingsList[i]];
 			string key = aSetting->caption;
 			replace_all(key, " ", "_");
-			if (mIniParser->get<double>("SETTINGS", key, -1.0) != -1.0)
-			{
-				string value = mIniParser->get<string>("SETTINGS", key, "1");
-				aSetting->set_value(value);
-			}
+			string value = mIniParser->get<string>("SETTINGS", key, aSetting->get_value<string>());
+			aSetting->set_value(value);
 		}
 	}
 }
 
 void settings_list::setting_did_change(setting *pSetting)
 {
-	//printf("setting_did_change %s %s\n", pSetting->caption.c_str(), pSetting->get_value<string>().c_str());
 	string key = pSetting->caption;
 	replace_all(key, " ", "_");
 	mIniParser->set("SETTINGS", key, pSetting->get_value<string>());

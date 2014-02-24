@@ -40,13 +40,13 @@ mode_spectrum::mode_spectrum(size_t pWidth, size_t pHeight, string pName, bool p
 	}
 	
 	// Settings;
-	mSettings.add("Enabled", "Blur", "True", 0.0f, 1.0f, ihmCheckbox);
+	mSettings.add("Enabled", "Blur", "1", 0.0f, 1.0f, ihmCheckbox);
 	mSettings.add("Length", "Blur", "89.0", 0.0f, 100.0f, ihmLogTrackbar);
 	mSettings.add("Start", "Color", rgb_to_string(ColorGreen), 0.0f, 4294967295.0f, ihmColorSelector);
 	mSettings.add("End", "Color", rgb_to_string(ColorBlue), 0.0f, 4294967295.0f, ihmColorSelector);
-	mSettings.add("Gradient", "Color", "True", 0.0f, 0.0, ihmCheckbox);
-	mSettings.add("Fading", "Color", "True", 0.0f, 1.0f, ihmCheckbox);
-	mSettings.add("Max peaks", "Audio", "True", 0.0f, 1.0f, ihmCheckbox);
+	mSettings.add("Gradient", "Color", "1", 0.0f, 0.0, ihmCheckbox);
+	mSettings.add("Fading", "Color", "1", 0.0f, 1.0f, ihmCheckbox);
+	mSettings.add("Max peaks", "Audio", "1", 0.0f, 1.0f, ihmCheckbox);
 	mSettings.set_ini_path(mIniFilePath);
 
 	mLastStartColor = int_to_hsv(mSettings["Start"]->get_value<uint32_t>());

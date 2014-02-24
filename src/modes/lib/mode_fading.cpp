@@ -32,7 +32,7 @@ mode_fading::mode_fading(size_t pWidth, size_t pHeight, string pName, bool pAudi
 
 	// Settings;
 	if (mAudioAvailable)
-		mSettings.add("Sound Reactive", "Audio", "True", 0.0, 1.0, ihmCheckbox);
+		mSettings.add("Sound Reactive", "Audio", "1", 0.0, 1.0, ihmCheckbox);
 	mSettings.set_ini_path(mIniFilePath);
 }
 

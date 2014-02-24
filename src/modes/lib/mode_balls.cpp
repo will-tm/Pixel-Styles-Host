@@ -32,9 +32,9 @@ mode_balls::mode_balls(size_t pWidth, size_t pHeight, string pName, bool pAudioA
 
 	// Settings;
 	if (mAudioAvailable)
-		mSettings.add("Sound Reactive", "Audio", "True", 0.0, 1.0, ihmCheckbox);
+		mSettings.add("Sound Reactive", "Audio", "1", 0.0, 1.0, ihmCheckbox);
 	mSettings.add("Count", "Balls", "5.0", 1.0f, 5.0f, ihmSpinEdit);
-	mSettings.add("Enabled", "Blur", "True", 0.0f, 1.0f, ihmCheckbox);
+	mSettings.add("Enabled", "Blur", "1", 0.0f, 1.0f, ihmCheckbox);
 	mSettings.add("Length", "Blur", "89.0", 0.0f, 100.0f, ihmLogTrackbar);
 	mSettings.set_ini_path(mIniFilePath);
 }
@@ -79,8 +79,6 @@ void mode_balls::paint()
 	if (ballsCount != mLastBallsCount)
 	{
 		mLastBallsCount = ballsCount;
-		mSettings["Reset"]->set_value<bool>(false);
-		
 		set_balls_count(ballsCount);
 	}
 	

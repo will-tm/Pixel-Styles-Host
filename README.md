@@ -1,11 +1,11 @@
 # Pixel Styles
 
-Pixel Style (host part) is an embedded linux daemon that intend to provide 2D visualizations for WS2801 base RGB matrix.
+Pixel Style (host part) is an embedded linux daemon that intend to provide 2D visualizations for WS2801 based RGB matrix.
 
-![Screenshot](http://download.will-tm.com/spectrum.png)
+![Screenshot](http://download.will-tm.com/spec.png)
 
 ## Requirements
-* Embedded armhf linux board (Testing on Raspberry Pi, Beaglebone Black and Cubieboard - all running Debian Wheezy)
+* Embedded armhf linux board (tested on Raspberry Pi, Beaglebone Black and Cubieboard - all running Debian Wheezy)
 * libboost
 * libmuduo
 * libjson_spirit

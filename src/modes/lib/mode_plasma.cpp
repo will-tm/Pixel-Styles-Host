@@ -38,12 +38,10 @@ mode_plasma::mode_plasma(size_t pWidth, size_t pHeight, string pName, bool pAudi
 			item = rand() % 720;
 	}
 	
-	// Grid overlay
-	setup_grid_layer_with_alpha(60);
-	
 	// Settings
 	if (mAudioAvailable)
 		mSettings.add("Sound Reactive", "Audio", "1", 0.0, 1.0, ihmCheckbox);
+	mSettings.add("Grid", "Overlay", "1", 0.0, 1.0, ihmCheckbox);
 	mSettings.set_ini_path(mIniFilePath);
 }
 
@@ -88,6 +86,10 @@ void mode_plasma::paint()
 	float averageHue;
 	uint16_t uint16AverageHue;
 	bool soundReactive = mSettings["Sound Reactive"]->get_value<bool>();
+	bool showGridOverlay = mSettings["Grid"]->get_value<bool>();
+
+	// Grid overlay
+	setup_grid_layer_with_alpha(showGridOverlay ? 120 : 0);
 	
 	for (size_t j = 0; j < mHeight; j++)
 	{

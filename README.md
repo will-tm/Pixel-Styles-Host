@@ -51,7 +51,7 @@ Finally you will have to restart the daemon `service pixel-styles restart` and y
 
 ## License
 
-WMGaugeView is available under the MIT license.
+Pixel Styles is available under the MIT license.
 
 Copyright © 2014 William Markezana.
 

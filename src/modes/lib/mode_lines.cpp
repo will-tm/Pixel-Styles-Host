@@ -77,7 +77,7 @@ void mode_lines::paint()
 {
 	int cornersCount = mSettings["Count"]->get_value<int>();
 	bool blurEffect = mSettings["Enabled"]->get_value<bool>();
-	int blurLength = mSettings["Length"]->get_value<bool>();
+	int blurLength = (int)mSettings["Length"]->max_value - mSettings["Length"]->get_value<int>();
 	bool fadingColors = mSettings["Fading"]->get_value<bool>();
 	
 	if (cornersCount != mLastCornersCount)

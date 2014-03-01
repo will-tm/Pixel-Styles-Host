@@ -74,7 +74,7 @@ void mode_balls::paint()
 
 	int ballsCount = mSettings["Count"]->get_value<int>();
 	bool blurEffect = mSettings["Enabled"]->get_value<bool>();
-	int blurLength = mSettings["Length"]->get_value<bool>();
+	int blurLength = (int)mSettings["Length"]->max_value - mSettings["Length"]->get_value<int>();
 	
 	if (ballsCount != mLastBallsCount)
 	{

@@ -69,7 +69,7 @@ mode_spectrum::~mode_spectrum()
 void mode_spectrum::paint()
 {
 	bool blurEffect = mSettings["Enabled"]->get_value<bool>();
-	int blurLength = mSettings["Length"]->get_value<bool>();
+	int blurLength = (int)mSettings["Length"]->max_value - mSettings["Length"]->get_value<int>();
 	bool fadingColors = mSettings["Fading"]->get_value<bool>();
 	bool gradientColors = mSettings["Gradient"]->get_value<bool>();
 	hsv_color startColor = int_to_hsv(mSettings["Start"]->get_value<uint32_t>());

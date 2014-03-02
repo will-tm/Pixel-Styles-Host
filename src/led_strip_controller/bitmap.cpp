@@ -159,7 +159,7 @@ string bitmap::to_string()
 	{
 		for (int x = 0; x < width; x++)
 		{
-			sprintf(buf, "%2.2X%2.2X%2.2X", mMemory[x][y].B, mMemory[x][y].G, mMemory[x][y].R);
+			sprintf(buf, "%2.2X%2.2X%2.2X", mMemory[x][y].R, mMemory[x][y].G, mMemory[x][y].B);
 			result.append(buf);
 		}
 	}

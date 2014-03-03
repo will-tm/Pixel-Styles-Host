@@ -39,7 +39,7 @@ mode_spectrum::mode_spectrum(size_t pWidth, size_t pHeight, string pName, bool p
 		peak.atMax = false;
 	}
 	
-	// Settings;
+	// Settings
 	mSettings.add("Enabled", "Blur", "1", 0.0f, 1.0f, ihmCheckbox);
 	mSettings.add("Length", "Blur", "89.0", 0.0f, 100.0f, ihmLogTrackbar);
 	mSettings.add("Start", "Color", rgb_to_string(ColorGreen), 0.0f, 4294967295.0f, ihmColorSelector);

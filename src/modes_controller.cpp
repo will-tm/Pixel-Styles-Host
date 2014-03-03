@@ -268,18 +268,19 @@ string modes_controller::json_error()
 	return write(json, raw_utf8);
 }
 
-string modes_controller::bitmap_to_json(bitmap *pBitmap)
+string modes_controller::bitmap_to_json(bitmap *pBitmap, mode_interface *pMode)
 {
 	Object bitmapJSON;
 	bitmapJSON.push_back(Pair("mac_address", mTcpServer->mac_address()));
 	bitmapJSON.push_back(Pair("width", pBitmap->width));
 	bitmapJSON.push_back(Pair("height", pBitmap->height));
+	bitmapJSON.push_back(Pair("mode", pMode->name()));
 	bitmapJSON.push_back(Pair("pixels", pBitmap->to_string()));
 	return write(bitmapJSON, raw_utf8);
 }
 string modes_controller::active_mode_bitmap_to_json()
 {
-	return bitmap_to_json(active_mode()->get_bitmap());
+	return bitmap_to_json(active_mode()->get_bitmap(), active_mode());
 }
 
 void modes_controller::initialize(vector<rgb_color> pStaticColors)

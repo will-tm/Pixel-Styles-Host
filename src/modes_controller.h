@@ -70,7 +70,7 @@ public:
 	string json_error();
 	void initialize(vector<rgb_color> pStaticColors);
 	void process_fft_buffer_1024(float *pFftdata);
-	string bitmap_to_json(bitmap *pBitmap);
+	string bitmap_to_json(bitmap *pBitmap, mode_interface *pMode);
 
 	mode_interface *active_mode()
 	{

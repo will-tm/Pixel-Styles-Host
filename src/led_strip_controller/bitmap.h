@@ -35,18 +35,18 @@ public:
 	~bitmap();
 
 	rgb_color get_pixel(int x, int y);
-	void set_pixel(int x, int y, rgb_color Color);
+	void set_pixel(int x, int y, rgb_color pColor);
 
 	hsv_color get_hsv_pixel(int x, int y);
-	void set_hsv_pixel(int x, int y, hsv_color Color);
+	void set_hsv_pixel(int x, int y, hsv_color pColor);
 
-	void fill(rgb_color aColor);
+	void fill(rgb_color pColor);
 	void clear();
 
 	void move_to(int x, int y);
-	void line_to(int x, int y, rgb_color Color);
+	void line_to(int x, int y, rgb_color pColor);
 
-	void assign(bitmap *__Bitmap);
+	void assign(bitmap *pBitmap);
 	string to_string();
 
 	bitmap *add_layer();

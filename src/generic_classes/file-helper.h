@@ -20,4 +20,4 @@ using namespace std;
  * public functions
  *
  */
-int get_directory_files_list (string dir, vector<string> &files);
+int get_directory_files_list (string pDir, vector<string> &pFiles);

@@ -55,12 +55,12 @@ size_t modes_list::size()
 	return mModesMap.size();
 }
 
-int modes_list::operator[](const mode_interface *mode)
+int modes_list::operator[](const mode_interface *pMode)
 {
 	int result = 0;
 	for (map<string, mode_interface*>::iterator iter = mModesMap.begin(); iter != mModesMap.end(); iter++)
 	{
-		if ((*iter).second == mode)
+		if ((*iter).second == pMode)
 			return result;
 		result++;
 	}

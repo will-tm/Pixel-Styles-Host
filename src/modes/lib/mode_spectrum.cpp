@@ -32,7 +32,7 @@ mode_spectrum::mode_spectrum(size_t pWidth, size_t pHeight, string pName, bool p
 		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
 {
 	mPeaks.resize(mWidth);
-	for(peak_t &peak : mPeaks)
+	for (peak_t &peak : mPeaks)
 	{
 		peak.position = -1;
 		peak.tick = get_tick_us();
@@ -77,14 +77,14 @@ void mode_spectrum::paint()
 	bool maxPeaks = mSettings["Max peaks"]->get_value<bool>();
 
 	float hueInc;
-	if(mLastStartColor.H > mLastEndColor.H)
+	if (mLastStartColor.H > mLastEndColor.H)
 		hueInc = (float)((mLastEndColor.H + 360 - mLastStartColor.H) % 360) / (float)mWidth;
 	else
 		hueInc = (float)((mLastEndColor.H - mLastStartColor.H) % 360) / (float)mWidth;
 
 	hsv_color currentColor = mLastStartColor;
 
-	if(!blurEffect)
+	if (!blurEffect)
 	{
 		mBitmap->clear();
 	}
@@ -118,7 +118,7 @@ void mode_spectrum::paint()
 				mBitmap->set_hsv_pixel(x,mHeight-1-y, currentColor);
 			}
 
-			if(gradientColors)
+			if (gradientColors)
 			{
 				currentColor.H += (int)(hueInc);
 			}
@@ -126,20 +126,20 @@ void mode_spectrum::paint()
 
 		if (maxPeaks)
 		{
-			if((int)mSpectrum[x] > mPeaks[x].position)
+			if ((int)mSpectrum[x] > mPeaks[x].position)
 			{
 				mPeaks[x].position = mSpectrum[x]-1;
 				mPeaks[x].tick = get_tick_us();
 				mPeaks[x].atMax = true;
 			}
-			if((get_tick_us() - mPeaks[x].tick > PEAK_TOP_DELAY) && mPeaks[x].atMax)
+			if ((get_tick_us() - mPeaks[x].tick > PEAK_TOP_DELAY) && mPeaks[x].atMax)
 			{
 				mPeaks[x].atMax = false;
 				mPeaks[x].tick = get_tick_us();
 			}
-			if((get_tick_us() - mPeaks[x].tick > PEAK_FALL_DELAY) && !mPeaks[x].atMax)
+			if ((get_tick_us() - mPeaks[x].tick > PEAK_FALL_DELAY) && !mPeaks[x].atMax)
 			{
-				if(mPeaks[x].position > -1) mPeaks[x].position--;
+				if (mPeaks[x].position > -1) mPeaks[x].position--;
 				mPeaks[x].tick = get_tick_us();
 			}
 			mBitmap->set_pixel(x,mHeight-1-mPeaks[x].position, ColorWhite);
@@ -149,8 +149,8 @@ void mode_spectrum::paint()
 	if (fadingColors)
 	{
 
-		if(++mLastStartColor.H >= 360) mLastStartColor.H = 0;
-		if(++mLastEndColor.H >= 360) mLastEndColor.H = 0;
+		if (++mLastStartColor.H >= 360) mLastStartColor.H = 0;
+		if (++mLastEndColor.H >= 360) mLastEndColor.H = 0;
 	}
 	else
 	{

@@ -11,19 +11,19 @@
  * public functions
  *
  */
-int get_directory_files_list (string dir, vector<string> &files)
+int get_directory_files_list (string pDir, vector<string> &pFiles)
 {
 	DIR *dp;
 	struct dirent *dirp;
-	if((dp = opendir(dir.c_str())) == NULL)
+	if ((dp = opendir(pDir.c_str())) == NULL)
 	{
-		cout << "Error(" << errno << ") opening " << dir << endl;
+		cout << "Error(" << errno << ") opening " << pDir << endl;
 		return errno;
 	}
-	files = vector<string>();
+	pFiles = vector<string>();
 	while ((dirp = readdir(dp)) != NULL)
 	{
-		files.push_back(string(dirp->d_name));
+		pFiles.push_back(string(dirp->d_name));
 	}
 	closedir(dp);
 	return 0;

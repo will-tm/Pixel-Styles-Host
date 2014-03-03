@@ -11,33 +11,33 @@
  * constructor
  *
  */
-splitter::splitter(const string &src, const string &delim)
+splitter::splitter(const string &pSrc, const string &pDelim)
 {
-	reset(src, delim);
+	reset(pSrc, pDelim);
 }
 
 /*
  * destructor
  *
  */
-void splitter::reset(const string &src, const string &delim)
+void splitter::reset(const string &pSrc, const string &pDelim)
 {
 	vector<string> tokens;
 	string::size_type start = 0;
 	string::size_type end;
 	for (;;)
 	{
-		end = src.find(delim, start);
+		end = pSrc.find(pDelim, start);
 		
-		if (src.substr(start, end - start).size() > 0)
-			tokens.push_back(src.substr(start, end - start));
+		if (pSrc.substr(start, end - start).size() > 0)
+			tokens.push_back(pSrc.substr(start, end - start));
 		
 		if (end == string::npos)
 			break;
 		
-		start = end + delim.size();
+		start = end + pDelim.size();
 	}
-	_tokens.swap(tokens);
+	mTokens.swap(tokens);
 }
 
 /*
@@ -46,10 +46,10 @@ void splitter::reset(const string &src, const string &delim)
  */
 string &splitter::operator[](size_type i)
 {
-	return _tokens.at(i);
+	return mTokens.at(i);
 }
 
 size_t splitter::size() const
 {
-	return _tokens.size();
+	return mTokens.size();
 }

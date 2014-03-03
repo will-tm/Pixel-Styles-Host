@@ -37,23 +37,23 @@ settings_list::~settings_list()
  * public functions
  *
  */
-setting *settings_list::add(string _caption, string _section, string _value, float _minValue, float _maxValue, ihm_type _ihmType)
+setting *settings_list::add(string pCaption, string pSection, string pValue, float pMinValue, float pMaxValue, ihm_type pIhmType)
 {
-	setting *aSetting = new setting(_caption, _section, _value, _minValue, _maxValue, _ihmType);
+	setting *aSetting = new setting(pCaption, pSection, pValue, pMinValue, pMaxValue, pIhmType);
 	aSetting->register_callback(this, list_setting_did_change_callback);
-	mSettingsMap[_caption] = aSetting;
-	mSettingsList.push_back(_caption);
+	mSettingsMap[pCaption] = aSetting;
+	mSettingsList.push_back(pCaption);
 	return aSetting;
 }
 
-setting *settings_list::operator[](const string &__Name)
+setting *settings_list::operator[](const string &pName)
 {
-	return mSettingsMap[__Name];
+	return mSettingsMap[pName];
 }
 
-setting *settings_list::operator[](const int &__Index)
+setting *settings_list::operator[](const int &pIndex)
 {
-	return mSettingsMap[mSettingsList[__Index]];
+	return mSettingsMap[mSettingsList[pIndex]];
 }
 
 size_t settings_list::size()

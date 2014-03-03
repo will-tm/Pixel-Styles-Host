@@ -18,29 +18,29 @@ using namespace std;
  * public templates
  *
  */
-template<typename T> std::string to_string(const T& t)
+template<typename T> std::string to_string(const T& pVar)
 {
-	std::ostringstream os;
+	ostringstream os;
 	os.precision(2);
-	os << t;
+	os << pVar;
 	return os.str();
 }
 
-template<typename T> T from_string(const std::string& s)
+template<typename T> T from_string(const string& pStr)
 {
 	T value;
-	std::istringstream(s) >> value;
+	istringstream(pStr) >> value;
 	return value;
 }
 
-inline void replace_all(string& str, const string& from, const string& to)
+inline void replace_all(string& pStr, const string& pFrom, const string& pTo)
 {
-	if (from.empty())
+	if (pFrom.empty())
 		return;
 	size_t start_pos = 0;
-	while ((start_pos = str.find(from, start_pos)) != string::npos)
+	while ((start_pos = pStr.find(pFrom, start_pos)) != string::npos)
 	{
-		str.replace(start_pos, from.length(), to);
-		start_pos += to.length();
+		pStr.replace(start_pos, pFrom.length(), pTo);
+		start_pos += pTo.length();
 	}
 }

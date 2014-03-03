@@ -26,11 +26,11 @@ typedef vector<string>::size_type size_type;
 class splitter
 {
 private:
-	vector<string> _tokens;
+	vector<string> mTokens;
 public:
-	splitter(const string &src, const string &delim);
-	string& operator[](size_type i);
+	splitter(const string &pSrc, const string &pDelim);
+	string& operator[](size_type pIndex);
 	size_t size() const;
-	void reset(const string &src, const string &delim);
+	void reset(const string &pSrc, const string &pDelim);
 };
 

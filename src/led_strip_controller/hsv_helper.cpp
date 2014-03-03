@@ -20,7 +20,7 @@ rgb_color ColorBlack = { 0x00, 0x00, 0x00, 0xFF };
 rgb_color ColorWhite = { 0xFF, 0xFF, 0xFF, 0xFF };
 rgb_color ColorClear = { 0x00, 0x00, 0x00, 0x00 };
 
-rgb_color hsv_to_rgb(hsv_color hsvColor)
+rgb_color hsv_to_rgb(hsv_color pHsvColor)
 {
 #define d (255*60)
 	
@@ -30,53 +30,53 @@ rgb_color hsv_to_rgb(hsv_color hsvColor)
 	int vs;
 	rgb_color rgbColor;
 	
-	rgbColor.A = hsvColor.A;
+	rgbColor.A = pHsvColor.A;
 	
-	if ((hsvColor.S == 0) || (hsvColor.V == 0))
+	if ((pHsvColor.S == 0) || (pHsvColor.V == 0))
 	{
-		rgbColor.R = hsvColor.V;
-		rgbColor.G = hsvColor.V;
-		rgbColor.B = hsvColor.V;
+		rgbColor.R = pHsvColor.V;
+		rgbColor.G = pHsvColor.V;
+		rgbColor.B = pHsvColor.V;
 	}
 	else
 	{
-		hh = hsvColor.H % 360;
+		hh = pHsvColor.H % 360;
 		a = hh % 60;
 		hh = hh / 60;
-		vs = hsvColor.V * hsvColor.S;
-		p = hsvColor.V - vs / 255;
-		q = hsvColor.V - (vs * a) / d;
-		t = hsvColor.V - (vs * (60 - a)) / d;
+		vs = pHsvColor.V * pHsvColor.S;
+		p = pHsvColor.V - vs / 255;
+		q = pHsvColor.V - (vs * a) / d;
+		t = pHsvColor.V - (vs * (60 - a)) / d;
 		
 		switch (hh)
 		{
 			case 0:
-				rgbColor.R = hsvColor.V;
+				rgbColor.R = pHsvColor.V;
 				rgbColor.G = t;
 				rgbColor.B = p;
 			break;
 			case 1:
 				rgbColor.R = q;
-				rgbColor.G = hsvColor.V;
+				rgbColor.G = pHsvColor.V;
 				rgbColor.B = p;
 			break;
 			case 2:
 				rgbColor.R = p;
-				rgbColor.G = hsvColor.V;
+				rgbColor.G = pHsvColor.V;
 				rgbColor.B = t;
 			break;
 			case 3:
 				rgbColor.R = p;
 				rgbColor.G = q;
-				rgbColor.B = hsvColor.V;
+				rgbColor.B = pHsvColor.V;
 			break;
 			case 4:
 				rgbColor.R = t;
 				rgbColor.G = p;
-				rgbColor.B = hsvColor.V;
+				rgbColor.B = pHsvColor.V;
 			break;
 			case 5:
-				rgbColor.R = hsvColor.V;
+				rgbColor.R = pHsvColor.V;
 				rgbColor.G = p;
 				rgbColor.B = q;
 			break;
@@ -91,11 +91,11 @@ rgb_color hsv_to_rgb(hsv_color hsvColor)
 	return rgbColor;
 }
 
-rgb_color hue_to_rgb(uint16_t Hue)
+rgb_color hue_to_rgb(uint16_t pHue)
 {
 	hsv_color Color;
 	
-	Color.H = Hue;
+	Color.H = pHue;
 	Color.S = 255;
 	Color.V = 255;
 	Color.A = 255;
@@ -103,16 +103,16 @@ rgb_color hue_to_rgb(uint16_t Hue)
 	return (hsv_to_rgb(Color));
 }
 
-rgb_color hue_float_to_rgb(float &Hue)
+rgb_color hue_float_to_rgb(float &pHue)
 {
 	hsv_color Color;
 	
-	while (Hue >= 360.0f)
-		Hue = Hue - 360.0f;
-	while (Hue < 0.0f)
-		Hue = Hue + 360.0f;
+	while (pHue >= 360.0f)
+		pHue = pHue - 360.0f;
+	while (pHue < 0.0f)
+		pHue = pHue + 360.0f;
 	
-	Color.H = (uint16_t) Hue;
+	Color.H = (uint16_t) pHue;
 	Color.S = 255;
 	Color.V = 255;
 	Color.A = 255;
@@ -120,28 +120,28 @@ rgb_color hue_float_to_rgb(float &Hue)
 	return (hsv_to_rgb(Color));
 }
 
-rgb_color hue_val_float_to_rgb(float &Hue, float &Val)
+rgb_color hue_val_float_to_rgb(float &pHue, float &pVal)
 {
 	hsv_color Color;
 	
-	while (Hue >= 360.0f)
-		Hue = Hue - 360.0f;
-	while (Hue < 0.0f)
-		Hue = Hue + 360.0f;
+	while (pHue >= 360.0f)
+		pHue = pHue - 360.0f;
+	while (pHue < 0.0f)
+		pHue = pHue + 360.0f;
 	
-	Color.H = (uint16_t) Hue;
+	Color.H = (uint16_t) pHue;
 	Color.S = 255;
-	Color.V = Val;
+	Color.V = pVal;
 	Color.A = 255;
 	
 	return (hsv_to_rgb(Color));
 }
 
-hsv_color hue_to_hsv(uint16_t Hue)
+hsv_color hue_to_hsv(uint16_t pHue)
 {
 	hsv_color Color;
 	
-	Color.H = Hue;
+	Color.H = pHue;
 	Color.S = 255;
 	Color.V = 255;
 	Color.A = 255;
@@ -149,21 +149,21 @@ hsv_color hue_to_hsv(uint16_t Hue)
 	return (Color);
 }
 
-uint16_t rgb_to_hue(rgb_color rgbColor)
+uint16_t rgb_to_hue(rgb_color pRgbColor)
 {
-	return rgb_to_hsv(rgbColor).H;
+	return rgb_to_hsv(pRgbColor).H;
 }
 
-hsv_color rgb_to_hsv(rgb_color rgbColor)
+hsv_color rgb_to_hsv(rgb_color pRgbColor)
 {
 	int delta;
 	int min;
 	hsv_color hsvColor;
 	
-	hsvColor.A = rgbColor.A;
+	hsvColor.A = pRgbColor.A;
 	
-	min = min_of(rgbColor.R, min_of(rgbColor.G, rgbColor.B));
-	hsvColor.V = max_of(rgbColor.R, max_of(rgbColor.G, rgbColor.B));
+	min = min_of(pRgbColor.R, min_of(pRgbColor.G, pRgbColor.B));
+	hsvColor.V = max_of(pRgbColor.R, max_of(pRgbColor.G, pRgbColor.B));
 	delta = hsvColor.V - min;
 	
 	if (hsvColor.V == 0)
@@ -174,17 +174,17 @@ hsv_color rgb_to_hsv(rgb_color rgbColor)
 		hsvColor.H = 0;
 	else
 	{
-		if (rgbColor.R == hsvColor.V)
+		if (pRgbColor.R == hsvColor.V)
 		{
-			hsvColor.H = ((rgbColor.G - rgbColor.B) * 60) / delta;
+			hsvColor.H = ((pRgbColor.G - pRgbColor.B) * 60) / delta;
 		}
-		else if (rgbColor.G == hsvColor.V)
+		else if (pRgbColor.G == hsvColor.V)
 		{
-			hsvColor.H = 120 + ((rgbColor.B - rgbColor.R) * 60) / delta;
+			hsvColor.H = 120 + ((pRgbColor.B - pRgbColor.R) * 60) / delta;
 		}
-		else if (rgbColor.B == hsvColor.V)
+		else if (pRgbColor.B == hsvColor.V)
 		{
-			hsvColor.H = 240 + ((rgbColor.R - rgbColor.G) * 60) / delta;
+			hsvColor.H = 240 + ((pRgbColor.R - pRgbColor.G) * 60) / delta;
 		}
 	}
 	if (hsvColor.H < 0)
@@ -193,51 +193,51 @@ hsv_color rgb_to_hsv(rgb_color rgbColor)
 	return hsvColor;
 }
 
-rgb_color alpha_blend(rgb_color color1, rgb_color color2)
+rgb_color alpha_blend(rgb_color pColor1, rgb_color pColor2)
 {
 	rgb_color result;
 	
-	if (color1.A == 0)
-		result = color2;
-	else if (color2.A == 0)
-		result = color1;
+	if (pColor1.A == 0)
+		result = pColor2;
+	else if (pColor2.A == 0)
+		result = pColor1;
 	else
 	{
-		result.A = (uint8_t) (((uint32_t) color2.A + (uint32_t) color1.A * (255 - (uint32_t) color2.A)) / 255);
-		result.R = (uint8_t) (((uint32_t) color2.R * (uint32_t) color2.A + (uint32_t) color1.R * (255 - (uint32_t) color2.A)) / 255);
-		result.G = (uint8_t) (((uint32_t) color2.G * (uint32_t) color2.A + (uint32_t) color1.G * (255 - (uint32_t) color2.A)) / 255);
-		result.B = (uint8_t) (((uint32_t) color2.B * (uint32_t) color2.A + (uint32_t) color1.B * (255 - (uint32_t) color2.A)) / 255);
+		result.A = (uint8_t) (((uint32_t) pColor2.A + (uint32_t) pColor1.A * (255 - (uint32_t) pColor2.A)) / 255);
+		result.R = (uint8_t) (((uint32_t) pColor2.R * (uint32_t) pColor2.A + (uint32_t) pColor1.R * (255 - (uint32_t) pColor2.A)) / 255);
+		result.G = (uint8_t) (((uint32_t) pColor2.G * (uint32_t) pColor2.A + (uint32_t) pColor1.G * (255 - (uint32_t) pColor2.A)) / 255);
+		result.B = (uint8_t) (((uint32_t) pColor2.B * (uint32_t) pColor2.A + (uint32_t) pColor1.B * (255 - (uint32_t) pColor2.A)) / 255);
 	}
-	//printf("alpha_blend - color1={%d %d %d %d} color2={%d %d %d %d} result={%d %d %d %d}\n", color1.R, color1.G, color1.B, color1.A, color2.R, color2.G, color2.B, color2.A, result.R, result.G, result.B, result.A);
+	//printf("alpha_blend - pColor1={%d %d %d %d} pColor2={%d %d %d %d} result={%d %d %d %d}\n", pColor1.R, pColor1.G, pColor1.B, pColor1.A, pColor2.R, pColor2.G, pColor2.B, pColor2.A, result.R, result.G, result.B, result.A);
 	return result;
 }
 
-rgb_color inc_hue_of_color(rgb_color rgbColor, uint16_t inc)
+rgb_color inc_hue_of_color(rgb_color pRgbColor, uint16_t pInc)
 {
-	hsv_color hsv = rgb_to_hsv(rgbColor);
-	hsv.H = (hsv.H + inc) % 360;
+	hsv_color hsv = rgb_to_hsv(pRgbColor);
+	hsv.H = (hsv.H + pInc) % 360;
 	return hsv_to_rgb(hsv);
 }
 
-uint32_t rgb_to_int(rgb_color rgbColor)
+uint32_t rgb_to_int(rgb_color pRgbColor)
 {
-	uint32_t *ptr = (uint32_t*)&rgbColor;
+	uint32_t *ptr = (uint32_t*)&pRgbColor;
 	return (uint32_t)*ptr;
 }
 
-rgb_color int_to_rgb(uint32_t intColor)
+rgb_color int_to_rgb(uint32_t pIntColor)
 {
-	rgb_color *ptr = (rgb_color*)&intColor;
+	rgb_color *ptr = (rgb_color*)&pIntColor;
 	return (rgb_color)*ptr;
 }
 
-hsv_color int_to_hsv(uint32_t intColor)
+hsv_color int_to_hsv(uint32_t pIntColor)
 {
-	return rgb_to_hsv(int_to_rgb(intColor));
+	return rgb_to_hsv(int_to_rgb(pIntColor));
 }
 
-std::string rgb_to_string(rgb_color rgbColor)
+std::string rgb_to_string(rgb_color pRgbColor)
 {
-	uint32_t *ptr = (uint32_t*)&rgbColor;
+	uint32_t *ptr = (uint32_t*)&pRgbColor;
 	return boost::lexical_cast<std::string>((uint32_t)*ptr);
 }

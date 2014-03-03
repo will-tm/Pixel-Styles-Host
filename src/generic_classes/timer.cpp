@@ -13,12 +13,12 @@
  * constructor
  *
  */
-timer::timer(long pPeriod, const timer_callback_t& callback)
+timer::timer(long pPeriod, const timer_callback_t& pCallback)
 {
 	mThreadId = 0;
 	mRunning = false;
 	mRefreshPeriod = pPeriod;
-	mCallback = callback;
+	mCallback = pCallback;
 	mTimer = 0;
 }
 
@@ -70,9 +70,9 @@ void timer::run(void)
 	}
 }
 
-void timer::handler_wrapper(sigval_t val)
+void timer::handler_wrapper(sigval_t pVal)
 {
-	timer *aTimer = (timer *) val.sival_ptr;
+	timer *aTimer = (timer *)pVal.sival_ptr;
 	aTimer->handler();
 }
 

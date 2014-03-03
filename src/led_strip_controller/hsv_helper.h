@@ -43,20 +43,20 @@ typedef struct
  * public prototypes
  *
  */
-rgb_color hsv_to_rgb(hsv_color hsvColor);
-rgb_color hue_to_rgb(uint16_t Hue);
-rgb_color inc_hue_of_color(rgb_color rgbColor, uint16_t inc);
-rgb_color hue_float_to_rgb(float &Hue);
-rgb_color hue_val_float_to_rgb(float &Hue, float &Sat);
-hsv_color hue_to_hsv(uint16_t Hue);
-uint16_t rgb_to_hue(rgb_color rgbColor);
-hsv_color rgb_to_hsv(rgb_color rgbColor);
-uint32_t rgb_to_int(rgb_color rgbColor);
-rgb_color int_to_rgb(uint32_t intColor);
-hsv_color int_to_hsv(uint32_t intColor);
-std::string rgb_to_string(rgb_color rgbColor);
+rgb_color hsv_to_rgb(hsv_color pHsvColor);
+rgb_color hue_to_rgb(uint16_t pHue);
+rgb_color pInc_hue_of_color(rgb_color pRgbColor, uint16_t pInc);
+rgb_color hue_float_to_rgb(float &pHue);
+rgb_color hue_val_float_to_rgb(float &pHue, float &pSat);
+hsv_color hue_to_hsv(uint16_t pHue);
+uint16_t rgb_to_hue(rgb_color pRgbColor);
+hsv_color rgb_to_hsv(rgb_color pRgbColor);
+uint32_t rgb_to_int(rgb_color pRgbColor);
+rgb_color int_to_rgb(uint32_t pIntColor);
+hsv_color int_to_hsv(uint32_t pIntColor);
+std::string rgb_to_string(rgb_color pRgbColor);
 
-rgb_color alpha_blend(rgb_color color1, rgb_color color2);
+rgb_color alpha_blend(rgb_color pColor1, rgb_color pColor2);
 
 extern rgb_color ColorRed;
 extern rgb_color ColorGreen;

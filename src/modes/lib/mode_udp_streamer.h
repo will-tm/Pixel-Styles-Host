@@ -26,7 +26,7 @@ public:
 	~mode_udp_streamer();
 
 	virtual void paint();
-	virtual void handle_udp_receive(uint8_t *data, size_t length);
+	virtual void handle_udp_receive(uint8_t *pData, size_t pLength);
 
 	virtual bool needs_udp_socket()
 	{

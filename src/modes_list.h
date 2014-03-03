@@ -27,9 +27,9 @@ public:
 	modes_list();
 	~modes_list();
 
-	void add(string _caption, mode_interface *mode);
-	mode_interface *operator[](const string &name);
-	mode_interface *operator[](const int &index);
-	int operator[](const mode_interface *mode);
+	void add(string pCaption, mode_interface *pMode);
+	mode_interface *operator[](const string &pName);
+	mode_interface *operator[](const int &pIndex);
+	int operator[](const mode_interface *pMode);
 	size_t size();
 };

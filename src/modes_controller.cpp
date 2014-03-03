@@ -111,9 +111,9 @@ void modes_controller::add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAu
 	vector<string> files;
 
 	get_directory_files_list(MODES_ENABLED_DIRECTORY,files);
-	for(string file : files)
+	for (string file : files)
 	{
-		if(file.compare(".") && file.compare(".."))
+		if (file.compare(".") && file.compare(".."))
 		{
 			LOG_INFO << "Loading mode from file " << file;
 			string modeFile = MODES_ENABLED_DIRECTORY + file;
@@ -298,7 +298,7 @@ void modes_controller::initialize(vector<rgb_color> pStaticColors)
 	}
 }
 
-void modes_controller::process_fft_buffer_1024(float *fftdata)
+void modes_controller::process_fft_buffer_1024(float *pFftdata)
 {
 	size_t y;
 	int size;
@@ -318,7 +318,7 @@ void modes_controller::process_fft_buffer_1024(float *fftdata)
 		peak = 0;
 		for (int i = 0; i < size; i++)
 		{
-			float b2 = (float) fftdata[1 + b0 + i] * mSensitivity;
+			float b2 = (float) pFftdata[1 + b0 + i] * mSensitivity;
 			peak = peak + b2;
 		}
 		b0 = b1;

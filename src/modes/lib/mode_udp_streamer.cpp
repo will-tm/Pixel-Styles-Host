@@ -45,12 +45,12 @@ mode_udp_streamer::~mode_udp_streamer()
  * public functions
  *
  */
-void mode_udp_streamer::handle_udp_receive(uint8_t *data, size_t length)
+void mode_udp_streamer::handle_udp_receive(uint8_t *pData, size_t pLength)
 {
-	if (length == mWidth * mHeight * 3)
+	if (pLength == mWidth * mHeight * 3)
 	{
 		mLastTickCount = get_tick_us();
-		memcpy(mUdpBuffer, data, length);
+		memcpy(mUdpBuffer, pData, pLength);
 	}
 }
 

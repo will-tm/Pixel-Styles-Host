@@ -54,7 +54,7 @@ private:
 
 	void add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable);
 	void audio_tasks();
-	void handle_receive(uint8_t *data, size_t length);
+	void handle_receive(uint8_t *pData, size_t pLength);
 public:
 	
 	modes_controller(size_t pWidth, size_t pHeight);
@@ -69,7 +69,7 @@ public:
 	string json_success();
 	string json_error();
 	void initialize(vector<rgb_color> pStaticColors);
-	void process_fft_buffer_1024(float *fftdata);
+	void process_fft_buffer_1024(float *pFftdata);
 	string bitmap_to_json(bitmap *pBitmap);
 
 	mode_interface *active_mode()
@@ -84,9 +84,9 @@ public:
 	{
 		return mAudioAvailable;
 	}
-	mode_interface *operator[](const string name)
+	mode_interface *operator[](const string pName)
 	{
-		return mModesList[name];
+		return mModesList[pName];
 	}
 	void lock()
 	{

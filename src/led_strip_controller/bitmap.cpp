@@ -36,13 +36,13 @@ bitmap::~bitmap()
  * public functions
  *
  */
-void bitmap::fill(rgb_color aColor)
+void bitmap::fill(rgb_color pColor)
 {
 	for (int y = 0; y < height; y++)
 	{
 		for (int x = 0; x < width; x++)
 		{
-			mMemory[x][y] = aColor;
+			mMemory[x][y] = pColor;
 		}
 	}
 }
@@ -57,13 +57,13 @@ rgb_color bitmap::get_pixel(int x, int y)
 	return (mMemory[x][y]);
 }
 
-void bitmap::set_pixel(int x, int y, rgb_color Color)
+void bitmap::set_pixel(int x, int y, rgb_color pColor)
 {
 	if (x >= width)
 		return;
 	if (y >= height)
 		return;
-	mMemory[x][y] = Color;
+	mMemory[x][y] = pColor;
 }
 
 hsv_color bitmap::get_hsv_pixel(int x, int y)
@@ -71,13 +71,13 @@ hsv_color bitmap::get_hsv_pixel(int x, int y)
 	return (rgb_to_hsv(mMemory[x][y]));
 }
 
-void bitmap::set_hsv_pixel(int x, int y, hsv_color Color)
+void bitmap::set_hsv_pixel(int x, int y, hsv_color pColor)
 {
 	if (x >= width)
 		return;
 	if (y >= height)
 		return;
-	mMemory[x][y] = hsv_to_rgb(Color);
+	mMemory[x][y] = hsv_to_rgb(pColor);
 }
 
 void bitmap::move_to(int x, int y)
@@ -86,7 +86,7 @@ void bitmap::move_to(int x, int y)
 	mLocationY = y;
 }
 
-void bitmap::line_to(int x, int y, rgb_color Color)
+void bitmap::line_to(int x, int y, rgb_color pColor)
 {
 	float x1, x2, y1, y2;
 	
@@ -121,11 +121,11 @@ void bitmap::line_to(int x, int y, rgb_color Color)
 	{
 		if (steep)
 		{
-			set_pixel(y0, x0, Color);
+			set_pixel(y0, x0, pColor);
 		}
 		else
 		{
-			set_pixel(x0, y0, Color);
+			set_pixel(x0, y0, pColor);
 		}
 		
 		error -= dy;
@@ -140,13 +140,13 @@ void bitmap::line_to(int x, int y, rgb_color Color)
 	mLocationY = y;
 }
 
-void bitmap::assign(bitmap *__Bitmap)
+void bitmap::assign(bitmap *pBitmap)
 {
 	for (int y = 0; y < height; y++)
 	{
 		for (int x = 0; x < width; x++)
 		{
-			set_pixel(x, y, __Bitmap->get_pixel(x, y));
+			set_pixel(x, y, pBitmap->get_pixel(x, y));
 		}
 	}
 }

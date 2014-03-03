@@ -35,10 +35,10 @@ private:
 	timer_t mTimer;
 	timer_callback_t mCallback;
 public:
-	timer(long pPeriod, const timer_callback_t& callback);
+	timer(long pPeriod, const timer_callback_t& pCallback);
 	virtual ~timer();
 
-	static void handler_wrapper(sigval_t val);
+	static void handler_wrapper(sigval_t pVal);
 	void handler();
 
 	void run(void);

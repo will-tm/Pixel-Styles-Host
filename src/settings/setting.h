@@ -64,10 +64,10 @@ public:
 		mMutex.unlock();
 		return result;
 	}
-	template<typename T> void set_value(const T& v)
+	template<typename T> void set_value(const T& pValue)
 	{
 		mMutex.lock();
-		mValue = to_string<T>(v);
+		mValue = to_string<T>(pValue);
 		mMutex.unlock();
 		
 		if (mSettingDidChangeCallback != NULL)

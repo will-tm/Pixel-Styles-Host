@@ -27,9 +27,9 @@ public:
 	settings_list();
 	~settings_list();
 
-	setting *add(string _caption, string _section, string _value, float _minValue, float _maxValue, ihm_type _ihmType);
-	setting *operator[](const string &__Name);
-	setting *operator[](const int &__Index);
+	setting *add(string pCaption, string pSection, string pValue, float pMinValue, float pMaxValue, ihm_type pIhmType);
+	setting *operator[](const string &pName);
+	setting *operator[](const int &pIndex);
 	size_t size();
 	void set_ini_path(string pPath);
 	void setting_did_change(setting *pSetting);

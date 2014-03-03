@@ -29,13 +29,13 @@ public:
 
 	void save();
 
-	template<typename T> T get(const std::string& section, const std::string& key, const T& default_value)
+	template<typename T> T get(const std::string& pSection, const std::string& pKey, const T& pDefaultValue)
 	{
-		return pt.get<T>(section + "." + key, default_value);
+		return pt.get<T>(pSection + "." + pKey, pDefaultValue);
 	}
-	template<typename T> void set(const std::string& section, const std::string& key, const T& value)
+	template<typename T> void set(const std::string& pSection, const std::string& pKey, const T& pValue)
 	{
-		pt.put<T>(section + "." + key, value);
+		pt.put<T>(pSection + "." + pKey, pValue);
 		save();
 	}
 };

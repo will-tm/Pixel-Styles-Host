@@ -60,11 +60,11 @@ protected:
 	vector<size_t> mSpectrum;
 	vector<size_t> mScope;
 
-	float randomf(float min, float max)
+	float randomf(float pMin, float pMax)
 	{
 		float random_ratio = ((float) rand()) / (float) RAND_MAX;
-		float range = max - min;
-		return (random_ratio * range) + min;
+		float range = pMax - pMin;
+		return (random_ratio * range) + pMin;
 	}
 public:
 	settings_list mSettings;
@@ -89,10 +89,10 @@ public:
 		mSpectrum.resize(mWidth);
 		mScope.resize(mWidth);
 
-		for(size_t &item : mSpectrum)
+		for (size_t &item : mSpectrum)
 			item = random(mHeight);
 
-		for(size_t &item : mScope)
+		for (size_t &item : mScope)
 			item = random(mHeight);
 	}
 	
@@ -181,7 +181,7 @@ public:
 		return 0;
 	}
 
-	virtual void handle_udp_receive(uint8_t *data, size_t length)
+	virtual void handle_udp_receive(uint8_t *pData, size_t pLength)
 	{
 	}
 };

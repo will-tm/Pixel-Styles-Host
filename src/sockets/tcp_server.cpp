@@ -75,8 +75,8 @@ void tcp_server::onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp 
 	if (pos != std::string::npos)
 		subquery = query.substr(0, pos);
 	
-	LOG_DEBUG << "Received: " << subquery;
-	
+	LOG_TRACE << "Received: " << subquery;
+
 	string answer;
 	if (mReadCallback)
 		mReadCallback(subquery, answer);
@@ -96,7 +96,7 @@ void tcp_server::onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp 
 		answer.append("\r\n");
 		conn->send(answer);
 		
-		LOG_DEBUG << "Replied " << answer.size() << " bytes : " << answer;
+		LOG_TRACE << "Replied " << answer.size() << " bytes : " << answer;
 	}
 }
 

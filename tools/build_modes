@@ -11,7 +11,7 @@ for f in $MODES_1D_PATH*.cpp; do
     TMP=${MODE#*_}
     MODE_NAME=${TMP%.cpp} 
 
-    ./tools/build_mode $MODE_NAME
+    ./tools/build_mode_1d $MODE_NAME
 done
 
 for f in $MODES_2D_PATH*.cpp; do
@@ -19,7 +19,7 @@ for f in $MODES_2D_PATH*.cpp; do
     TMP=${MODE#*_}
     MODE_NAME=${TMP%.cpp}
 
-    ./tools/build_mode $MODE_NAME
+    ./tools/build_mode_2d $MODE_NAME
 done
 
 

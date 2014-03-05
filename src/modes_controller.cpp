@@ -56,6 +56,7 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 
 	mModesList.add("OFF", new mode_off(mWidth, mHeight, "OFF", mAudioAvailable));
 	mModesList.add("Touch", new mode_touch(mWidth, mHeight, "Touch", mAudioAvailable));
+	mModesList.add("Fading", new mode_fading(mWidth, mHeight, "Fading", mAudioAvailable));
 	add_dynamic_modes(mWidth, mHeight, mAudioAvailable);
 	
 	mActiveMode = mModesList[0];

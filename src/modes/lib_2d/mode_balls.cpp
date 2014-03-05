@@ -30,7 +30,7 @@ mode_balls::mode_balls(size_t pWidth, size_t pHeight, string pName, bool pAudioA
 {
 	mLastBallsCount = -1;
 
-	// Settings;
+	// Settings
 	if (mAudioAvailable)
 		mSettings.add("Sound Reactive", "Audio", "1", 0.0, 1.0, ihmCheckbox);
 	mSettings.add("Count", "Balls", "5.0", 1.0f, 5.0f, ihmSpinEdit);

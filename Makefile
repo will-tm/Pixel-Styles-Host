@@ -5,7 +5,7 @@ LIBRARIES=./lib
 INCLUDES =-I./src -I./src/generic_classes -I./src/led_strip_controller -I./src/modes -I./src/sockets -I./src/settings
 
 # ALL SOURCES
-SOURCES=$(shell find . -name *.cpp -not -path */src/modes/lib/*)
+SOURCES=$(shell find . -name *.cpp -not -path */src/modes/lib*/*)
 OBJECTS=$(SOURCES:%.cpp=%.o)
 
 # COMPILER SETTINGS

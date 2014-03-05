@@ -18,6 +18,7 @@ using namespace std;
 
 #include "mode_off.h"
 #include "mode_touch.h"
+#include "mode_fading.h"
 
 #include "bass.h"
 #include "bass_fx.h"

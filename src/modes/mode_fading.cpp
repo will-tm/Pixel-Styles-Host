@@ -8,20 +8,6 @@
 #include "mode_fading.h"
 
 /*
- * public library interface
- *
- */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
-{
-  return new mode_fading(pWidth, pHeight, "Fading", pAudioAvailable);
-}
-
-extern "C" void destroy_mode(mode_interface* object)
-{
-  delete object;
-}
-
-/*
  * constructor
  *
  */

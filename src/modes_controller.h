@@ -44,6 +44,7 @@ private:
 	float mAudioLevelRatio;
 	mode_interface *mActiveMode;
 	mutex mModeMutex;
+	vector<size_t> mSegments;
 	ini_parser *mIniFile;
 	tcp_server *mTcpServer;
 	udp_server *mUdpServer;
@@ -53,7 +54,7 @@ private:
 	vector<size_t> mPows;
 	float mSensitivity;
 
-	void add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable);
+	void add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments);
 	void audio_tasks();
 	void handle_receive(uint8_t *pData, size_t pLength);
 public:

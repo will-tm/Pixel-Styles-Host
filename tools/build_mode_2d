@@ -31,11 +31,11 @@ $MODE -o $OUT \
 -I./src/generic_classes -s \
 -I./src/led_strip_controller \
 -I./src/modes \
--I./src/modes/dyn \
+-I./src/modes/lib_2d \
 -I./src/sockets \
 -I./src/settings \
 -ljson_spirit \
--L./lib_2d
+-L./lib
 
 if [ ! -f $OUT  ]; then
     echo " Failed!"

@@ -11,9 +11,9 @@
  * public library interface
  *
  */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_pulse(pWidth, pHeight, "Pulse", pAudioAvailable);
+  return new mode_pulse(pWidth, pHeight, "Pulse", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
@@ -25,14 +25,14 @@ extern "C" void destroy_mode(mode_interface* object)
  * constructor
  *
  */
-mode_pulse::mode_pulse(size_t pSize, string pName, bool pAudioAvailable, vector<size_t> pSegments) : mode_interface(pSize, pName, pAudioAvailable, pSegments)
+mode_pulse::mode_pulse(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments) : mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mSectors.resize(mSegments.size());
 	for(size_t i = 0; i < mSectors.size(); i++)
 	{
 		configure_sector(&mSectors[i],  mSegments[i]);
 	}
-	configure_sector(&mLinkedSector,  pSize);
+	configure_sector(&mLinkedSector,  mSize);
 
 	// Settings
 	if(mAudioAvailable) mSettings.add("Sound Reactive", 		"Audio", 	"True", 0.0,  1.0,   ihmCheckbox);

@@ -11,9 +11,9 @@
  * public library interface
  *
  */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_balls(pWidth, pHeight, "Balls", pAudioAvailable);
+  return new mode_balls(pWidth, pHeight, "Balls", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
@@ -25,8 +25,8 @@ extern "C" void destroy_mode(mode_interface* object)
  * constructor
  *
  */
-mode_balls::mode_balls(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
-		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_balls::mode_balls(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments)
+		: mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mLastBallsCount = -1;
 

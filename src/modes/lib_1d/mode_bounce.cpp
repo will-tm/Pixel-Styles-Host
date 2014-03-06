@@ -11,9 +11,9 @@
  * public library interface
  *
  */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_bounce(pWidth, pHeight, "Bounce", pAudioAvailable);
+  return new mode_bounce(pWidth, pHeight, "Bounce", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
@@ -25,14 +25,14 @@ extern "C" void destroy_mode(mode_interface* object)
  * constructor
  *
  */
-mode_bounce::mode_bounce(size_t pSize, string pName, bool pAudioAvailable, vector<size_t> pSegments) : mode_interface(pSize, pName, pAudioAvailable, pSegments)
+mode_bounce::mode_bounce(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments) : mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mPointers.resize(mSegments.size());
 	for(size_t i = 0; i < mPointers.size(); i++)
 	{
 		configure_pointer(&mPointers[i], mSegments[i]);
 	}
-	configure_pointer(&mLinkedPointer, pSize);
+	configure_pointer(&mLinkedPointer, mSize);
 
 	pointers_tasks(0.0f);
 

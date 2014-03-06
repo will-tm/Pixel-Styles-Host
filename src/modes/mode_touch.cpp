@@ -11,8 +11,8 @@
  * constructor
  *
  */
-mode_touch::mode_touch(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
-		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_touch::mode_touch(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments)
+		: mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mIniFile = new ini_parser(mIniFilePath);
 	mUI = uiSpectrum;

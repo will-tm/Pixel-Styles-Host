@@ -11,8 +11,8 @@
  * constructor
  *
  */
-mode_fading::mode_fading(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
-		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_fading::mode_fading(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments)
+		: mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mCurrentColor = hue_to_rgb(random(360));
 

@@ -45,7 +45,7 @@ private:
 	void configure_pointer(mode_bounce_pointer *pPointer, size_t pSize);
 	void pointer_tasks(mode_bounce_pointer *pPointer, float pStep);
 public:
-	mode_bounce(size_t pSize, string pName, bool pAudioAvailable, vector<size_t> pSegments);
+	mode_bounce(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_bounce();
 
 	virtual void paint();

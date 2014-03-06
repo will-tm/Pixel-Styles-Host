@@ -20,7 +20,7 @@ class mode_fading: public mode_interface
 private:
 	rgb_color mCurrentColor;
 public:
-	mode_fading(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_fading(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_fading();
 
 	virtual void paint();

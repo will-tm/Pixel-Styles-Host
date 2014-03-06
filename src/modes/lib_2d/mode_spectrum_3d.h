@@ -21,7 +21,7 @@ private:
 	hsv_color mLastStartColor;
 	hsv_color mLastEndColor;
 public:
-	mode_spectrum_3d(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_spectrum_3d(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_spectrum_3d();
 
 	virtual void paint();

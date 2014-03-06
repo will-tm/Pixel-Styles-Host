@@ -33,7 +33,7 @@ private:
 	hsv_color mLastEndColor;
 	vector<peak_t> mPeaks;
 public:
-	mode_spectrum(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_spectrum(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_spectrum();
 
 	virtual void paint();

@@ -21,7 +21,7 @@ private:
 	float mRotationPtr;
 	hsv_color mRotationStartColor;
 public:
-	mode_rainbow(size_t pSize, string pName, bool pAudioAvailable, vector<size_t> pSegments);
+	mode_rainbow(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_rainbow();
 
 	virtual void paint();

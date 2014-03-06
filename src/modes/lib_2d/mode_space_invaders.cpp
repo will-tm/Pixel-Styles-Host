@@ -37,9 +37,9 @@ const uint8_t mode_space_invaders::pixels[] =
  * public library interface
  *
  */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_space_invaders(pWidth, pHeight, "Space Invaders", pAudioAvailable);
+  return new mode_space_invaders(pWidth, pHeight, "Space Invaders", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
@@ -51,8 +51,8 @@ extern "C" void destroy_mode(mode_interface* object)
  * constructor
  *
  */
-mode_space_invaders::mode_space_invaders(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
-		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_space_invaders::mode_space_invaders(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments)
+		: mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mLastTick = 0;
 	mImageState = 0;

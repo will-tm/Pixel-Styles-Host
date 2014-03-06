@@ -47,7 +47,7 @@ private:
 	void sector_tasks(mode_pulse_sector *pSector);
 	void sectors_tasks();
 public:
-	mode_pulse(size_t pSize, string pName, bool pAudioAvailable, vector<size_t> pSegments);
+	mode_pulse(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_pulse();
 
 	virtual void paint();

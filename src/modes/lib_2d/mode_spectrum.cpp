@@ -14,9 +14,9 @@
  * public library interface
  *
  */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_spectrum(pWidth, pHeight, "Spectrum", pAudioAvailable);
+  return new mode_spectrum(pWidth, pHeight, "Spectrum", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
@@ -28,8 +28,8 @@ extern "C" void destroy_mode(mode_interface* object)
  * constructor
  *
  */
-mode_spectrum::mode_spectrum(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
-		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_spectrum::mode_spectrum(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments)
+		: mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mPeaks.resize(mWidth);
 	for (peak_t &peak : mPeaks)

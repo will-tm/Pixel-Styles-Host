@@ -11,9 +11,9 @@
  * public library interface
  *
  */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_rainbow(pWidth, pHeight, "Rainbow", pAudioAvailable);
+  return new mode_rainbow(pWidth, pHeight, "Rainbow", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
@@ -25,7 +25,7 @@ extern "C" void destroy_mode(mode_interface* object)
  * constructor
  *
  */
-mode_rainbow::mode_rainbow(size_t pSize, string pName, bool pAudioAvailable, vector<size_t> pSegments) : mode_interface(pSize, pName, pAudioAvailable, pSegments)
+mode_rainbow::mode_rainbow(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments) : mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mRotationPtr = 0.0f;
 

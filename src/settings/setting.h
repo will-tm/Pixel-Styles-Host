@@ -16,7 +16,7 @@ using namespace std;
 #include <mutex>
 #include "strings-helper.h"
 #include "hsv_helper.h"
-
+#include <functional>
 /*
  * public types
  *
@@ -28,7 +28,11 @@ typedef enum
 	ihmSpinEdit, ihmSpinEditFloat, ihmCheckbox, ihmSegmentedControl, ihmTrackbar, ihmLogTrackbar, ihmButton, ihmColorSelector
 } ihm_type;
 
-typedef void (setting_did_change_callback)(void* parent, setting *pSetting);
+/*
+ * public types
+ *
+ */
+typedef function<void(setting *pSetting)> setting_did_change_callback_t;
 
 /*
  * public class
@@ -39,8 +43,7 @@ class setting
 private:
 	mutex mMutex;
 	string mValue;
-	setting_did_change_callback *mSettingDidChangeCallback;
-	void *mParent;
+	setting_did_change_callback_t mSettingDidChangeCallback;
 public:
 	string caption;
 	string section;
@@ -51,10 +54,9 @@ public:
 	setting(string pCaption, string pSection, string pValue, float pMinValue, float pMaxValue, ihm_type pIhmType);
 	~setting();
 
-	void register_callback(void *pParent, setting_did_change_callback *pSettingDidChangeCallback)
+	void register_callback(const setting_did_change_callback_t& callback)
 	{
-		mParent = pParent;
-		mSettingDidChangeCallback = pSettingDidChangeCallback;
+		mSettingDidChangeCallback = callback;
 	}
 	
 	template<typename T> T get_value()
@@ -70,9 +72,9 @@ public:
 		mValue = to_string<T>(pValue);
 		mMutex.unlock();
 		
-		if (mSettingDidChangeCallback != NULL)
+		if (mSettingDidChangeCallback)
 		{
-			mSettingDidChangeCallback(mParent, this);
+			mSettingDidChangeCallback(this);
 		}
 	}
 };

@@ -17,12 +17,11 @@ using namespace std;
 #include <stdio.h>
 #include <string.h>
 #include <muduo/net/TcpServer.h>
+#include <boost/bind.hpp>
+#include <functional>
 #include <string>
 #include <vector>
 #include "splitter.h"
-
-#include <boost/bind.hpp>
-#include <functional>
 
 /*
  * public types
@@ -43,7 +42,6 @@ private:
 	muduo::net::TcpServer server_;
 	int numConnected_; // should be atomic_int
 	const int kMaxConnections_;
-	void* mCallbackParent;
 	vector<string> mConnectedAddresses;
 	string mMacAddress;
 	tcp_socket_read_callback_t mReadCallback;

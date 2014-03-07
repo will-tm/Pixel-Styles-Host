@@ -8,7 +8,6 @@
 #include "tcp_server.h"
 
 #include <muduo/base/Logging.h>
-#include <boost/bind.hpp>
 #include <zlib.h>
 
 using namespace muduo;

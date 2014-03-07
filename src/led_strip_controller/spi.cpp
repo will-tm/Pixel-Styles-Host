@@ -7,6 +7,7 @@
 
 #include "spi.h"
 #include <muduo/base/Logging.h>
+#include <functional>
 
 /*
  * constructor
@@ -18,7 +19,7 @@ spi::spi(const char *pDevice)
 	mRunning = false;
 	mActiveTransfert = false;
 	mInitializationSuccessful = false;
-	mThreadId = 0;
+	mTransmitThread = NULL;
 	mTransfert.rx_buf = 0;
 	mTransfert.delay_usecs = 0;
 	mTransfert.speed_hz = 2000000;
@@ -56,15 +57,9 @@ spi::~spi()
 }
 
 /*
- * public functions
+ * private functions
  *
  */
-static void *thread_run_callback(void *pOwner)
-{
-	((spi *) pOwner)->thread_run();
-	return NULL;
-}
-
 void spi::thread_run()
 {
 	while (mRunning)
@@ -87,13 +82,18 @@ void spi::thread_run()
 		}
 		usleep(1000);
 	}
-	pthread_exit(NULL);
 }
 
+/*
+ * public functions
+ *
+ */
 void spi::run()
 {
 	mRunning = true;
-	(void) pthread_create(&mThreadId, NULL, thread_run_callback, this);
+
+	mTransmitThread = new thread(bind(&spi::thread_run, this));
+	mTransmitThread->join();
 }
 
 void spi::write_buffer(uint8_t *pBuffer, int pLength)
@@ -115,6 +115,5 @@ bool spi::activeTransfert()
 
 void spi::waitForTransfertToComplete()
 {
-	while (mActiveTransfert)
-		;
+	while (mActiveTransfert);
 }

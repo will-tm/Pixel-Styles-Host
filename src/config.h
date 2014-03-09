@@ -25,4 +25,4 @@
 
 #define DEFAULT_LOG_LEVEL				muduo::Logger::DEBUG
 
-#define VERSION							"0.0.3"
+#define VERSION							"0.0.4"

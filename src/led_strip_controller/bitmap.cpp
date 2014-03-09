@@ -398,7 +398,7 @@ void bitmap::fill_round_rect(int x, int y, int w, int h, int r, rgb_color pColor
 
 void bitmap::print_string(int x, int y, string s, rgb_color pColor)
 {
-	char *str = s.c_str();
+	char *str = (char *)s.c_str();
 	while(*str)
 	{
 		draw_char(x, y, *str, pColor);

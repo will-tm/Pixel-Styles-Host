@@ -29,7 +29,7 @@ using namespace std;
  */
 typedef enum
 {
-	uiSpectrum, uiSettings
+	uiSpectrum, uiSettings, uiImagePicker
 } ui_type;
 
 typedef enum

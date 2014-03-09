@@ -53,6 +53,8 @@ spi::spi(const char *pDevice)
 spi::~spi()
 {
 	mRunning = false;
+	mTransmitThread->join();
+
 	close(mHandle);
 }
 
@@ -64,7 +66,7 @@ void spi::thread_run()
 {
 	while (mRunning)
 	{
-		if (mTransfert.len)
+		if (mActiveTransfert && mTransfert.len)
 		{
 			mMutex.lock();
 			int bytesWritten = ioctl(mHandle, SPI_IOC_MESSAGE(1), &mTransfert);
@@ -90,10 +92,8 @@ void spi::thread_run()
  */
 void spi::run()
 {
-	mRunning = true;
-
 	mTransmitThread = new thread(bind(&spi::thread_run, this));
-	mTransmitThread->join();
+	mRunning = true;
 }
 
 void spi::write_buffer(uint8_t *pBuffer, int pLength)
@@ -103,7 +103,6 @@ void spi::write_buffer(uint8_t *pBuffer, int pLength)
 		mTransfert.tx_buf = (unsigned long) pBuffer;
 		mTransfert.len = pLength;
 		mActiveTransfert = true;
-		
 		mMutex.unlock();
 	}
 }

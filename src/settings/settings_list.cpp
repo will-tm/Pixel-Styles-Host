@@ -7,11 +7,6 @@
 
 #include "settings_list.h"
 
-void list_setting_did_change_callback(void* parent, setting *pSetting)
-{
-	((settings_list*) parent)->setting_did_change(pSetting);
-}
-
 /*
  * constructor
  *
@@ -40,7 +35,7 @@ settings_list::~settings_list()
 setting *settings_list::add(string pCaption, string pSection, string pValue, float pMinValue, float pMaxValue, ihm_type pIhmType)
 {
 	setting *aSetting = new setting(pCaption, pSection, pValue, pMinValue, pMaxValue, pIhmType);
-	aSetting->register_callback(this, list_setting_did_change_callback);
+	aSetting->register_callback(bind(&settings_list::setting_did_change, this, _1));
 	mSettingsMap[pCaption] = aSetting;
 	mSettingsList.push_back(pCaption);
 	return aSetting;

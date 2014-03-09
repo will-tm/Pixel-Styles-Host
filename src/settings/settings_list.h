@@ -23,6 +23,8 @@ private:
 	ini_parser* mIniParser;
 	map<string, setting*> mSettingsMap;
 	vector<string> mSettingsList;
+	
+	void setting_did_change(setting *pSetting);
 public:
 	settings_list();
 	~settings_list();
@@ -32,5 +34,4 @@ public:
 	setting *operator[](const int &pIndex);
 	size_t size();
 	void set_ini_path(string pPath);
-	void setting_did_change(setting *pSetting);
 };

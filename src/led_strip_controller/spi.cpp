@@ -7,6 +7,7 @@
 
 #include "spi.h"
 #include <muduo/base/Logging.h>
+#include <functional>
 
 /*
  * constructor
@@ -18,7 +19,7 @@ spi::spi(const char *pDevice)
 	mRunning = false;
 	mActiveTransfert = false;
 	mInitializationSuccessful = false;
-	mThreadId = 0;
+	mTransmitThread = NULL;
 	mTransfert.rx_buf = 0;
 	mTransfert.delay_usecs = 0;
 	mTransfert.speed_hz = 2000000;
@@ -52,24 +53,20 @@ spi::spi(const char *pDevice)
 spi::~spi()
 {
 	mRunning = false;
+	mTransmitThread->join();
+
 	close(mHandle);
 }
 
 /*
- * public functions
+ * private functions
  *
  */
-static void *thread_run_callback(void *pOwner)
-{
-	((spi *) pOwner)->thread_run();
-	return NULL;
-}
-
 void spi::thread_run()
 {
 	while (mRunning)
 	{
-		if (mTransfert.len)
+		if (mActiveTransfert && mTransfert.len)
 		{
 			mMutex.lock();
 			int bytesWritten = ioctl(mHandle, SPI_IOC_MESSAGE(1), &mTransfert);
@@ -87,13 +84,16 @@ void spi::thread_run()
 		}
 		usleep(1000);
 	}
-	pthread_exit(NULL);
 }
 
+/*
+ * public functions
+ *
+ */
 void spi::run()
 {
+	mTransmitThread = new thread(bind(&spi::thread_run, this));
 	mRunning = true;
-	(void) pthread_create(&mThreadId, NULL, thread_run_callback, this);
 }
 
 void spi::write_buffer(uint8_t *pBuffer, int pLength)
@@ -103,7 +103,6 @@ void spi::write_buffer(uint8_t *pBuffer, int pLength)
 		mTransfert.tx_buf = (unsigned long) pBuffer;
 		mTransfert.len = pLength;
 		mActiveTransfert = true;
-		
 		mMutex.unlock();
 	}
 }
@@ -115,6 +114,5 @@ bool spi::activeTransfert()
 
 void spi::waitForTransfertToComplete()
 {
-	while (mActiveTransfert)
-		;
+	while (mActiveTransfert);
 }

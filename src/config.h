@@ -1,12 +1,11 @@
 /*
- * pixel_styles_controller.h
+ * config.h
  *
  * Copyright (C) 2014 William Markezana <william.markezana@me.com>
  *
  */
 
-#ifndef __CONFIG_H__
-#define __CONFIG_H__
+#pragma once
 
 #include <muduo/base/Logging.h>
 /*
@@ -26,6 +25,4 @@
 
 #define DEFAULT_LOG_LEVEL				muduo::Logger::DEBUG
 
-#define VERSION							"0.0.3"
-
-#endif
+#define VERSION							"0.0.4"

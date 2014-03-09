@@ -11,6 +11,7 @@
 #include <zlib.h>
 #include <iostream>
 #include <dlfcn.h>
+#include "config.h"
 
 using namespace json_spirit;
 
@@ -40,8 +41,8 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	for (size_t x = 0; x < mWidth; x++)
 		mPows[x] = pow(2.0f, (float) x * 9.0f / ((float) mWidth - 1.0f));
 	
-	//mUdpServer = new udp_server(get_global_event_loop(), 56617);
-	//mUdpServer->register_read_callback(bind(&modes_controller::handle_receive, this, _1, _2));
+	mUdpServer = new udp_server(get_global_event_loop(), 56617);
+	mUdpServer->register_read_callback(bind(&modes_controller::handle_receive, this, _1, _2));
 	
 	if (BASS_RecordInit(-1))
 	{
@@ -214,6 +215,7 @@ string modes_controller::to_json()
 	Array json;
 	
 	Object generics;
+	generics.push_back(Pair("version", VERSION));
 	generics.push_back(Pair("active_mode", mActiveMode->name()));
 	generics.push_back(Pair("mac_address", mTcpServer->mac_address()));
 	generics.push_back(Pair("width", (int) mWidth));
@@ -229,6 +231,7 @@ string modes_controller::to_json()
 		Object mode_json;
 		mode_json.push_back(Pair("name", mode->name()));
 		mode_json.push_back(Pair("ui", mode->ui()));
+		mode_json.push_back(Pair("port", mode->udp_port()));
 		mode_json.push_back(Pair("pixels", mode->get_bitmap()->to_string()));
 		Array mode_settings_array;
 		for (size_t j = 0; j < mode->mSettings.size(); j++)

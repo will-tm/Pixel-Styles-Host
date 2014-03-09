@@ -61,8 +61,6 @@ void mode_udp_streamer::paint()
 	
 	if (get_tick_us() - mLastTickCount < UDP_TIMEOUT_DELAY)
 	{
-		mLastTickCount = get_tick_us();
-		
 		for (size_t y = 0; y < mHeight; y++)
 		{
 			for (size_t x = 0; x < mWidth; x++)
@@ -77,5 +75,6 @@ void mode_udp_streamer::paint()
 	else
 	{
 		mBitmap->clear();
+		mLastTickCount = get_tick_us() - UDP_TIMEOUT_DELAY;
 	}
 }

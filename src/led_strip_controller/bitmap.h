@@ -27,6 +27,12 @@ private:
 
 	int mLocationX;
 	int mLocationY;
+
+	void draw_circle_helper( int x0, int y0, int r, uint8_t cornername, rgb_color pColor);
+	void fill_circle_helper(int x0, int y0, int r, uint8_t cornername, int delta, rgb_color pColor);
+	void draw_fast_vertical_line(int x, int y, int h, rgb_color pColor);
+	void draw_fast_horizontal_line(int x, int y, int w, rgb_color pColor);
+	void draw_char(int x, int y, unsigned char c, rgb_color pColor);
 public:
 	int width;
 	int height;
@@ -45,6 +51,13 @@ public:
 
 	void move_to(int x, int y);
 	void line_to(int x, int y, rgb_color pColor);
+	void draw_circle(int x0, int y0, int r, rgb_color pColor);
+	void fill_circle(int x0, int y0, int r, rgb_color pColor);
+	void draw_rect(int x, int y, int w, int h, rgb_color pColor);
+	void fill_rect(int x, int y, int w, int h, rgb_color pColor);
+	void draw_round_rect(int x, int y, int w, int h, int r, rgb_color pColor);
+	void fill_round_rect(int x, int y, int w, int h, int r, rgb_color pColor);
+	void print_string(int x, int y, string s, rgb_color pColor);
 
 	void assign(bitmap *pBitmap);
 	string to_string();

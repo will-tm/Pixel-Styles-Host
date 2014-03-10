@@ -39,7 +39,7 @@ const uint8_t mode_space_invaders::pixels[] =
  */
 extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_space_invaders(pWidth, pHeight, "Space Invaders", pAudioAvailable, pSegments);
+	return new mode_space_invaders(pWidth, pHeight, "Space Invaders", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)

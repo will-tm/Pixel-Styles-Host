@@ -13,12 +13,12 @@
  */
 extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_rainbow(pWidth, pHeight, "Rainbow", pAudioAvailable, pSegments);
+	return new mode_rainbow(pWidth, pHeight, "Rainbow", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
 {
-  delete object;
+	delete object;
 }
 
 /*

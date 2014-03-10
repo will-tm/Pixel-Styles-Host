@@ -6,7 +6,7 @@ if [ "$1" == '' ]; then
 fi
 
 # INPUT FILE
-MODE=./src/modes/lib/mode_$1.cpp
+MODE=./src/modes/lib_2d/mode_$1.cpp
 # OUTPUT FILE
 OUT=./output/lib/$1.so
 
@@ -31,7 +31,7 @@ $MODE -o $OUT \
 -I./src/generic_classes -s \
 -I./src/led_strip_controller \
 -I./src/modes \
--I./src/modes/dyn \
+-I./src/modes/lib_2d \
 -I./src/sockets \
 -I./src/settings \
 -ljson_spirit \

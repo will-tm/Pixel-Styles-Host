@@ -22,7 +22,7 @@ private:
 	uint32_t mLastTickCount;
 
 public:
-	mode_udp_streamer(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_udp_streamer(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_udp_streamer();
 
 	virtual void paint();

@@ -18,11 +18,14 @@ using namespace std;
 class mode_fading: public mode_interface
 {
 private:
-	rgb_color mCurrentColor;
+	float mRotationPtr;
+	hsv_color mRotationStartColor;
+	bool mLinkedSectors;
 public:
-	mode_fading(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_fading(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_fading();
 
 	virtual void paint();
 	virtual void beat_detected();
+	virtual void initialize(vector <rgb_color> pStaticColors);
 };

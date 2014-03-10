@@ -12,9 +12,9 @@
  * public library interface
  *
  */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_udp_streamer(pWidth, pHeight, "UDP Stream", pAudioAvailable);
+  return new mode_udp_streamer(pWidth, pHeight, "UDP Stream", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
@@ -24,8 +24,8 @@ extern "C" void destroy_mode(mode_interface* object)
 /* * constructor
  *
  */
-mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
-: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_udp_streamer::mode_udp_streamer(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments)
+: mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {	
 	mLastTickCount = 0;
 

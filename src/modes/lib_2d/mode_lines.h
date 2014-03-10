@@ -35,7 +35,7 @@ private:
 	rgb_color mCurrentColor;
 	void set_corners_count(int count);
 public:
-	mode_lines(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_lines(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_lines();
 
 	virtual void paint();

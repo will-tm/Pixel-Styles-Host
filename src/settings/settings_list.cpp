@@ -43,6 +43,12 @@ setting *settings_list::add(string pCaption, string pSection, string pValue, flo
 
 setting *settings_list::operator[](const string &pName)
 {
+	if(find(mSettingsList.begin(), mSettingsList.end(), pName) == mSettingsList.end())
+	{
+		cerr << "ERR   Unknown setting '" << pName << "'" << endl;
+		exit(1);
+	}
+
 	return mSettingsMap[pName];
 }
 

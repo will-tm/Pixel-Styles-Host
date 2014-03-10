@@ -44,6 +44,7 @@ typedef enum
 class mode_interface
 {
 protected:
+	size_t mSize;
 	size_t mWidth;
 	size_t mHeight;
 	string mName;
@@ -59,6 +60,7 @@ protected:
 	bitmap *mBitmap;
 	vector<size_t> mSpectrum;
 	vector<size_t> mScope;
+	vector<size_t> mSegments;
 
 	float randomf(float pMin, float pMax)
 	{
@@ -69,10 +71,11 @@ protected:
 public:
 	settings_list mSettings;
 
-	mode_interface(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
+	mode_interface(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments)
 	{
 		mWidth = pWidth;
 		mHeight = pHeight;
+		mSize = mWidth * mHeight;
 		mAudioLevel = 0.0f;
 		mSpeed = 0.0f;
 		mLastTime = get_tick_us();
@@ -85,6 +88,7 @@ public:
 		mIniFilePath = (string) SETTINGS_DIRECTORY + mNameFile + ".cfg";
 		mIniFile = NULL;
 		mUI = uiSettings;
+		mSegments = pSegments;
 		mBitmap = new bitmap(mWidth, mHeight);
 		mSpectrum.resize(mWidth);
 		mScope.resize(mWidth);

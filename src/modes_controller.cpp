@@ -55,9 +55,24 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 		LOG_WARN<< "Can't initialize audio device";
 	}
 
-	mModesList.add("OFF", new mode_off(mWidth, mHeight, "OFF", mAudioAvailable));
-	mModesList.add("Touch", new mode_touch(mWidth, mHeight, "Touch", mAudioAvailable));
-	add_dynamic_modes(mWidth, mHeight, mAudioAvailable);
+	if (pHeight == 1)
+	{
+		mSegments.resize(mIniFile->get<size_t>("SEGMENTS", "Count", 1));
+		for(size_t i = 0; i < mSegments.size(); i++)
+		{
+			mSegments[i] = mIniFile->get<size_t>("SEGMENTS", "Length"+to_string(i), mWidth);
+		}
+	}
+	else
+	{
+		mSegments.resize(1);
+		mSegments[0] = mWidth * mHeight;
+	}
+
+	mModesList.add("OFF", new mode_off(mWidth, mHeight, "OFF", mAudioAvailable, mSegments));
+	mModesList.add("Touch", new mode_touch(mWidth, mHeight, "Touch", mAudioAvailable, mSegments));
+	mModesList.add("Fading", new mode_fading(mWidth, mHeight, "Fading", mAudioAvailable, mSegments));
+	add_dynamic_modes(mWidth, mHeight, mAudioAvailable, mSegments);
 	
 	mActiveMode = mModesList[0];
 	LOG_INFO << "active mode is now '" << mActiveMode->name() << "'";
@@ -107,7 +122,7 @@ void modes_controller::handle_receive(uint8_t *data, size_t length)
  * private functions
  *
  */
-void modes_controller::add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+void modes_controller::add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
 	vector<string> files;
 
@@ -122,11 +137,11 @@ void modes_controller::add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAu
 			void* handle = dlopen(modeFile.c_str(), RTLD_LAZY);
 			if (handle != NULL)
 			{
-				mode_interface* (*create)(size_t , size_t , bool);
-				create = (mode_interface* (*)(size_t, size_t, bool))dlsym(handle, "create_mode");
+				mode_interface* (*create)(size_t , size_t , bool, vector<size_t>);
+				create = (mode_interface* (*)(size_t, size_t, bool, vector<size_t>))dlsym(handle, "create_mode");
 				if (create != NULL)
 				{
-					mode_interface* mode = (mode_interface*)create(pWidth, pHeight, pAudioAvailable);
+					mode_interface* mode = (mode_interface*)create(pWidth, pHeight, pAudioAvailable, pSegments);
 					mModesList.add(mode->name(), mode);
 				}
 				else

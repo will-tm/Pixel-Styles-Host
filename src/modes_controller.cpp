@@ -111,9 +111,9 @@ void modes_controller::handle_receive(uint8_t *data, size_t length)
 	if (length != 1024 * sizeof(float))
 		return;
 	
-	memcpy(mFftData, data, length);
-	
+	memcpy(mFftData, data, length);	
 	process_fft_buffer_1024(mFftData);
+	mActiveMode->set_spectrum(mSpectrum);
 	mBypassBASS = true;
 	mLastUdpFrameTick = get_tick_us();
 }

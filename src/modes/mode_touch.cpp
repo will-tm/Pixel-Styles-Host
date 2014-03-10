@@ -34,10 +34,31 @@ mode_touch::~mode_touch()
 void mode_touch::paint()
 {
 	mColorsMutex.lock();
-	
-	rgb_color currentColor = mStaticColors[0];
-	mBitmap->fill(currentColor);
-	
+
+	if (mHeight == 1)
+	{
+		size_t step = mWidth / mStaticColors.size();
+		size_t nextStep = step;
+		size_t staticPtr = 0;
+
+		for(size_t i = 0; i < mWidth; i++)
+		{
+			rgb_color currentColor = mStaticColors[staticPtr];
+			mBitmap->set_pixel(i,0,currentColor);
+
+			if(i >= nextStep)
+			{
+				nextStep += step;
+				staticPtr++;
+			}
+		}
+	}
+	else
+	{
+		rgb_color currentColor = mStaticColors[0];
+		mBitmap->fill(currentColor);
+	}
+
 	mColorsMutex.unlock();
 }
 

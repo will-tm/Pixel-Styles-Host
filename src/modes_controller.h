@@ -66,6 +66,7 @@ public:
 	void paint();
 	bitmap *active_mode_bitmap();
 	string active_mode_bitmap_to_json();
+	string active_mode_name();
 	void set_active_mode_name(const string pName);
 	string to_json();
 	string json_success();

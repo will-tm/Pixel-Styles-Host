@@ -218,15 +218,23 @@ bitmap *modes_controller::active_mode_bitmap()
 	return mActiveMode->get_bitmap();
 }
 
+string modes_controller::active_mode_name()
+{
+	return mActiveMode->name();
+}
+
 void modes_controller::set_active_mode_name(const string pName)
 {
 	mActiveMode = mModesList[pName];
+	if (mActiveMode == NULL)
+		mActiveMode = mModesList[0];
 	
 	LOG_INFO << "active mode is now '" << mActiveMode->name() << "'";
 }
 
 string modes_controller::to_json()
 {
+	printf("modes_controller::to_json\n");
 	Array json;
 	
 	Object generics;
@@ -248,7 +256,10 @@ string modes_controller::to_json()
 		mode_json.push_back(Pair("ui", mode->ui()));
 		mode_json.push_back(Pair("port", mode->udp_port()));
 		mode_json.push_back(Pair("pixels", mode->get_bitmap()->to_string()));
+		
+		printf("%s::to_json\n", mode->name().c_str());
 		Array mode_settings_array;
+
 		for (size_t j = 0; j < mode->mSettings.size(); j++)
 		{
 			Object setting_json;
@@ -264,6 +275,7 @@ string modes_controller::to_json()
 			mode_settings_array.push_back(setting_json);
 		}
 		mode_json.push_back(Pair("settings", mode_settings_array));
+		
 		modes_array.push_back(mode_json);
 	}
 	modes.push_back(Pair("modes", modes_array));

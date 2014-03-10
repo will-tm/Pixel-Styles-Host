@@ -43,6 +43,7 @@ pixel_styles_controller::pixel_styles_controller()
 	
 	mModesController->lock();
 	mModesController->set_active_mode_name(mIniFile->get<string>("MODE", "ActiveMode", "Touch"));
+	mIniFile->set<string>("MODE", "ActiveMode", mModesController->active_mode_name());
 	mModesController->initialize(mStaticColors);
 	mModesController->unlock();
 	

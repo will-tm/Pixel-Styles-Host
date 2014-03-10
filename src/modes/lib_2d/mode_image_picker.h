@@ -21,7 +21,7 @@ private:
 	uint8_t *mUdpBuffer;
 
 public:
-	mode_image_picker(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_image_picker(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_image_picker();
 
 	virtual void paint();

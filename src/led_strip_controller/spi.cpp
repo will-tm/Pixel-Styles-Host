@@ -6,8 +6,6 @@
  */
 
 #include "spi.h"
-#include <muduo/base/Logging.h>
-#include <functional>
 
 /*
  * constructor
@@ -19,7 +17,7 @@ spi::spi(const char *pDevice)
 	mRunning = false;
 	mActiveTransfert = false;
 	mInitializationSuccessful = false;
-	mTransmitThread = NULL;
+	mThreadId = 0;
 	mTransfert.rx_buf = 0;
 	mTransfert.delay_usecs = 0;
 	mTransfert.speed_hz = 2000000;
@@ -31,7 +29,7 @@ spi::spi(const char *pDevice)
 	mHandle = open(pDevice, O_RDWR);
 	if (mHandle < 0)
 	{
-		LOG_ERROR<< "can't open device " << pDevice;
+		cerr << "can't open device " << pDevice;
 		return;
 	}
 
@@ -53,8 +51,6 @@ spi::spi(const char *pDevice)
 spi::~spi()
 {
 	mRunning = false;
-	mTransmitThread->join();
-
 	close(mHandle);
 }
 
@@ -62,21 +58,31 @@ spi::~spi()
  * private functions
  *
  */
+static void *thread_run_callback(void *pOwner)
+{
+	((spi *) pOwner)->thread_run();
+	return NULL;
+}
+
+/*
+ * public functions
+ *
+ */
 void spi::thread_run()
 {
 	while (mRunning)
 	{
-		if (mActiveTransfert && mTransfert.len)
+		if (mTransfert.len)
 		{
 			mMutex.lock();
 			int bytesWritten = ioctl(mHandle, SPI_IOC_MESSAGE(1), &mTransfert);
 			if (bytesWritten < 0)
 			{
-				LOG_WARN<< "write spi error";
+				cerr << "write spi error";
 			}
 			if (bytesWritten != (int) mTransfert.len)
 			{
-				LOG_WARN<< "write spi error";
+				cerr << "write spi error";
 			}
 			mTransfert.len = 0;
 			mActiveTransfert = false;
@@ -84,16 +90,13 @@ void spi::thread_run()
 		}
 		usleep(1000);
 	}
+	pthread_exit(NULL);
 }
 
-/*
- * public functions
- *
- */
 void spi::run()
 {
-	mTransmitThread = new thread(bind(&spi::thread_run, this));
 	mRunning = true;
+	(void) pthread_create(&mThreadId, NULL, thread_run_callback, this);
 }
 
 void spi::write_buffer(uint8_t *pBuffer, int pLength)
@@ -103,6 +106,7 @@ void spi::write_buffer(uint8_t *pBuffer, int pLength)
 		mTransfert.tx_buf = (unsigned long) pBuffer;
 		mTransfert.len = pLength;
 		mActiveTransfert = true;
+		
 		mMutex.unlock();
 	}
 }

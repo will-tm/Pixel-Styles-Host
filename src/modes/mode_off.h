@@ -19,7 +19,7 @@ class mode_off: public mode_interface
 {
 private:
 public:
-	mode_off(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_off(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_off();
 
 	virtual void paint();

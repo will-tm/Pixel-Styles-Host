@@ -18,6 +18,7 @@ using namespace std;
 
 #include "mode_off.h"
 #include "mode_touch.h"
+#include "mode_fading.h"
 
 #include "bass.h"
 #include "bass_fx.h"
@@ -43,6 +44,7 @@ private:
 	float mAudioLevelRatio;
 	mode_interface *mActiveMode;
 	mutex mModeMutex;
+	vector<size_t> mSegments;
 	ini_parser *mIniFile;
 	tcp_server *mTcpServer;
 	udp_server *mUdpServer;
@@ -52,7 +54,7 @@ private:
 	vector<size_t> mPows;
 	float mSensitivity;
 
-	void add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable);
+	void add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments);
 	void audio_tasks();
 	void handle_receive(uint8_t *pData, size_t pLength);
 public:
@@ -64,6 +66,7 @@ public:
 	void paint();
 	bitmap *active_mode_bitmap();
 	string active_mode_bitmap_to_json();
+	string active_mode_name();
 	void set_active_mode_name(const string pName);
 	string to_json();
 	string json_success();

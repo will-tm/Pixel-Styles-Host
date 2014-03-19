@@ -1,16 +1,33 @@
 #! /bin/bash
 
-MODES_PATH=./src/modes/lib/
+MODES_1D_PATH=./src/modes/lib_1d/
+MODES_2D_PATH=./src/modes/lib_2d/
 
 mkdir -p ./output/lib
 rm -f ./output/lib/*
 
-for f in $MODES_PATH*.cpp; do 
-    MODE=${f#${MODES_PATH}}
+for f in $MODES_1D_PATH*.cpp; do 
+    MODE=${f#${MODES_1D_PATH}}
     TMP=${MODE#*_}
     MODE_NAME=${TMP%.cpp} 
 
-	./tools/build_mode $MODE_NAME
+    ./tools/build_mode_1d $MODE_NAME
+
+    if [ "$?" -ne "0" ]; then
+	  exit 1
+	fi
+done
+
+for f in $MODES_2D_PATH*.cpp; do
+    MODE=${f#${MODES_2D_PATH}}
+    TMP=${MODE#*_}
+    MODE_NAME=${TMP%.cpp}
+
+    ./tools/build_mode_2d $MODE_NAME
+
+    if [ "$?" -ne "0" ]; then
+	  exit 1
+	fi
 done
 
 exit 0

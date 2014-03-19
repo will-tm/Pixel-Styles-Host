@@ -11,22 +11,22 @@
  * public library interface
  *
  */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_plasma(pWidth, pHeight, "Plasma", pAudioAvailable);
+	return new mode_plasma(pWidth, pHeight, "Plasma", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
 {
-  delete object;
+	delete object;
 }
 
 /*
  * constructor
  *
  */
-mode_plasma::mode_plasma(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
-		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_plasma::mode_plasma(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments)
+		: mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mGridLayer = mBitmap->add_layer();
 	

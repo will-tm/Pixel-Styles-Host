@@ -12,6 +12,8 @@ using namespace std;
 #include "setting.h"
 #include "ini_parser.h"
 #include <map>
+#include <vector>
+#include <algorithm>
 
 /*
  * public class

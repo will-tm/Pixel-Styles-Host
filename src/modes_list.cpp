@@ -42,6 +42,12 @@ void modes_list::add(string pCaption, mode_interface *pMode)
 
 mode_interface *modes_list::operator[](const string &pName)
 {
+	if(find(mModesList.begin(), mModesList.end(), pName) == mModesList.end())
+	{
+		cerr << "ERR   Unknown mode '" << pName << "'" << endl;
+		return NULL;
+	}
+
 	return mModesMap[pName];
 }
 

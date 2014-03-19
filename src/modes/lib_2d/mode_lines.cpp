@@ -11,22 +11,22 @@
  * public library interface
  *
  */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_lines(pWidth, pHeight, "Lines", pAudioAvailable);
+	return new mode_lines(pWidth, pHeight, "Lines", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
 {
-  delete object;
+	delete object;
 }
 
 /*
  * constructor
  *
  */
-mode_lines::mode_lines(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
-		: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_lines::mode_lines(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments)
+		: mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mLastCornersCount = -1;
 	mCurrentColor = hue_to_rgb(random(360));

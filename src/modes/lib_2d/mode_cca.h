@@ -26,7 +26,7 @@ private:
 
 	void setup_grid_layer_with_alpha(uint8_t alpha);
 public:
-	mode_cca(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_cca(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_cca();
 
 	virtual void paint();

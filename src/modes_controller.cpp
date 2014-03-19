@@ -55,9 +55,24 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 		LOG_WARN<< "Can't initialize audio device";
 	}
 
-	mModesList.add("OFF", new mode_off(mWidth, mHeight, "OFF", mAudioAvailable));
-	mModesList.add("Touch", new mode_touch(mWidth, mHeight, "Touch", mAudioAvailable));
-	add_dynamic_modes(mWidth, mHeight, mAudioAvailable);
+	if (pHeight == 1)
+	{
+		mSegments.resize(mIniFile->get<size_t>("SEGMENTS", "Count", 1));
+		for(size_t i = 0; i < mSegments.size(); i++)
+		{
+			mSegments[i] = mIniFile->get<size_t>("SEGMENTS", "Length"+to_string(i), mWidth);
+		}
+	}
+	else
+	{
+		mSegments.resize(1);
+		mSegments[0] = mWidth * mHeight;
+	}
+
+	mModesList.add("OFF", new mode_off(mWidth, mHeight, "OFF", mAudioAvailable, mSegments));
+	mModesList.add("Touch", new mode_touch(mWidth, mHeight, "Touch", mAudioAvailable, mSegments));
+	mModesList.add("Fading", new mode_fading(mWidth, mHeight, "Fading", mAudioAvailable, mSegments));
+	add_dynamic_modes(mWidth, mHeight, mAudioAvailable, mSegments);
 	
 	mActiveMode = mModesList[0];
 	LOG_INFO << "active mode is now '" << mActiveMode->name() << "'";
@@ -96,9 +111,9 @@ void modes_controller::handle_receive(uint8_t *data, size_t length)
 	if (length != 1024 * sizeof(float))
 		return;
 	
-	memcpy(mFftData, data, length);
-	
+	memcpy(mFftData, data, length);	
 	process_fft_buffer_1024(mFftData);
+	mActiveMode->set_spectrum(mSpectrum);
 	mBypassBASS = true;
 	mLastUdpFrameTick = get_tick_us();
 }
@@ -107,7 +122,7 @@ void modes_controller::handle_receive(uint8_t *data, size_t length)
  * private functions
  *
  */
-void modes_controller::add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+void modes_controller::add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
 	vector<string> files;
 
@@ -122,11 +137,11 @@ void modes_controller::add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAu
 			void* handle = dlopen(modeFile.c_str(), RTLD_LAZY);
 			if (handle != NULL)
 			{
-				mode_interface* (*create)(size_t , size_t , bool);
-				create = (mode_interface* (*)(size_t, size_t, bool))dlsym(handle, "create_mode");
+				mode_interface* (*create)(size_t , size_t , bool, vector<size_t>);
+				create = (mode_interface* (*)(size_t, size_t, bool, vector<size_t>))dlsym(handle, "create_mode");
 				if (create != NULL)
 				{
-					mode_interface* mode = (mode_interface*)create(pWidth, pHeight, pAudioAvailable);
+					mode_interface* mode = (mode_interface*)create(pWidth, pHeight, pAudioAvailable, pSegments);
 					mModesList.add(mode->name(), mode);
 				}
 				else
@@ -203,15 +218,23 @@ bitmap *modes_controller::active_mode_bitmap()
 	return mActiveMode->get_bitmap();
 }
 
+string modes_controller::active_mode_name()
+{
+	return mActiveMode->name();
+}
+
 void modes_controller::set_active_mode_name(const string pName)
 {
 	mActiveMode = mModesList[pName];
+	if (mActiveMode == NULL)
+		mActiveMode = mModesList[0];
 	
 	LOG_INFO << "active mode is now '" << mActiveMode->name() << "'";
 }
 
 string modes_controller::to_json()
 {
+	printf("modes_controller::to_json\n");
 	Array json;
 	
 	Object generics;
@@ -233,7 +256,10 @@ string modes_controller::to_json()
 		mode_json.push_back(Pair("ui", mode->ui()));
 		mode_json.push_back(Pair("port", mode->udp_port()));
 		mode_json.push_back(Pair("pixels", mode->get_bitmap()->to_string()));
+		
+		printf("%s::to_json\n", mode->name().c_str());
 		Array mode_settings_array;
+
 		for (size_t j = 0; j < mode->mSettings.size(); j++)
 		{
 			Object setting_json;
@@ -249,6 +275,7 @@ string modes_controller::to_json()
 			mode_settings_array.push_back(setting_json);
 		}
 		mode_json.push_back(Pair("settings", mode_settings_array));
+		
 		modes_array.push_back(mode_json);
 	}
 	modes.push_back(Pair("modes", modes_array));

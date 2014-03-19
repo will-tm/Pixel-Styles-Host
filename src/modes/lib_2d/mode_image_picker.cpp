@@ -11,20 +11,22 @@
  * public library interface
  *
  */
-extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable)
+extern "C" mode_interface* create_mode(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments)
 {
-  return new mode_image_picker(pWidth, pHeight, "Image picker", pAudioAvailable);
+	return new mode_image_picker(pWidth, pHeight, "Image picker", pAudioAvailable, pSegments);
 }
 
 extern "C" void destroy_mode(mode_interface* object)
 {
-  delete object;
+	delete object;
 }
-/* * constructor
+
+/*
+ * constructor
  *
  */
-mode_image_picker::mode_image_picker(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable)
-: mode_interface(pWidth, pHeight, pName, pAudioAvailable)
+mode_image_picker::mode_image_picker(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments)
+: mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {	
 	mUI = uiImagePicker;
 	mUdpBuffer = new uint8_t[mWidth * mHeight * 3];

@@ -23,7 +23,7 @@ private:
 public:
 	static uint8_t const pixels[];
 
-	mode_space_invaders(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_space_invaders(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_space_invaders();
 
 	virtual void paint();

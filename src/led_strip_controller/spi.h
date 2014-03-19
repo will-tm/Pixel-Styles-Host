@@ -15,11 +15,11 @@
 #include <sys/ioctl.h>
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
-#include <thread>
 #include <mutex>
-#include <condition_variable>
+ #include <iostream>
 
 using namespace std;
+
 /*
  * public class
  *
@@ -30,20 +30,18 @@ private:
 	bool mInitializationSuccessful;
 	bool mRunning;
 	bool mActiveTransfert;
-	thread *mTransmitThread;
+	pthread_t mThreadId;
 	struct spi_ioc_transfer mTransfert;
 	int mHandle;
 	uint8_t mMode;
 	mutex mMutex;
-	condition_variable mConditionVariable;
-
-	void thread_run();
 public:
 	spi(const char *pDevice);
 	~spi();
 
 	void write_buffer(uint8_t *pBuffer, int pLength);
 	void run();
+	void thread_run();
 	bool activeTransfert();
 	void waitForTransfertToComplete();
 };

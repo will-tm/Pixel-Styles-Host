@@ -21,7 +21,7 @@ private:
 	mutex mColorsMutex;
 	vector<rgb_color> mStaticColors;
 public:
-	mode_touch(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable);
+	mode_touch(size_t pWidth, size_t pHeight, string pName, bool pAudioAvailable, vector<size_t> pSegments);
 	~mode_touch();
 
 	virtual void paint();

@@ -12,6 +12,10 @@ for f in $MODES_1D_PATH*.cpp; do
     MODE_NAME=${TMP%.cpp} 
 
     ./tools/build_mode_1d $MODE_NAME
+
+    if [ "$?" -ne "0" ]; then
+	  exit 1
+	fi
 done
 
 for f in $MODES_2D_PATH*.cpp; do
@@ -20,7 +24,10 @@ for f in $MODES_2D_PATH*.cpp; do
     MODE_NAME=${TMP%.cpp}
 
     ./tools/build_mode_2d $MODE_NAME
-done
 
+    if [ "$?" -ne "0" ]; then
+	  exit 1
+	fi
+done
 
 exit 0

@@ -18,7 +18,7 @@ fi
 mkdir -p ./output/lib
 rm -f $OUT
 echo -n Building $1... 
-arm-linux-gnueabihf-g++ -std=c++11 -pthread -O2 -shared \
+arm-linux-gnueabihf-g++ -fPIC -std=c++11 -pthread -O2 -shared \
 \
 ./src/led_strip_controller/bitmap.cpp \
 ./src/led_strip_controller/hsv_helper.cpp \

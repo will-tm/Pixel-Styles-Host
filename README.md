@@ -1,6 +1,8 @@
 # Pixel Styles
 
-Pixel Styles (host part) is an embedded linux daemon that intend to provide 2D visualizations for WS2801 based RGB matrix.
+Pixel Styles (host part) is an embedded linux daemon that intend to provide 1D and 2D visualizations for WS2801 based RGB matrix or strips.
+
+[![build status](http://ci.will-tm.com/projects/2/status.png?ref=develop)](http://ci.will-tm.com/projects/2?ref=develop)
 
 ![Screenshot](http://download.will-tm.com/spec.png)
 

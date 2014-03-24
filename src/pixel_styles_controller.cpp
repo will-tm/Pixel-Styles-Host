@@ -18,15 +18,20 @@ pixel_styles_controller::pixel_styles_controller()
 	mFrames = 0;
 	mTcpServer = NULL;
 	mUdpSocket = NULL;
+
+	LOG_INFO << "Pixel Styles v" << VERSION << " started";
 	
 	mIniFile = new ini_parser((string) CONFIGURATION_DIRECTORY + "config.cfg");
+
 	int width = mIniFile->get<size_t>("PIXEL_STYLES", "Width", 19);
 	int height = mIniFile->get<size_t>("PIXEL_STYLES", "Height", 12);
 	string device = mIniFile->get<string>("PIXEL_STYLES", "SpiDevice", "/dev/spidev0.0");
-	mStrip = new led_strip(device.c_str(), width, height);
+	strip_bytes_order bytesOrder = mIniFile->get<string>("PIXEL_STYLES", "RgbBytesOrder", "RGB").compare("RGB") ? bgrBytesOrder : rgbBytesOrder;
+
+	mStrip = new led_strip(device.c_str(), bytesOrder, width, height);
 	delete mIniFile;
 	
-	LOG_INFO << "Initialized with size " << width << "x" << height << " and SPI device " << device;
+	LOG_INFO << "Initialized with size " << width << "x" << height << " on SPI device " << device << " with " << (bytesOrder == rgbBytesOrder ? "RGB" : "BGR") << " bytes order";
 	
 	mIniFile = new ini_parser((string) SETTINGS_DIRECTORY + "application.cfg");
 	

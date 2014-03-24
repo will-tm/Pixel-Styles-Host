@@ -29,7 +29,7 @@ spi::spi(const char *pDevice)
 	mHandle = open(pDevice, O_RDWR);
 	if (mHandle < 0)
 	{
-		cerr << "can't open device " << pDevice;
+		cerr << "can't open device " << pDevice << endl;
 		return;
 	}
 
@@ -78,11 +78,11 @@ void spi::thread_run()
 			int bytesWritten = ioctl(mHandle, SPI_IOC_MESSAGE(1), &mTransfert);
 			if (bytesWritten < 0)
 			{
-				cerr << "write spi error";
+				cerr << "write spi error" << endl;
 			}
 			if (bytesWritten != (int) mTransfert.len)
 			{
-				cerr << "write spi error";
+				cerr << "write spi error" << endl;
 			}
 			mTransfert.len = 0;
 			mActiveTransfert = false;

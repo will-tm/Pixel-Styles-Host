@@ -12,6 +12,16 @@
 #include "bitmap.h"
 
 /*
+ * public types
+ *
+ */
+typedef enum
+{
+	rgbBytesOrder,
+	bgrBytesOrder
+} strip_bytes_order;
+
+/*
  * public class
  *
  */
@@ -20,13 +30,16 @@ class led_strip
 private:
 	size_t mWidth;
 	size_t mHeight;
-	vector<unsigned char> mBuffer;
+	vector<uint8_t> mBuffer;
 	uint8_t mGammaTable[256];
 	spi *mSpi;
 	bool mTwoDimensions;
+	strip_bytes_order mBytesOrder;
+
+	void fill_buffer_with_color(uint8_t *pBuffer, size_t &pIndex, rgb_color pColor);
 public:
-	led_strip(const char *pDevice, size_t pLength);
-	led_strip(const char *pDevice, size_t pWidth, size_t pHeight);
+	led_strip(const char *pDevice, strip_bytes_order pBytesOrder, size_t pLength);
+	led_strip(const char *pDevice, strip_bytes_order pBytesOrder, size_t pWidth, size_t pHeight);
 	~led_strip();
 
 	void set_gamma(float pGamma);

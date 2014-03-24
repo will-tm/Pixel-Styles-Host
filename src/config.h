@@ -23,6 +23,6 @@
 #define LOG_FILE						"/var/log/pixel_styles.log"
 #define PID_FILE						"/var/run/pixel_styles.pid"
 
-#define DEFAULT_LOG_LEVEL				muduo::Logger::DEBUG
+#define DEFAULT_LOG_LEVEL				muduo::Logger::INFO
 
-#define VERSION							"0.0.5"
+#define VERSION							"0.0.6"

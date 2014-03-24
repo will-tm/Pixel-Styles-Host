@@ -11,13 +11,14 @@
  * constructor
  *
  */
-led_strip::led_strip(const char *pDevice, size_t pWidth, size_t pHeight)
+led_strip::led_strip(const char *pDevice, strip_bytes_order pBytesOrder, size_t pWidth, size_t pHeight)
 {
 	mWidth = pWidth;
 	mHeight = pHeight;
 	mBuffer.resize(mWidth * mHeight * 3);
 	mSpi = new spi(pDevice);
 	mTwoDimensions = true;
+	mBytesOrder = pBytesOrder;
 	
 	set_gamma(0.25);
 }
@@ -26,13 +27,14 @@ led_strip::led_strip(const char *pDevice, size_t pWidth, size_t pHeight)
  * constructor
  *
  */
-led_strip::led_strip(const char *pDevice, size_t pLength)
+led_strip::led_strip(const char *pDevice, strip_bytes_order pBytesOrder, size_t pLength)
 {
 	mWidth = pLength;
 	mHeight = 1;
 	mBuffer.resize(mWidth * 3);
 	mSpi = new spi(pDevice);
 	mTwoDimensions = false;
+	mBytesOrder = pBytesOrder;
 	
 	set_gamma(0.25);
 }
@@ -44,6 +46,26 @@ led_strip::led_strip(const char *pDevice, size_t pLength)
 led_strip::~led_strip()
 {
 	delete mSpi;
+}
+
+/*
+ * private functions
+ *
+ */
+void led_strip::fill_buffer_with_color(uint8_t *pBuffer, size_t &pIndex, rgb_color pColor)
+{
+	if (mBytesOrder == rgbBytesOrder)
+	{
+		pBuffer[pIndex++] = mGammaTable[pColor.R];
+		pBuffer[pIndex++] = mGammaTable[pColor.G];
+		pBuffer[pIndex++] = mGammaTable[pColor.B];
+	}
+	else
+	{
+		pBuffer[pIndex++] = mGammaTable[pColor.B];
+		pBuffer[pIndex++] = mGammaTable[pColor.G];
+		pBuffer[pIndex++] = mGammaTable[pColor.R];
+	}
 }
 
 /*
@@ -66,32 +88,19 @@ void led_strip::set_gamma(float pGamma)
 
 void led_strip::paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion)
 {
-	int bufferPtr = 0;
-	rgb_color CurrentColor;
-	
+	size_t bufferPtr = 0;
+
 	if (!mTwoDimensions)
 	{
 		if (!pReversed)
 		{
 			for (size_t x = 0; x < mWidth; x++)
-			{
-				CurrentColor = pBitmap->get_pixel(x, 0);
-				
-				mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
-				mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
-				mBuffer[bufferPtr++] = mGammaTable[CurrentColor.R];
-			}
+				fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(mWidth - 1 - x, 0));
 		}
 		else
 		{
 			for (size_t x = 0; x < mWidth; x++)
-			{
-				CurrentColor = pBitmap->get_pixel(mWidth - 1 - x, 0);
-				
-				mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
-				mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
-				mBuffer[bufferPtr++] = mGammaTable[CurrentColor.R];
-			}
+				fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(x, 0));
 		}
 	}
 	else
@@ -103,24 +112,12 @@ void led_strip::paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion)
 				if (y % 2 == 0)
 				{
 					for (size_t x = 0; x < mWidth; x++)
-					{
-						CurrentColor = pBitmap->get_pixel(x, y);
-						
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.R];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
-					}
+						fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(x, y));
 				}
 				else
 				{
 					for (size_t x = 0; x < mWidth; x++)
-					{
-						CurrentColor = pBitmap->get_pixel(mWidth - 1 - x, y);
-						
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.R];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
-					}
+						fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(mWidth - 1 - x, y));
 				}
 			}
 		}
@@ -131,24 +128,12 @@ void led_strip::paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion)
 				if (y % 2 == 0)
 				{
 					for (size_t x = 0; x < mWidth; x++)
-					{
-						CurrentColor = pBitmap->get_pixel(x, y);
-						
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.R];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
-					}
+						fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(x, y));
 				}
 				else
 				{
 					for (size_t x = 0; x < mWidth; x++)
-					{
-						CurrentColor = pBitmap->get_pixel(mWidth - 1 - x, y);
-						
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.R];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.G];
-						mBuffer[bufferPtr++] = mGammaTable[CurrentColor.B];
-					}
+						fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(mWidth - 1 - x, y));
 				}
 			}
 		}

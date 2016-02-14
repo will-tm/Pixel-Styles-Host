@@ -35,6 +35,7 @@ private:
 	spi *mSpi;
 	bool mTwoDimensions;
 	strip_bytes_order mBytesOrder;
+	bool mActive;
 
 	void fill_buffer_with_color(uint8_t *pBuffer, size_t &pIndex, rgb_color pColor);
 public:
@@ -44,8 +45,7 @@ public:
 
 	void set_gamma(float pGamma);
 	void paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion);
-	size_t size()
-	{
-		return mWidth;
-	}
+	size_t size() {	return mWidth; }
+	bool active() { return mActive; }
+	void setActive(bool active) { mActive = active; }
 };

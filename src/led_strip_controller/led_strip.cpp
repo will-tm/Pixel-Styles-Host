@@ -6,6 +6,7 @@
  */
 
 #include "led_strip.h"
+#include <cstring>
 
 /*
  * constructor
@@ -19,6 +20,7 @@ led_strip::led_strip(const char *pDevice, strip_bytes_order pBytesOrder, size_t 
 	mSpi = new spi(pDevice);
 	mTwoDimensions = true;
 	mBytesOrder = pBytesOrder;
+	mActive = true;
 	
 	set_gamma(0.25);
 }
@@ -90,53 +92,60 @@ void led_strip::paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion)
 {
 	size_t bufferPtr = 0;
 
-	if (!mTwoDimensions)
+	if (mActive)
 	{
-		if (!pReversed)
+		if (!mTwoDimensions)
 		{
-			for (size_t x = 0; x < mWidth; x++)
-				fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(mWidth - 1 - x, 0));
+			if (!pReversed)
+			{
+				for (size_t x = 0; x < mWidth; x++)
+					fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(mWidth - 1 - x, 0));
+			}
+			else
+			{
+				for (size_t x = 0; x < mWidth; x++)
+					fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(x, 0));
+			}
 		}
 		else
 		{
-			for (size_t x = 0; x < mWidth; x++)
-				fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(x, 0));
+			if (!pReversed)
+			{
+				for (size_t y = 0; y < mHeight; y++)
+				{
+					if (y % 2 == 0)
+					{
+						for (size_t x = 0; x < mWidth; x++)
+							fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(x, y));
+					}
+					else
+					{
+						for (size_t x = 0; x < mWidth; x++)
+							fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(mWidth - 1 - x, y));
+					}
+				}
+			}
+			else
+			{
+				for (size_t y = mHeight - 1; y >= 0; y--)
+				{
+					if (y % 2 == 0)
+					{
+						for (size_t x = 0; x < mWidth; x++)
+							fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(x, y));
+					}
+					else
+					{
+						for (size_t x = 0; x < mWidth; x++)
+							fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(mWidth - 1 - x, y));
+					}
+				}
+			}
 		}
 	}
 	else
 	{
-		if (!pReversed)
-		{
-			for (size_t y = 0; y < mHeight; y++)
-			{
-				if (y % 2 == 0)
-				{
-					for (size_t x = 0; x < mWidth; x++)
-						fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(x, y));
-				}
-				else
-				{
-					for (size_t x = 0; x < mWidth; x++)
-						fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(mWidth - 1 - x, y));
-				}
-			}
-		}
-		else
-		{
-			for (size_t y = mHeight - 1; y >= 0; y--)
-			{
-				if (y % 2 == 0)
-				{
-					for (size_t x = 0; x < mWidth; x++)
-						fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(x, y));
-				}
-				else
-				{
-					for (size_t x = 0; x < mWidth; x++)
-						fill_buffer_with_color(mBuffer.data(), bufferPtr, pBitmap->get_pixel(mWidth - 1 - x, y));
-				}
-			}
-		}
+		memset(&mBuffer.front(), 0, mBuffer.size());
 	}
 	
 	mSpi->write_buffer(&mBuffer.front(), mBuffer.size());

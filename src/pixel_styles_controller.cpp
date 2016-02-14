@@ -47,9 +47,16 @@ pixel_styles_controller::pixel_styles_controller()
 	}
 	
 	mModesController->lock();
+
 	mModesController->set_active_mode_name(mIniFile->get<string>("MODE", "ActiveMode", "Touch"));
+
 	mIniFile->set<string>("MODE", "ActiveMode", mModesController->active_mode_name());
 	mModesController->initialize(mStaticColors);
+
+	bool active = mIniFile->get<bool>("MODE", "Active", true);
+	mModesController->set_active(active);
+	mStrip->setActive(active);
+
 	mModesController->unlock();
 	
 	LOG_INFO << "pixel_styles_controller initialized";
@@ -137,13 +144,23 @@ void pixel_styles_controller::handle_tcp_request(string request, string &answer)
 		mModesController->unlock();
 	}
 	
+	if (split.size() == 2 && !split[0].compare("SetActive"))
+	{
+		bool active = from_string<bool>(split[1]);
+
+		mModesController->lock();
+		mModesController->set_active(active);
+		mStrip->setActive(active);
+		mIniFile->set<int>("MODE", "Active", (int)active);
+		mModesController->unlock();
+	}
+
 	if (split.size() == 1 && !split[0].compare("GetJSON"))
 	{
 		mModesController->lock();
 		answer = mModesController->to_json();
 		mModesController->unlock();
 	}
-	
 	if (split.size() == 1 && !split[0].compare("GetCurrentModeBitmapJSON"))
 	{
 		mModesController->lock();

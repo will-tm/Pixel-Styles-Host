@@ -53,6 +53,7 @@ private:
 	vector<size_t> mScope;
 	vector<size_t> mPows;
 	float mSensitivity;
+	bool mActive;
 
 	void add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments);
 	void audio_tasks();
@@ -106,5 +107,9 @@ public:
 	void set_tcp_server(tcp_server *pTcpServer)
 	{
 		mTcpServer = pTcpServer;
+	}
+	void set_active(bool active)
+	{
+		mActive = active;
 	}
 };

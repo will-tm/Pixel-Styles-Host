@@ -244,6 +244,7 @@ string modes_controller::to_json()
 	generics.push_back(Pair("width", (int) mWidth));
 	generics.push_back(Pair("height", (int) mHeight));
 	generics.push_back(Pair("audio_available", mAudioAvailable));
+	generics.push_back(Pair("active", (int)mActive));
 	json.push_back(generics);
 	
 	Object modes;

@@ -32,7 +32,6 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	mAudioAvailable = false;
 	mBypassBASS = false;
 	mLastUdpFrameTick = 0;
-	mSensitivity = 1.0;
 	
 	mSpectrum.resize(mWidth);
 	mScope.resize(mWidth);
@@ -48,6 +47,12 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	{
 		mRecordChannel = BASS_RecordStart(48000, 1, 0, &duff_recording, this);
 		BASS_FX_BPM_BeatCallbackSet(mRecordChannel, &get_beat_pos, this);
+		BASS_ChannelSetFX(mRecordChannel, BASS_FX_BFX_DAMP, 1);
+
+		mAutoAmpGain = 1.0f;
+		mAutoAmpAverage = 0.0;
+		mAutoAmpRawAverage = 0.0;
+
 		mAudioAvailable = true;
 	}
 	else
@@ -69,7 +74,7 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 		mSegments[0] = mWidth * mHeight;
 	}
 
-	mModesList.add("OFF", new mode_off(mWidth, mHeight, "OFF", mAudioAvailable, mSegments));
+	//mModesList.add("OFF", new mode_off(mWidth, mHeight, "OFF", mAudioAvailable, mSegments));
 	mModesList.add("Touch", new mode_touch(mWidth, mHeight, "Touch", mAudioAvailable, mSegments));
 	mModesList.add("Fading", new mode_fading(mWidth, mHeight, "Fading", mAudioAvailable, mSegments));
 	add_dynamic_modes(mWidth, mHeight, mAudioAvailable, mSegments);
@@ -169,8 +174,54 @@ void modes_controller::audio_tasks()
 		BASS_ChannelGetData(mRecordChannel, (void*) &mIntFftData[0],
 		BASS_DATA_FFT2048);
 		for (int i = 0; i < 1024; i++)
-			mFftData[i] = (float) mIntFftData[i] / 16777216.0f * 128.0f;
-		
+		{
+			mFftData[i] = (float)mIntFftData[i] / (1<<16);
+		}
+#if 1
+		float avg = 0.0f;
+		float raw_avg = 0.0f;
+		float sum = 0.0f;
+		float raw_sum = 0.0f;
+
+		for (int i = 0; i < 1024; i++)
+		{
+			raw_sum += mFftData[i];
+			mFftData[i] *= mAutoAmpGain;
+			sum += mFftData[i];
+		}
+		avg = sum / 1024.0f;
+		raw_avg = raw_sum / 1024.0f;
+
+#define AVG_FILTER    	64
+#define RAW_AVG_FILTER  32
+#define TAGET_AVG     	0.0072
+#define AVG_GAIN      	0.0005
+#define RAW_AVG_MIN   	0.00075
+#define MAX_GAIN		2.0
+#define MIN_GAIN		0.05
+
+		mAutoAmpRawAverage = (raw_avg + mAutoAmpRawAverage * (RAW_AVG_FILTER-1)) / RAW_AVG_FILTER;
+
+		if (mAutoAmpRawAverage < RAW_AVG_MIN)
+		{
+			for (int i = 0; i < 1024; i++)
+			{
+				mFftData[i] = 0.0f;
+			}
+		}
+		else
+		{
+			mAutoAmpAverage = (avg + mAutoAmpAverage * (AVG_FILTER-1)) / AVG_FILTER;
+
+			if (mAutoAmpAverage < TAGET_AVG) mAutoAmpGain += AVG_GAIN; else mAutoAmpGain -= AVG_GAIN;
+
+			if (mAutoAmpGain > MAX_GAIN) mAutoAmpGain = MAX_GAIN;
+			if (mAutoAmpGain < MIN_GAIN) mAutoAmpGain = MIN_GAIN;
+		}
+
+		//static int j = 0;
+		//if (++j % 50 == 0) { LOG_INFO << "gain: " << mAutoAmpGain << "  mAutoAmpAverage: " << mAutoAmpAverage << "  mAutoAmpRawAverage: " << mAutoAmpRawAverage;}
+#endif
 		process_fft_buffer_1024(mFftData);
 
 		mActiveMode->set_spectrum(mSpectrum);
@@ -350,7 +401,7 @@ void modes_controller::process_fft_buffer_1024(float *pFftdata)
 		peak = 0;
 		for (int i = 0; i < size; i++)
 		{
-			float b2 = (float) pFftdata[1 + b0 + i] * mSensitivity;
+			float b2 = (float) pFftdata[1 + b0 + i];
 			peak = peak + b2;
 		}
 		b0 = b1;

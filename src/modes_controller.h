@@ -52,7 +52,9 @@ private:
 	vector<size_t> mSpectrum;
 	vector<size_t> mScope;
 	vector<size_t> mPows;
-	float mSensitivity;
+	float mAutoAmpGain;
+	float mAutoAmpAverage;
+	float mAutoAmpRawAverage;
 	bool mActive;
 
 	void add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments);

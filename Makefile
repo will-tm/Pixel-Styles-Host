@@ -15,32 +15,39 @@ LDFLAGS=-lpthread -lbass -lbass_fx -ljson_spirit -lmuduo_base -lmuduo_net -lz -l
 BINARY=pixel-styles
 
 # Makefile
-.PHONY:
-	$(BINARY) clean
+# Makefile
+T := $(shell find . -name *.cpp -exec ls {} \;|wc -l)
+N := x
+C = $(words $N)$(eval N := x $N)
+ECHO = echo ["`expr "   \`expr $C '*' 100 / $T\`" : '.*\(....\)$$'`%" ]
 
-all: dist-clean $(BINARY) modes clean
+all: init $(BINARY) modes clean
+
+init: 
+	@echo "[ MAKE ] building $(BINARY)"
 
 $(BINARY): $(OBJECTS)
-	@echo " "
-	@echo "Linking $(BINARY)..."
+	@echo "[  LD  ] linking $(BINARY)"
 	@mkdir -p ./output/bin
 	@$(CXX) $(CXXFLAGS) -o ./output/bin/$(BINARY) $(OBJECTS) $(LDFLAGS) -L$(LIBRARIES)
+	@echo "[ MAKE ] success"
+
+$(OBJECTS): $(SOURCES)
+	@$(ECHO) $(@:%.o=%.cpp)
+	@$(CXX) $(CXXFLAGS) -c -o $@ $(@:%.o=%.cpp)
 
 modes:
-	@echo " "
-	@echo "Building all modes..."
+	@echo "[ MAKE ] building all modes..."
 	@./tools/build_modes
 
 clean:
-	@echo " "
-	@echo "Cleaning objects..."
+	@echo "[ MAKE ] cleaning objects..."
 	@rm -rf $(OBJECTS)
 
 dist-clean:
-	@echo " "
-	@echo "Cleaning objects..."
+	@echo "[ MAKE ] cleaning objects..."
 	@rm -rf $(OBJECTS)
-	@echo "Cleaning binaries..."
+	@echo "[ MAKE ] cleaning binaries..."
 	@rm -rf ./output
 
 install:

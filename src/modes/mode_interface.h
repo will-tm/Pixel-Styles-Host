@@ -12,6 +12,7 @@ using namespace std;
 #include <mutex>
 #include <algorithm>
 #include <sys/time.h>
+#include <sys/param.h>
 
 #include "hsv_helper.h"
 #include "bitmap.h"
@@ -36,6 +37,12 @@ typedef enum
 {
 	touchUp = 0, touchDown, touchMove
 } touch_type;
+
+typedef struct
+{
+	int x;
+	int y;
+} point_t;
 
 /*
  * public class

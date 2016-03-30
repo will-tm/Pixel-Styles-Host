@@ -55,6 +55,7 @@ uint32_t rgb_to_int(rgb_color pRgbColor);
 rgb_color int_to_rgb(uint32_t pIntColor);
 hsv_color int_to_hsv(uint32_t pIntColor);
 std::string rgb_to_string(rgb_color pRgbColor);
+rgb_color random_rgb();
 
 rgb_color alpha_blend(rgb_color pColor1, rgb_color pColor2);
 

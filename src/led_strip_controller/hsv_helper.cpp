@@ -241,3 +241,8 @@ std::string rgb_to_string(rgb_color pRgbColor)
 	uint32_t *ptr = (uint32_t*)&pRgbColor;
 	return boost::lexical_cast<std::string>((uint32_t)*ptr);
 }
+
+rgb_color random_rgb()
+{
+	return hue_to_rgb(rand()%360);
+}

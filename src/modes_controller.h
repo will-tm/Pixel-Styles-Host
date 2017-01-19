@@ -56,12 +56,13 @@ private:
 	float mAutoAmpAverage;
 	float mAutoAmpRawAverage;
 	bool mActive;
+	int mBrightness;
 
 	void add_dynamic_modes(size_t pWidth, size_t pHeight, bool pAudioAvailable, vector<size_t> pSegments);
 	void audio_tasks();
 	void handle_receive(uint8_t *pData, size_t pLength);
 public:
-	
+
 	modes_controller(size_t pWidth, size_t pHeight);
 	~modes_controller();
 
@@ -113,5 +114,9 @@ public:
 	void set_active(bool active)
 	{
 		mActive = active;
+	}
+	void set_brightness(int brightness)
+	{
+		mBrightness = brightness;
 	}
 };

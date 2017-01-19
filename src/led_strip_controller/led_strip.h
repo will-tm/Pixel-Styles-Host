@@ -36,6 +36,7 @@ private:
 	bool mTwoDimensions;
 	strip_bytes_order mBytesOrder;
 	bool mActive;
+	int mBrightness;
 
 	void fill_buffer_with_color(uint8_t *pBuffer, size_t &pIndex, rgb_color pColor);
 public:
@@ -48,4 +49,5 @@ public:
 	size_t size() {	return mWidth; }
 	bool active() { return mActive; }
 	void setActive(bool active) { mActive = active; }
+	void setBrightness(int brightness) { mBrightness = brightness; }
 };

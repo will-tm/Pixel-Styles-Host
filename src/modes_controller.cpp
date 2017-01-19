@@ -32,17 +32,17 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	mAudioAvailable = false;
 	mBypassBASS = false;
 	mLastUdpFrameTick = 0;
-	
+
 	mSpectrum.resize(mWidth);
 	mScope.resize(mWidth);
 	mPows.resize(mWidth);
-	
+
 	for (size_t x = 0; x < mWidth; x++)
 		mPows[x] = pow(2.0f, (float) x * 9.0f / ((float) mWidth - 1.0f));
-	
+
 	mUdpServer = new udp_server(get_global_event_loop(), 56617);
 	mUdpServer->register_read_callback(bind(&modes_controller::handle_receive, this, _1, _2));
-	
+
 	if (BASS_RecordInit(-1))
 	{
 		mRecordChannel = BASS_RecordStart(48000, 1, 0, &duff_recording, this);
@@ -78,12 +78,12 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
 	mModesList.add("Touch", new mode_touch(mWidth, mHeight, "Touch", mAudioAvailable, mSegments));
 	mModesList.add("Fading", new mode_fading(mWidth, mHeight, "Fading", mAudioAvailable, mSegments));
 	add_dynamic_modes(mWidth, mHeight, mAudioAvailable, mSegments);
-	
+
 	mActiveMode = mModesList[0];
 	LOG_INFO << "active mode is now '" << mActiveMode->name() << "'";
-	
+
 	delete mIniFile;
-	
+
 	LOG_INFO << "modes_controller initialized";
 }
 
@@ -93,7 +93,7 @@ modes_controller::modes_controller(size_t pWidth, size_t pHeight)
  */
 modes_controller::~modes_controller()
 {
-	
+
 }
 
 /*
@@ -115,8 +115,8 @@ void modes_controller::handle_receive(uint8_t *data, size_t length)
 {
 	if (length != 1024 * sizeof(float))
 		return;
-	
-	memcpy(mFftData, data, length);	
+
+	memcpy(mFftData, data, length);
 	process_fft_buffer_1024(mFftData);
 	mActiveMode->set_spectrum(mSpectrum);
 	mBypassBASS = true;
@@ -168,7 +168,7 @@ void modes_controller::audio_tasks()
 {
 	if (get_tick_us() - mLastUdpFrameTick > 2000000)
 		mBypassBASS = false;
-	
+
 	if (!mBypassBASS && mAudioAvailable && mActiveMode->needs_audio_fft())
 	{
 		BASS_ChannelGetData(mRecordChannel, (void*) &mIntFftData[0],
@@ -233,7 +233,7 @@ void modes_controller::audio_tasks()
 
 		mActiveMode->set_scope(mScope);
 	}
-	
+
 	if (mAudioAvailable && mActiveMode->needs_audio_level())
 	{
 		DWORD level, both;
@@ -279,7 +279,7 @@ void modes_controller::set_active_mode_name(const string pName)
 	mActiveMode = mModesList[pName];
 	if (mActiveMode == NULL)
 		mActiveMode = mModesList[0];
-	
+
 	LOG_INFO << "active mode is now '" << mActiveMode->name() << "'";
 }
 
@@ -287,7 +287,7 @@ string modes_controller::to_json()
 {
 	printf("modes_controller::to_json\n");
 	Array json;
-	
+
 	Object generics;
 	generics.push_back(Pair("version", VERSION));
 	generics.push_back(Pair("active_mode", mActiveMode->name()));
@@ -296,8 +296,9 @@ string modes_controller::to_json()
 	generics.push_back(Pair("height", (int) mHeight));
 	generics.push_back(Pair("audio_available", mAudioAvailable));
 	generics.push_back(Pair("active", (int)mActive));
+	generics.push_back(Pair("brightness", (int)mBrightness));
 	json.push_back(generics);
-	
+
 	Object modes;
 	Array modes_array;
 	for (size_t i = 0; i < mModesList.size(); i++)
@@ -308,7 +309,7 @@ string modes_controller::to_json()
 		mode_json.push_back(Pair("ui", mode->ui()));
 		mode_json.push_back(Pair("port", mode->udp_port()));
 		mode_json.push_back(Pair("pixels", mode->get_bitmap()->to_string()));
-		
+
 		printf("%s::to_json\n", mode->name().c_str());
 		Array mode_settings_array;
 
@@ -316,23 +317,23 @@ string modes_controller::to_json()
 		{
 			Object setting_json;
 			setting *aSetting = mode->mSettings[j];
-			
+
 			setting_json.push_back(Pair("caption", aSetting->caption));
 			setting_json.push_back(Pair("kind", aSetting->kind));
 			setting_json.push_back(Pair("minValue", aSetting->min_value));
 			setting_json.push_back(Pair("maxValue", aSetting->max_value));
 			setting_json.push_back(Pair("section", aSetting->section));
 			setting_json.push_back(Pair("value", aSetting->get_value<string>()));
-			
+
 			mode_settings_array.push_back(setting_json);
 		}
 		mode_json.push_back(Pair("settings", mode_settings_array));
-		
+
 		modes_array.push_back(mode_json);
 	}
 	modes.push_back(Pair("modes", modes_array));
 	json.push_back(modes);
-	
+
 	return write(json, raw_utf8);
 }
 
@@ -387,7 +388,7 @@ void modes_controller::process_fft_buffer_1024(float *pFftdata)
 	int size;
 	float sc;
 	int b0 = 0;
-	
+
 	for (size_t x = 0; x < mWidth; x++)
 	{
 		float peak = 0;

@@ -21,7 +21,7 @@ led_strip::led_strip(const char *pDevice, strip_bytes_order pBytesOrder, size_t 
 	mTwoDimensions = true;
 	mBytesOrder = pBytesOrder;
 	mActive = true;
-	
+
 	set_gamma(0.25);
 }
 
@@ -37,7 +37,7 @@ led_strip::led_strip(const char *pDevice, strip_bytes_order pBytesOrder, size_t 
 	mSpi = new spi(pDevice);
 	mTwoDimensions = false;
 	mBytesOrder = pBytesOrder;
-	
+
 	set_gamma(0.25);
 }
 
@@ -56,6 +56,10 @@ led_strip::~led_strip()
  */
 void led_strip::fill_buffer_with_color(uint8_t *pBuffer, size_t &pIndex, rgb_color pColor)
 {
+  hsv_color color = rgb_to_hsv(pColor);
+	color.V = (uint8_t)(color.V * mBrightness / 100.0);
+	pColor = hsv_to_rgb(color);
+
 	if (mBytesOrder == rgbBytesOrder)
 	{
 		pBuffer[pIndex++] = mGammaTable[pColor.R];
@@ -147,9 +151,9 @@ void led_strip::paint(bitmap *pBitmap, bool pReversed, bool pWaitForCompletion)
 	{
 		memset(&mBuffer.front(), 0, mBuffer.size());
 	}
-	
+
 	mSpi->write_buffer(&mBuffer.front(), mBuffer.size());
-	
+
 	if (pWaitForCompletion)
 		mSpi->waitForTransfertToComplete();
 }

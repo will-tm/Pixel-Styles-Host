@@ -15,6 +15,10 @@ mode_touch::mode_touch(size_t pWidth, size_t pHeight, string pName, bool pAudioA
 		: mode_interface(pWidth, pHeight, pName, pAudioAvailable, pSegments)
 {
 	mUI = uiSpectrum;
+    
+    // Settings
+    mSettings.add("Color", "Invader", rgb_to_string(ColorGreen), 0.0f, 4294967295.0f, ihmColorSelector);
+    mSettings.set_ini_path(mIniFilePath);
 }
 
 /*

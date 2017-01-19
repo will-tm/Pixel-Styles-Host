@@ -106,8 +106,7 @@ void mode_tunnel::paint()
 		mFirstLaunch = false;
 	}
 
-	if ((get_tick_us() - mLastRun) > speed * 1000 && not mLost)
-	{
+	if ((get_tick_us() - mLastRun) > speed * 1000 && not mLost) {
 		mLastRun = get_tick_us();
 
 		move_tunnel();
@@ -139,8 +138,7 @@ void mode_tunnel::paint()
 		mBitmap->set_pixel(mSpaceShip.position.x+1, mSpaceShip.position.y  , mSpaceShip.color);
 		mBitmap->set_pixel(mSpaceShip.position.x-1, mSpaceShip.position.y  , mSpaceShip.color);
 		mBitmap->set_pixel(mSpaceShip.position.x  , mSpaceShip.position.y-1, mSpaceShip.color);
-	}
-	else {
+	} else {
 		mBitmap->fill(ColorRed);
 		if ((get_tick_us() - mLastRun) >= 3000000) {
 			mFirstLaunch = true;
